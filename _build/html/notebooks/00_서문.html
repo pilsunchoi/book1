@@ -1,0 +1,506 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>데이터과학의 첫걸음: 시작하며 &#8212; 데이터과학의 첫걸음</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/00_서문';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="1장 파이썬 시작하기" href="01_%ED%8C%8C%EC%9D%B4%EC%8D%AC_%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="데이터과학의 첫걸음 - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="데이터과학의 첫걸음 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1 current active">
+                <a class="reference internal" href="#">
+                    데이터과학의 첫걸음: 시작하며
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_%ED%8C%8C%EC%9D%B4%EC%8D%AC_%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.html">1장 파이썬 시작하기</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_%ED%8C%8C%EC%9D%B4%EC%8D%AC_%EC%BD%94%EB%94%A9_%EA%B8%B0%EC%B4%88.html">2장 파이썬 코딩 기초</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_%EC%9D%80%ED%96%89_%ED%85%94%EB%A0%88%EB%A7%88%EC%BC%80%ED%8C%85_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%B6%84%EC%84%9D.html">3장 은행 텔레마케팅 데이터 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_%EC%A0%84%EC%9E%90%EC%83%81%EA%B1%B0%EB%9E%98_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%B6%84%EC%84%9D.html">4장 전자상거래 데이터 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_%ED%86%B5%EA%B3%84%EC%A0%81_%ED%95%99%EC%8A%B5.html">5장 통계적 학습</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_%EC%84%A0%ED%98%95_%ED%9A%8C%EA%B7%80.html">6장 선형 회귀</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_%EB%A1%9C%EC%A7%80%EC%8A%A4%ED%8B%B1_%ED%9A%8C%EA%B7%80%EB%A5%BC_%EC%9D%B4%EC%9A%A9%ED%95%9C_%EB%B6%84%EB%A5%98.html">7장 로지스틱 회귀를 이용한 분류</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_KNN%EC%9D%84_%EC%9D%B4%EC%9A%A9%ED%95%9C_%EB%B6%84%EB%A5%98.html">8장 KNN 분류</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_%EB%82%98%EC%9D%B4%EB%B8%8C_%EB%B2%A0%EC%9D%B4%EC%A6%88_%EB%B6%84%EB%A5%98.html">9장 나이브 베이즈 분류</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_%EB%B3%80%EC%88%98%EC%84%A0%ED%83%9D_%EB%B0%8F_%EC%A0%95%EA%B7%9C%ED%99%94.html">10장 변수선택 및 정규화</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_%EC%B6%94%EC%B2%9C_%EC%8B%9C%EC%8A%A4%ED%85%9C.html">11장 추천 시스템</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_%EA%B2%B0%EC%A0%95_%ED%8A%B8%EB%A6%AC_%EB%A7%8C%EB%93%A4%EA%B8%B0.html">12장 결정 트리 만들기</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_%ED%8A%B8%EB%A6%AC_%EA%B8%B0%EB%B0%98_%EB%AA%A8%ED%98%95.html">13장 트리 기반 모형</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_%EC%84%9C%ED%8F%AC%ED%8A%B8_%EB%B2%A1%ED%84%B0_%EB%A8%B8%EC%8B%A0.html">14장 서포트 벡터 머신</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_%EB%94%A5%EB%9F%AC%EB%8B%9D_%EC%9E%85%EB%AC%B8.html">15장 딥러닝 입문</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_%EB%B9%84%EC%A7%80%EB%8F%84%ED%95%99%EC%8A%B5%EA%B3%BC_%EC%A3%BC%EC%84%B1%EB%B6%84_%EB%B6%84%EC%84%9D.html">16장 비지도학습과 주성분 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_%EC%83%9D%EC%A1%B4%EB%B6%84%EC%84%9D.html">17장 생존분석</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book1" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book1/issues/new?title=Issue%20on%20page%20%2Fnotebooks/00_서문.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/00_서문.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>데이터과학의 첫걸음: 시작하며</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>데이터과학의 첫걸음: 시작하며<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>이 책은 <strong>데이터 과학에 첫발</strong>을 내딛는 책입니다. 우리가 반드시 경제학자가 되려고 경제학원론을 공부하는 것은 아닙니다. 전문경영인이 되려고 경영학을 공부하는 것도 아니죠. 이제 빅데이터, 알고리듬, 코딩이 우리 일상생활에까지 들어왔기 때문에 데이터 과학자를 목표로 하지 않더라도 도대체 무슨 일이 벌어지고 있는지 알아야 합니다. 수리금융학으로 무장한 퀀트가 되어 투자은행으로 진출할 계획이 아니더라도 우리가 투자론을 공부하는 것과 마찬가집니다.</p>
+<p>파이썬(Python)은 가장 많이 사용되는 10대 프로그래밍 언어에 꾸준히 랭크돼왔으며 PYPL(PopularitY of Programming Language) 기준 현재 전세계적으로 가장 인기있는 프로그래밍 언어입니다. 특히 요즘 각광받고 있는 딥러닝 등에서 파이썬 관련 모듈이 가장 앞서 나가고 있는 것으로 여겨집니다. 이처럼 강력한 도구이면서도 무료(!)라는 점이 특히 매력적입니다. 여러분은 파이썬을 익힘으로써 코딩과 알고리듬에 대해 배우게 될 겁니다.</p>
+<p>이 책의 구성은 일단 1-2장에서는 파이썬에 대한 소개와 이것을 자신의 컴퓨터에 설치하는 방법, 그리고 파이썬 코딩 방법에 대해 가장 기초적인 내용이 나옵니다. 이를 바탕으로 3-4장에서는 파이썬 코딩을 실제 데이터(은행 텔레마케팅, 온라인몰 전자상거래)에 적용해서 분석하는 연습을 합니다. 여기까지는 산점도나 상관계수, 빈도분포 등 아주 기초적인 분석도구를 사용하지만 5장부터는 다양한 통계적 (기계)학습 모형들을 공부하게 됩니다. 가장 기본이 되는 선형 회귀부터 시작해서 로지스틱 회귀, K-최근접이웃 분류, 나이브 베이즈 분류, 선형 모형 변수선택 및 정규화, 결정 트리, 트리 기반 모형, 서포트 벡터 머신, 딥러닝, 주성분 분석, 생존분석 순으로 진행됩니다.</p>
+<p>각 주제마다 동일한 포맷인데, 전반부에는 해당 주제와 관련해 반드시 알아야 할 이론적 내용이 먼저 나오고, 후반부에는 관련 분석을 파이썬으로 어떻게 구현하는지 설명합니다. 이 중 <strong>이론 부분</strong>에서는 James 등(2023)의 <a class="reference external" href="https://www.statlearning.com/">An Introduction to Statistical Learning with Applications in Python</a>(이하 “ISLP”)에 크게 의존했음을 밝힙니다. 머신러닝 분야를 공부하는 이들에게는 아주 잘 알려진 책으로서 통계학, 컴퓨터 과학, 계량경제학 등 다방면의 관련 연구를 일관된 체계로 알기 쉽게 설명하고 있는 소중한 책입니다. 이 ISLP의 내용 중 각 주제 별로 가장 핵심적이라고 생각되는 부분만을 뽑아 조금이라도 더 알기 쉽게 전달하고자 노력했습니다. <strong>파이썬 실행 부분</strong>은 (ISLP에 의존하지 않고) 깃허브(GitHub) 자료 등을 참고했으며 해당 부분에 출처를 표기해놨습니다.</p>
+<p>지금은 코딩 작업을 할 때 누구나 ChatGPT와 같은 생성형 AI를 활용합니다. 생성형 AI는 파이썬 코딩을 비롯해 데이터 분석의 다양한 작업에서 도움을 줍니다. 주어진 파이썬 코드의 의미와 구문에 대해 자세히 설명해주고, 훌륭한 그래프를 그릴 수 있는 코드를 알려주며, 코드에 오류가 발생했을 때 해결 방안을 알려줍니다. 또한 데이터 분석 실행 결과는 물론이고 머신러닝 등 통계학 제반 이론에 대해서도 알기 쉽게 설명해줍니다.</p>
+<p>이 책의 각 장에 ChatGPT 활용법과 관련된 부분을 한두 개, 많으면 서너 개 집어넣었습니다. 어떤 이슈에 대한 질문과 답변 내용을 보여주는데, 이를 통해 ChatGPT 활용법을 익힐 수 있습니다. 생성형 AI는 파이썬을 활용한 데이터 분석 작업의 아주 유능한 길라잡이 역할을 합니다. 물론 이것이 모든 걸 다 해주진 않습니다. 질문 내용이 복잡해지면 틀린 답을 내놓는 경우도 많습니다. 결과를 반대로 해석하는 경우도 있습니다. 결국 물어보는 사람이 잘 물어봐야 하고 답변에 문제는 없는지 잘 따져봐야 합니다. 파이썬과 데이터 분석에 대해 아무것도 모르면 AI한테서 건질 게 아무것도 없습니다. 많이 알수록 많이 얻어낼 수 있는 거죠. 프로그래밍 언어로서 파이썬의 인기와 AI의 엄청난 학습능력이 시너지 효과를 내면 (지금도 놀랍지만) 나중에는 범접할 수 없는 경지에 도달할지도 모릅니다.</p>
+<p>이 책은 각 주제 별로 핵심 자료들을 잘 모아 정리해놓은 자습서 성격을 지니고 있습니다. 이 책의 기여라면 그동안 머신러닝 관련해 필요한 자료들을 여기저기서 찾아가며 공부해야 했던 수고를 조금이라도 덜어주는 정도라 할 겁니다. 기존의 자료를 모아 정리하는 수준이었음에도 이 책을 완성하기까지 상당한 시간과 노력이 요구됐습니다. 가급적 쉽고 직관적인 설명을 하는 데 많은 공을 들였습니다. 기초 통계학 정도의 지식을 갖춘 학생이면 도전해볼 수 있도록 했습니다. 특히 머신러닝이나 코딩에 상대적으로 약한 문과계열 학생들을 염두에 뒀습니다. 생소한 용어들을 소개하고 일관되게 사용하려고 노력했습니다. 파이썬의 여러 모듈이 계속 업데이트되기 때문에 이 책에서 제시한 프로그램이 제대로 실행되는지 확인하는 것에도 신경을 썼습니다.</p>
+<p>하지만 이런 노력에도 여전히 오류들이 남아 있을 겁니다. 또한 이번에 다뤄지지 않은 주제들도 많습니다. 이런 부분들을 지속적으로 보완하고 바로잡아나갈 것을 약속드립니다.</p>
+<br>
+<center> 온라인판 서문 </center>
+<center> 2025년 3월 </center>
+<br>
+<center> 최필선 ⋅ 민인식  </center><div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="right-next"
+       href="01_%ED%8C%8C%EC%9D%B4%EC%8D%AC_%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">1장 파이썬 시작하기</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 최필선 민인식
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
