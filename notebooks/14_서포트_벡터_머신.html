@@ -1,0 +1,2091 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>14장 서포트 벡터 머신 &#8212; 데이터과학의 첫걸음</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/14_서포트_벡터_머신';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="15장 딥러닝 입문" href="15_%EB%94%A5%EB%9F%AC%EB%8B%9D_%EC%9E%85%EB%AC%B8.html" />
+    <link rel="prev" title="13장 트리 기반 모형" href="13_%ED%8A%B8%EB%A6%AC_%EA%B8%B0%EB%B0%98_%EB%AA%A8%ED%98%95.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="00_%EC%84%9C%EB%AC%B8.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="데이터과학의 첫걸음 - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="데이터과학의 첫걸음 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_%EC%84%9C%EB%AC%B8.html">
+                    데이터과학의 첫걸음: 시작하며
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_%ED%8C%8C%EC%9D%B4%EC%8D%AC_%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.html">1장 파이썬 시작하기</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_%ED%8C%8C%EC%9D%B4%EC%8D%AC_%EC%BD%94%EB%94%A9_%EA%B8%B0%EC%B4%88.html">2장 파이썬 코딩 기초</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_%EC%9D%80%ED%96%89_%ED%85%94%EB%A0%88%EB%A7%88%EC%BC%80%ED%8C%85_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%B6%84%EC%84%9D.html">3장 은행 텔레마케팅 데이터 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_%EC%A0%84%EC%9E%90%EC%83%81%EA%B1%B0%EB%9E%98_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%B6%84%EC%84%9D.html">4장 전자상거래 데이터 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_%ED%86%B5%EA%B3%84%EC%A0%81_%ED%95%99%EC%8A%B5.html">5장 통계적 학습</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_%EC%84%A0%ED%98%95_%ED%9A%8C%EA%B7%80.html">6장 선형 회귀</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_%EB%A1%9C%EC%A7%80%EC%8A%A4%ED%8B%B1_%ED%9A%8C%EA%B7%80%EB%A5%BC_%EC%9D%B4%EC%9A%A9%ED%95%9C_%EB%B6%84%EB%A5%98.html">7장 로지스틱 회귀를 이용한 분류</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_KNN%EC%9D%84_%EC%9D%B4%EC%9A%A9%ED%95%9C_%EB%B6%84%EB%A5%98.html">8장 KNN 분류</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_%EB%82%98%EC%9D%B4%EB%B8%8C_%EB%B2%A0%EC%9D%B4%EC%A6%88_%EB%B6%84%EB%A5%98.html">9장 나이브 베이즈 분류</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_%EB%B3%80%EC%88%98%EC%84%A0%ED%83%9D_%EB%B0%8F_%EC%A0%95%EA%B7%9C%ED%99%94.html">10장 변수선택 및 정규화</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_%EC%B6%94%EC%B2%9C_%EC%8B%9C%EC%8A%A4%ED%85%9C.html">11장 추천 시스템</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_%EA%B2%B0%EC%A0%95_%ED%8A%B8%EB%A6%AC_%EB%A7%8C%EB%93%A4%EA%B8%B0.html">12장 결정 트리 만들기</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_%ED%8A%B8%EB%A6%AC_%EA%B8%B0%EB%B0%98_%EB%AA%A8%ED%98%95.html">13장 트리 기반 모형</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">14장 서포트 벡터 머신</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_%EB%94%A5%EB%9F%AC%EB%8B%9D_%EC%9E%85%EB%AC%B8.html">15장 딥러닝 입문</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_%EB%B9%84%EC%A7%80%EB%8F%84%ED%95%99%EC%8A%B5%EA%B3%BC_%EC%A3%BC%EC%84%B1%EB%B6%84_%EB%B6%84%EC%84%9D.html">16장 비지도학습과 주성분 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_%EC%83%9D%EC%A1%B4%EB%B6%84%EC%84%9D.html">17장 생존분석</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book1" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book1/issues/new?title=Issue%20on%20page%20%2Fnotebooks/14_서포트_벡터_머신.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/14_서포트_벡터_머신.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>14장 서포트 벡터 머신</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">14.1 소개</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chatgpt-q-a">ChatGPT Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">기본 아이디어</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">14.2 최대 마진 분류기</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">초평면이란?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">분리 초평면을 사용한 분류</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">최대 마진 분류기</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">분리 불가능한 케이스</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">14.3 서포트 벡터 분류기</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">서포트 벡터 분류기의 개요</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">서포트 벡터 분류기 세부 내용</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">14.4 서포트 벡터 머신</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">비선형 결정 경계를 사용한 분류</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">서포트 벡터 머신</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#svm">14.5 다중 클래스 SVM</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">일대일 분류</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">일대전체 분류</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">14.6 로지스틱 회귀와의 관계</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">14.7 서포트 벡터 머신 예제</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">필요 라이브러리 불러들이기</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-svc">plot_svc() 함수 만들기</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#svc">서포트 벡터 분류기(SVC)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">서포트 벡터 머신</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#roc">ROC 곡선</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">다중 클래스 SVM</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id22">14.8 서포트 벡터 분류 사례</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id23">데이터세트</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id24">선형 커널 서포트 벡터 분류</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id25">부록: ROC 곡선</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>14장 서포트 벡터 머신<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>자료 출처: <a class="reference external" href="https://www.statlearning.com/">ISLP (An Introduction to Statistical Learning with Applications in Python)</a></p>
+<section id="id2">
+<h2>14.1 소개<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>머신러닝에서 <strong>서포트 벡터 머신</strong>(SVM: support vector machine)은 분류(classification) 문제에 사용되는 지도학습 기법이다. 1990년대 중반 컴퓨터 사이언스 쪽에서 개발된 것으로 AT&amp;T Bell Laboratories에서 Vladimir Vapnik이 동료들과 함께 개발했다(Boser et al., 1992; Guyon et al., 1993; Cortes and Vapnik, 1995; Vapnik et al., 1997).</p>
+<section id="chatgpt-q-a">
+<h3>ChatGPT Q&amp;A<a class="headerlink" href="#chatgpt-q-a" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p><strong>서포트 벡터 머신(SVM: support vector machine)의 역사에 대해 간략히 알려줘.</strong></p>
+</div></blockquote>
+<hr class="docutils" />
+<blockquote>
+<div><p>서포트 벡터 머신(SVM, Support Vector Machines)은 분류, 회귀 및 이상치 탐지에 사용되는 강력한 지도 학습 기반의 머신러닝 모델 중 하나입니다. SVM의 기본 원리는 데이터를 고차원 공간에 매핑하고, 이 공간에서 최적의 분리 경계(결정 경계)를 찾아내어 두 클래스를 분리하는 것입니다. 이 결정 경계는 서포트 벡터라고 하는 가장 가까운 훈련 데이터 포인트에 의해 결정됩니다.</p>
+<p><strong>역사적 배경</strong></p>
+<ul class="simple">
+<li><p><strong>1960년대 초:</strong> SVM의 초기 아이디어는 Vladimir N. Vapnik과 Alexey Ya. Chervonenkis에 의해 소개되었습니다. 이들은 처음에 선형 분류기에 관한 연구를 수행하며, “일반화 이론”에 대한 기초를 마련했습니다.</p></li>
+<li><p><strong>1992년:</strong> Bernhard E. Boser, Isabelle M. Guyon, 그리고 Vladimir N. Vapnik은 커널 트릭을 사용하여 비선형 분류 문제를 해결할 수 있는 방법을 제안했습니다. 이 커널 트릭은 고차원 공간에서의 데이터 매핑을 통해 비선형 문제를 선형적으로 분리 가능하게 만들어 줍니다.</p></li>
+<li><p><strong>1995년:</strong> Corinna Cortes와 Vapnik은 현재 우리가 알고 있는 형태의 SVM, 즉 소프트 마진(Soft Margin) SVM을 제안하여, 데이터가 선형적으로 완벽하게 분리되지 않는 경우에도 모델이 잘 작동하도록 했습니다. 이는 오류를 어느 정도 허용하면서도 최대 마진을 찾는 방법을 제시했습니다.</p></li>
+</ul>
+<p><strong>발전과 활용</strong></p>
+<p>SVM은 그 이후로 다양한 분야에서 널리 사용되기 시작했습니다. 특히, 고차원 데이터에 대한 분류와 회귀 문제에서 강력한 성능을 발휘합니다. 금융, 바이오인포매틱스, 텍스트 분류, 이미지 인식 등 다양한 분야에서 SVM이 활용되고 있습니다.</p>
+<p>SVM의 성공은 고차원 데이터에서도 잘 작동하고, 과적합(overfitting)을 방지하는 능력에 기인합니다. 또한, 커널 트릭을 사용하여 비선형 문제를 해결할 수 있는 유연성 덕분에 많은 연구자와 개발자들에게 선호되는 모델 중 하나가 되었습니다.</p>
+<p><strong>현재</strong></p>
+<p>머신러닝과 인공지능 기술의 급속한 발전에도 불구하고, SVM은 여전히 중요한 도구로 남아 있습니다. 그러나 딥러닝과 같은 다른 기술들이 특정 문제에 있어 더 나은 성능을 보이는 경우도 많아, 현대의 머신러닝 문제를 해결하기 위한 여러 도구 중 하나로 사용됩니다.</p>
+</div></blockquote>
+</section>
+<section id="id3">
+<h3>기본 아이디어<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>기본 아이디어는 아주 간단하고 직관적이다. 쉬운 예로 아래 그림과 같이 반응변수의 범주(<strong>클래스</strong>)가 두 개(검은색과 하얀색)만 있는 경우를 생각해보자. 여기에는 총 16개의 훈련 관측(training observations)이 있다. 절반은 검은색이고, 나머지 절반은 하얀색이다. 이런 상황에서 어떤 (테스트) 관측이 주어졌을 때, 그것을 검은색으로 분류할지, 아니면 하얀색으로 분류할지, 그 규칙 즉 분류기(classifier)을 만들려고 한다. 그림에는 <span class="math notranslate nohighlight">\({\rm H_1}\)</span>, <span class="math notranslate nohighlight">\({\rm H_2}\)</span>, <span class="math notranslate nohighlight">\({\rm H_3}\)</span>라는 3개의 분류기가 나와 있다. 우선 <span class="math notranslate nohighlight">\({\rm H_1}\)</span>은 두 클래스를 제대로 분류조차 하지 못하기 때문에 (최소한 이 그림과 같은 상황에서는) 분류기로서 별로 고려할 만한 대상이 아니다. 문제는 <span class="math notranslate nohighlight">\({\rm H_2}\)</span>와 <span class="math notranslate nohighlight">\({\rm H_3}\)</span> 중에서 어느 쪽이 더 낫냐는 것인데, SVM이 제안하는 분류기는 <span class="math notranslate nohighlight">\({\rm H_3}\)</span>이다. 왜냐하면 두 클래스를 올바로 분류했다는 점에서는 두 분류기가 동일하나, <span class="math notranslate nohighlight">\({\rm H_3}\)</span>가 <span class="math notranslate nohighlight">\({\rm H_2}\)</span>에 비해 두 클래스 사이의 간격(그림에서 가는 점선으로 표시)이 훨씬 크다는 점에서 분류기로서 더 바람직하다는 것이다.</p>
+<p>요컨대 SVM은 훈련 관측을 공간의 포인트에 매핑하여 <strong>두 클래스 사이의 간격을 최대화</strong>하는 방식으로 분류기를 만드는 것이 핵심 내용이다. 그런 다음 새로운 관측이 주어지면, 이를 동일한 공간에 매핑하여 해당 분류기의 어느 쪽에 속하는지에 따라 클래스를 예측한다.</p>
+<p><img alt="기본 아이디어" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-1.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: Wikipedia, “<a class="reference external" href="https://en.wikipedia.org/wiki/Support_vector_machine">Support vector machine</a>”.</p></li>
+</ul>
+<p>SVM은 분류 문제를 처리하기 위해 개발되었지만, 회귀 문제에도 적용할 수 있다. <strong>서포트 벡터 회귀</strong>(SVR: support vector regression)가 그것이다. 또한 데이터에 레이블이 지정되지 않은 비지도학습에도 사용될 수 있는데, 소위 <strong>서포트 벡터 클러스터링</strong>(support vector clustering) 기법으로서 서포트 벡터 통계학을 적용하여 레이블이 지정되지 않은 데이터를 군집화하는 기법이다.</p>
+<p>1절에서는 우선 <strong>최대 마진 분류기</strong>(maximal margin classifier)라는 가장 간단하고 직관적인 분류기를 먼저 다룬다. 이를 일반화시킨 것이 SVM이다. 최대마진 분류기는 단순하고 직관적이지만 대부분의 데이터세트에는 적용이 안된다. 왜냐하면 (위 그림 예처럼) 클래스를 선형 경계(linear boundary)로 <strong>완전히 분리</strong>할 수 있어야 하는데, 실제 데이터가 항상 그런 상황으로 주어지는 것은 아니기 때문이다. 2절에서 우리는 최대 마진 분류기를 발전시킨 <strong>서포트 벡터 분류기</strong>(support vector classifier)를 소개한다. 3절에서 비로소 서포트 벡터 분류기를 비선형(non-linear) 경계까지 추가로 확장시킨 <strong>서포트 벡터 머신</strong>(SVM)에 대한 설명이 나온다. 3절까지는 클래스가 두 개만 있는 이항(binary) 분류를 다룬다. 4절에서 우리는 클래스가 두 개보다 많은 경우에 SVM을 어떻게 적용하는지에 대해 논의한다.</p>
+<p>사람들은 종종 위에서 언급한 세 가지 분류기, 즉 최대 마진 분류기, 서포트 벡터 분류기, 서포트 벡터 머신을 전부 합쳐 “서포트 벡터 머신”이라고 포괄적으로 칭한다. 그러나 여기에서는 혼동을 피하기 위해 이 세 가지 개념을 주의 깊게 구분하기로 한다.</p>
+</section>
+</section>
+<section id="id4">
+<h2>14.2 최대 마진 분류기<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<section id="id5">
+<h3>초평면이란?<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>서포트 벡터 분류기를 이해하기 위해서는 우선 <strong>초평면</strong>(hyperplane)과 <strong>최적 분리 초평면</strong>(optimal separating hyperplane)의 개념을 이해해야 한다. <span class="math notranslate nohighlight">\(p\)</span>차원 공간에서 <strong>초평면은 해당 공간을 두 개로 나누는 평평한 부분공간</strong>(flat subspace)으로 정의된다. 예를 들어 2차원에서 초평면은 평평한 1차원의 부분공간, 즉 직선이다.(위 도입 부분의 그림 예에서 <span class="math notranslate nohighlight">\({\rm H_1}\)</span>, <span class="math notranslate nohighlight">\({\rm H_2}\)</span>, <span class="math notranslate nohighlight">\({\rm H_3}\)</span>가 2차원에서의 초평면들이다.) 그리고 3차원에서 초평면은 평평한 2차원 부분공간, 즉 평면이다. 3차원을 넘으면 초평면을 시각화하는 것은 어렵지만, <span class="math notranslate nohighlight">\((p − 1)\)</span> 차원에서의 평평한 부분공간이라는 개념은 여전히 적용된다. 요컨대 <span class="math notranslate nohighlight">\(p\)</span>차원 공간에서 초평면은 <span class="math notranslate nohighlight">\((p - 1)\)</span>차원의 평평한 부분공간이다.</p>
+<p>초평면은 수식으로 간단히 표현할 수 있다. 가장 간단한 예로 <span class="math notranslate nohighlight">\((X_1,X_2)\)</span>의 2차원에서 초평면은 다음 식으로 정의된다.</p>
+<div class="math notranslate nohighlight">
+\[ 
+\beta_0  + \beta_1X_1 + \beta_2X_2 = 0 \tag{14.1} 
+\]</div>
+<p>여기에서 <span class="math notranslate nohighlight">\(\beta_0\)</span>, <span class="math notranslate nohighlight">\(\beta_1\)</span>, <span class="math notranslate nohighlight">\(\beta_2\)</span>는 파라미터들이다. 위 식은 <span class="math notranslate nohighlight">\((X_1,X_2)\)</span>의 2차원 공간에서 어떤 직선을 나타낸다. 이미 언급했듯이 2차원 평면에서 초평면은 어떤 직선을 의미하며, 해당 초평면이 구체적으로 어떤 직선인지는 <span class="math notranslate nohighlight">\(\beta_0\)</span>, <span class="math notranslate nohighlight">\(\beta_1\)</span>, <span class="math notranslate nohighlight">\(\beta_2\)</span>에 의해 결정된다.</p>
+<p>식 14.1을 <span class="math notranslate nohighlight">\(p\)</span>차원으로 쉽게 확장할 수 있다. 즉 <span class="math notranslate nohighlight">\(p\)</span>차원 공간에서 초평면은 다음과 같이 정의된다.</p>
+<div class="math notranslate nohighlight">
+\[ 
+\beta_0  + \beta_1X_1 + \beta_2X_2 + \cdots + \beta_pX_p = 0 \tag{14.2} 
+\]</div>
+<p><span class="math notranslate nohighlight">\(p\)</span>차원 공간에서 점 <span class="math notranslate nohighlight">\(X = (X_1,X_2, ... ,X_p)^T\)</span>가 식 14.2를 충족하면 <span class="math notranslate nohighlight">\(X\)</span>는 해당 초평면 상에 있는 것을 의미하고, <span class="math notranslate nohighlight">\(X\)</span>가 식 14.2를 만족하지 않으면 <span class="math notranslate nohighlight">\(X\)</span>는 해당 초평면 상에 있지 않다는 것을 의미한다. 가령 다음과 같이 식 14.2를 만족하지 않는다고 해보자.</p>
+<div class="math notranslate nohighlight">
+\[ 
+\beta_0  + \beta_1X_1 + \beta_2X_2 + \cdots + \beta_pX_p &gt; 0 \tag{14.3} 
+\]</div>
+<p>이 경우에는 <span class="math notranslate nohighlight">\(X\)</span>가 초평면 위가 아니라 초평면에서 벗어난 어느 한쪽에 있음을 의미한다. 이때 만약 다음과 같다면, <span class="math notranslate nohighlight">\(X\)</span>가 이번에는 위와는 반대쪽에 있게 된다.</p>
+<div class="math notranslate nohighlight">
+\[ 
+\beta_0  + \beta_1X_1 + \beta_2X_2 + \cdots + \beta_pX_p &lt; 0 \tag{14.4} 
+\]</div>
+<p>따라서 초평면은 <span class="math notranslate nohighlight">\(p\)</span>차원 공간을 두 개로 나누는 것이다. 아래 그림 14.1에 나와 있는 직선이 2차원 공간에서 초평면을 그린 것이다.</p>
+<p><strong>그림 14.1.</strong> 초평면 <span class="math notranslate nohighlight">\(1 + 2X_1 + 3X_2 = 0\)</span>이 표시돼 있다. 파란색 영역은
+<span class="math notranslate nohighlight">\(1 + 2X_1 + 3X_2 &gt; 0\)</span>인 점의 집합이고, 보라색 영역은 <span class="math notranslate nohighlight">\(1 + 2X_1 + 3X_2 &lt; 0\)</span>인 점의 집합이다.</p>
+<p><img alt="초평면" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-2.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: ISLP, FIGURE 9.1</p></li>
+</ul>
+</section>
+<section id="id6">
+<h3>분리 초평면을 사용한 분류<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p>다음과 같이 <span class="math notranslate nohighlight">\(p\)</span>개의 변수와 <span class="math notranslate nohighlight">\(n\)</span>개의 관측으로 구성된 예측변수(또는 특성) 데이터 <span class="math notranslate nohighlight">\(X\)</span>를 생각해보자. 즉 <span class="math notranslate nohighlight">\(X\)</span>는 <span class="math notranslate nohighlight">\(p\)</span>차원 공간에서 <span class="math notranslate nohighlight">\(n\)</span>개의 관측을 가진 <span class="math notranslate nohighlight">\(n \times p\)</span> 데이터 행렬이다.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation} \tag{14.5}
+x_1 = \begin{pmatrix} x_{11} \\ \vdots \\ x_{1p} \end{pmatrix}, ~\cdots~, x_n = \begin{pmatrix} x_{n1} \\ \vdots \\ x_{np} \end{pmatrix}
+\end{equation}
+\end{split}\]</div>
+<p>데이터세트의 모든 관측은 <span class="math notranslate nohighlight">\(-1\)</span>과 <span class="math notranslate nohighlight">\(1\)</span>의 두 클래스 중 어느 하나에 속한다고 하자. 즉 반응 <span class="math notranslate nohighlight">\(y\)</span>는 <span class="math notranslate nohighlight">\(y_1, . . . , y_n \in \{−1, 1\}\)</span>이다. <span class="math notranslate nohighlight">\(X\)</span>와 <span class="math notranslate nohighlight">\(y\)</span>는 훈련 데이터세트이고, 우리는 또한 <span class="math notranslate nohighlight">\(x^∗ = (x^∗_1 . . . x^∗_p)^T\)</span>의 테스트 관측을 가지고 있다. 이 상황에서 우리의 목표는 훈련 데이터를 기반으로 테스트 관측의 클래스를 최대한 올바르게 분류하는 것이다. 이를 수행하는 분류기로서 우리는 이미 로지스틱 회귀(logistic regression), 분류 트리(classification tree), 배깅(bagging), 부스팅(boosting) 등 여러 접근 방식을 살펴봤는데, 이 장에서는 서포트 벡터 머신이라는 새로운 기법을 다룬다. 이를 위해 먼저 분리 초평면의 개념부터 생각해보자.</p>
+<p>훈련 관측을 클래스 레이블 별로 <strong>완벽하게 분리</strong>하는 초평면을 <strong>분리 초평면</strong>(separating hyperplane)이라고 한다. 아래 그림 14.2의 왼쪽 패널에 세 개의 분리 초평면 예가 나와 있다. 파란색과 보라색 두 개의 클래스가 있는데, 파란색 관측은 <span class="math notranslate nohighlight">\(y_i = 1\)</span>, 그리고 보라색 관측은 <span class="math notranslate nohighlight">\(y_i = −1\)</span>로 숫자(레이블)를 부여해보자. 이 상황에서 <span class="math notranslate nohighlight">\(\beta_0  + \beta_1X_1 + \beta_2X_2 = 0\)</span>이 분리 초평면이라면, 그것은 다음과 같은 성질을 갖는다.</p>
+<div class="math notranslate nohighlight">
+\[
+\beta_0 + \beta_1x_{i1} + \beta_2x_{i2}&gt;0~~~~{\rm if}~y_i=1~~\tag{14.6}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\beta_0 + \beta_1x_{i1} + \beta_2x_{i2}&lt;0~~~~{\rm if}~y_i=-1 \tag{14.7}
+\]</div>
+<p>위 두 개의 식을 간단히 아래와 같은 하나의 식으로 표현할 수도 있다. 즉, 분리 초평면을 식으로 정의하면, 모든 <span class="math notranslate nohighlight">\(i = 1,..., n\)</span>에 대해 다음과 같은 성질을 갖는 초평면을 말한다.</p>
+<div class="math notranslate nohighlight">
+\[
+y_i(\beta_0 + \beta_1x_{i1} + \beta_2x_{i2})&gt;0 \tag{14.8}
+\]</div>
+<p>분리 초평면이 존재하는 경우, 이를 사용한 분류가 가능한데, 테스트 관측이 초평면의 어느 쪽에 위치하느냐에 따라 클래스를 할당하면 된다. 그림 14.2의 오른쪽 패널은 이러한 분류기의 예를 보여준다. 즉, <span class="math notranslate nohighlight">\(f(x^*) = \beta_0+\beta_1x^*_1 +\beta_2x^*_2\)</span>의 부호를 기반으로 테스트 관측 <span class="math notranslate nohighlight">\(x^*\)</span>를 분류하는 것으로서, <span class="math notranslate nohighlight">\(f(x^*)\)</span>가 양수이면 테스트 관측을 파란색 클래스에 할당하고, <span class="math notranslate nohighlight">\(f(x^*)\)</span>가 음수이면 보라색 클래스에 할당한다. 이때 <span class="math notranslate nohighlight">\(f(x^*)\)</span>의 부호뿐만 아니라 “크기”도 정보로 활용할 수 있다. 즉 <span class="math notranslate nohighlight">\(f(x^*)\)</span>가 0에서 <strong>멀리</strong> 떨어져 있으면 <span class="math notranslate nohighlight">\(x^*\)</span>가 초평면에서 멀리 떨어져 있음을 의미하므로 <span class="math notranslate nohighlight">\(x^*\)</span>에 대한 클래스 할당에 대해 <strong>더 확신</strong>할 수 있다. 반면에 <span class="math notranslate nohighlight">\(f(x^*)\)</span>가 0에 가까우면 <span class="math notranslate nohighlight">\(x^*\)</span>는 초평면 근처에 있으므로 <span class="math notranslate nohighlight">\(x^*\)</span>에 대한 클래스 할당에 대해 덜 확신한다. 그림 14.2에서 볼 수 있듯이 분리 초평면을 기반으로 하는 분류기는 당연히 <strong>선형</strong>(linear)의 결정 경계(decision boundary)를 제공한다.</p>
+<p><strong>그림 14.2.</strong> 왼쪽: <span class="math notranslate nohighlight">\(X_1\)</span>과 <span class="math notranslate nohighlight">\(X_2\)</span> 두 개의 변수가 있고, 파란색과 보라색으로 표시된 두 가지 관측 클래스가 있다. 여러 가능한 초평면 중 세 개의 분리 초평면(separating hyperplane)이 직선으로 표시돼 있다. 오른쪽: 세 개의 분리 초평면 중 하나만 그려 놓았다. 파란색과 보라색 격자(grid)는 이 분리 초평면 분류기에 의해 만들어진 결정 규칙을 나타낸다. 파란색 격자에 속하는 테스트 관측은 파란색 클래스로 분류되고, 보라색 격자에 속하는 테스트 관측은 보라색 클래스로 분류된다.</p>
+<p><img alt="분리 초평면" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-3.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: ISLP, FIGURE 9.2</p></li>
+</ul>
+</section>
+<section id="id7">
+<h3>최대 마진 분류기<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<p>일반적으로 초평면을 사용하여 데이터를 완벽하게 분리할 수 있다면, 그러한 초평면은 하나만 있는 것이 아니라 여러 개 존재할 것이다. 왜냐하면 주어진 분리 초평면을 위나 아래로 약간 이동하거나 회전시킴으로써 또 다른 분리 초평면을 얻을 수 있기 때문이다.(그림 14.2의 왼쪽 패널 참조.) 따라서 분리 초평면으로 분류기를 만들려면 <strong>여러 분리 초평면 중 어느 것을 선택할지</strong>를 결정해야 한다.</p>
+<p>자연스러운 선택은 관측 <strong>클래스를 가장 멀리 떼어 놓는</strong> 분리 초평면, 소위 <strong>최대 마진 초평면</strong>(maximal margin hyperplane)이다. 여기서 <strong>마진</strong>(margin)이란 개념이 나왔는데, “클래스를 가장 멀리 떼어 놓는다”는 직관적 아이디어를 “마진”이라는 개념을 사용해 보다 엄격히 정의한 것이라고 보면 된다. 구체적으로 마진이란 각 훈련 관측들로부터 분리 초평면까지의 (수직) 거리 중에서 가장 짧은 거리로 정의된다. 아이디어는 간단하다. 분리 초평면 중 가장 좋은 것은 (직관적으로) 관측 클래스를 가장 멀리 떼어 놓는 것이다. 그런데 각 클래스의 어느 관측(들)을 기준으로 “가장 멀리 떨어진 것”을 평가할지에 있어서 초평면까지 거리가 가장 가까운 관측, 즉 마진에 해당하는 관측(만)을 기준으로 평가하자는 것이 최대 마진 초평면의 아이디어이다.</p>
+<p>최대 마진 초평면에 입각한 분류기를 <strong>최대 마진 분류기</strong>(maximal margin classifier)라고 부른다. <span class="math notranslate nohighlight">\(\beta_0, \beta_1,· · ·,\beta_p\)</span>가 최대 마진 초평면의 계수라면, 최대 마진 분류기는 <span class="math notranslate nohighlight">\(f(x^*) = \beta_0+\beta_1x^*_1 +· · ·+\beta_px^*_p\)</span>의 <strong>부호</strong>를 기반으로 테스트 관측 <span class="math notranslate nohighlight">\(x^*\)</span>를 분류한다. 즉 테스트 관측이 최대 마진 초평면의 어느쪽에 있느냐에 따라 해당 관측의 클래스를 분류하는 것이다.</p>
+<p>아래 그림 14.3은 위 그림 14.2의 데이터세트에 대한 최대 마진 초평면을 보여준다. 그림 14.2의 오른쪽 패널에 있는 초평면과 그림 14.3의 최대 마진 초평면을 비교하면, 후자가 마진(즉, 관측과 초평면 사이의 최소 거리)을 더 크게 만든다는 것을 알 수 있다. 달리 표현하면, 최대 마진 초평면은 두 클래스 사이에 삽입할 수 있는 가장 넓은 “슬래브(slab: 판)”의 중간선을 나타낸다.</p>
+<p>아래 그림 14.3을 살펴보면 3개의 훈련 관측 포인트가 최대 마진 초평면과 동일 거리에 있어 마진(의 폭)을 나타내는 점선 위에 놓여 있음을 알 수 있다. 이들 3개의 <strong>관측</strong>은 수학적 용어를 사용하면 3개의 <strong>벡터</strong>로서, 최대 마진 초평면을 직접적으로 결정한다. 즉 <strong>서포트</strong>(support)한다. 그래서 마진 위에 놓인 이들 3개 관측을 <strong>서포트 벡터</strong>라고 부른다. 흥미롭게도 최대 마진 초평면은 서포트 벡터에만 직접적으로 의존하며, 다른 관측에는 의존하지 않는다. 왜냐하면 3개의 서포트 벡터 중 어느 하나라도 위치가 약간 바뀌면 최대 마진 초평면 역시 모양이 달라지지만, 서포트 벡터를 제외한 다른 관측의 이동은 그것이 점선으로 된 마진 경계를 넘지 않는 한, 분리 초평면에 영향을 미치지 않기 때문이다.</p>
+<p><strong>그림 14.3.</strong> 파란색과 보라색으로 표시된 두 가지 관측 클래스가 있다. 검은색 실선이 최대 마진 초평면이다. 마진은 실선에서 점선까지의 수직 거리이다. 점선에 있는 2개의 파란색 점과 1개의 보라색 점이 서포트 벡터이며 이 점에서 초평면까지의 거리, 즉 마진이 화살표로 표시돼 있다. 보라색과 파란색 격자(grid)는 이 최대 마진 분류기에 의해 만들어진 결정 규칙을 나타낸다.</p>
+<p><img alt="최대 마진 초평면" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-4.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: ISLP, FIGURE 9.3</p></li>
+</ul>
+<p>이제 최대 마진 초평면을 수식으로 정의해보자. 간단한 내용을 굳이 복잡한 수식으로 정리하는 이유는 이렇게 해야만 최대 마진 초평면의 개념을 보다 일반적인 상황(즉, 클래스의 완전 분리가 불가능한 경우 등)으로 확대해 나갈 수 있기 때문이다.</p>
+<p><span class="math notranslate nohighlight">\(n\)</span>개의 훈련 관측 <span class="math notranslate nohighlight">\(x_1, . . . , x_n \in \Bbb R^p\)</span> 및 클래스 레이블 <span class="math notranslate nohighlight">\(y_1, . . . , y_n \in \{−1, 1\}\)</span>이 있을 때, 최대 마진 초평면은 다음의 최적화 문제로 표현할 수 있다.</p>
+<div class="math notranslate nohighlight">
+\[
+\underset{ \beta_0, \beta_1,...,\beta_p,M} {\rm maximize }~~ M~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\tag{14.9}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+{\rm subject~to} \sum_{j=1}^{p} \beta_{j}^2 = 1~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \tag{14.10}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+y_i(\beta_0 + \beta_1x_{i1} + \beta_2x_{i2}+· ··+\beta_px_{ip})\ge M,~~~~\forall i=1,...,n \tag{14.11}
+\]</div>
+<p>위 식 중에서 마지막에 있는 식 14.11의 제약 조건부터 보면, <span class="math notranslate nohighlight">\(M\)</span>이 양수인 경우 <span class="math notranslate nohighlight">\(y_i(\beta_0 + \beta_1x_{i1} + \beta_2x_{i2}+· ··+\beta_px_{ip})\ge M\)</span>은 각 관측이 초평면의 올바른 쪽에 있어야 한다는 조건을 의미한다. 사실, 각 관측이 초평면의 올바른 쪽에 있기 위해서는 단순히 <span class="math notranslate nohighlight">\(y_i(\beta_0 + \beta_1x_{i1} + \beta_2x_{i2}+· ··+\beta_px_{ip}) &gt; 0\)</span>이면 된다. 여기에서 0 대신 양수 <span class="math notranslate nohighlight">\(M\)</span>을 사용할 경우, 각 관측은 그만큼 “여유있게” 초평면의 올바른 쪽에 있게 된다. 그 “여유”가 바로 마진이며, 식 14.9는 그 마진 <span class="math notranslate nohighlight">\(M\)</span>을 최대화한다는 것이다.</p>
+<p>위 식에서 <span class="math notranslate nohighlight">\(M\)</span>이 정확히 우리가 앞에서 정의한 마진이 되는 이유는 식 14.10 때문이다. 이 제약 조건, 즉 <span class="math notranslate nohighlight">\(
+\sum_{j=1}^{p} \beta_{j}^2 = 1\)</span> 하에서 <span class="math notranslate nohighlight">\(i\)</span>번째 관측에서 초평면까지의 수직 거리는 다음과 같이 된다는 것을 보일 수 있다.</p>
+<div class="math notranslate nohighlight">
+\[y_i(\beta_0 + \beta_1x_{i1} + \beta_2x_{i2}+· ··+\beta_px_{ip})\]</div>
+<p>따라서 제약 조건 식 14.10 및 14.11은 각 관측이 초평면의 올바른 면에 있고, 관측에서 초평면까지의 수직 거리가 최소 <span class="math notranslate nohighlight">\(M\)</span>보다는 커야 한다는 것을 의미한다. 다시 말하면, 관측에서 초평면까지의 수직 거리 중 최소값이 <span class="math notranslate nohighlight">\(M\)</span>이 되는 것이다. 따라서 <span class="math notranslate nohighlight">\(M\)</span>은 초평면의 마진을 나타내고, 위의 최적화 문제는 마진 <span class="math notranslate nohighlight">\(M\)</span>을 최대화하는 <span class="math notranslate nohighlight">\(\beta_0, \beta_1,· · ·,\beta_p\)</span>를 선택하는 문제가 된다. 그것이 바로 최대 마진 초평면의 정의로서 위의 최적화 문제가 최대 마진 초평면을 찾는 문제임을 알 수 있다.</p>
+</section>
+<section id="id8">
+<h3>분리 불가능한 케이스<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<p>분리 초평면이 존재하는 경우 최대 마진 분류기는 분류를 수행하는 매우 자연스러운 방법이다. 그러나 문제는 대부분의 데이터에 있어서 “분리” 초평면이 존재하지 않는다는 점이다. 이렇게 되면 당연히 최대 마진 분류기가 존재하지 않는다. 이 경우 최적화 문제 식 14.9-11에는 <span class="math notranslate nohighlight">\(M &gt; 0\)</span>인 해가 없다.</p>
+<p>아래 그림 14.4에 예가 나와 있는데, 여기에서 2개 클래스를 완전히 분리하는 직선(즉 초평면)을 찾는 것은 불가능하다. 그러나 다음 절에서 바로 나오겠지만, 소위 소프트 마진(soft margin)을 사용하여 클래스를 (완전히는 아니더라도) “대부분” 분리하는 초평면을 생각해볼 수 있다. 이처럼 분리 초평면이 존재하지 않는 경우도 커버할 수 있도록 최대 마진 분류기를 일반화한 것이 서포트 벡터 분류기이다.</p>
+<p><strong>그림 14.4.</strong> 파란색과 보라색으로 표시된 두 가지 관측 클래스가 있다. 이 경우 두 클래스를 초평면으로 분리할 수 없으므로 최대 마진 분류기를 사용할 수 없다.</p>
+<p><img alt="분리 불가능한 케이스" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-5.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: ISLP, FIGURE 9.4</p></li>
+</ul>
+</section>
+</section>
+<section id="id9">
+<h2>14.3 서포트 벡터 분류기<a class="headerlink" href="#id9" title="Link to this heading">#</a></h2>
+<section id="id10">
+<h3>서포트 벡터 분류기의 개요<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<p>앞의 그림 14.4처럼 실제 데이터세트에서 두 클래스에 속하는 관측값이 초평면에 의해 완전 분리되는 경우는 많지 않을 것이다. 더구나 문제는 설사 분리 초평면이 존재하더라도 분리 초평면에 기반한 최대 마진 분류기가 반드시 바람직한 것은 아닐 수도 있다는 점이다. 분리 초평면에 기반한 분류기는 모든 훈련 관측을 완벽하게 분류하지만, 이것이 오히려 개별 관측에 너무 민감한 결과로 이어질 수 있다.</p>
+<p>그런 예가 아래 그림 14.5에 나와 있다. 여기에서 오른쪽 패널을 보면, 관측 포인트를 단 하나 추가했을 뿐인데 최대 마진 초평면이 기존의 점선에서 직선으로 모양이 크게 바뀌는 것을 알 수 있다. 더구나 새롭게 얻은 최대 마진 초평면은 그다지 만족스럽지 않아 보인다. 무엇보다 마진이 매우 작기 때문이다. 이것은 문제가 된다. 왜냐하면 앞에서 언급한 바와 같이 분리 초평면으로부터 관측까지의 거리는 관측이 올바르게 분류되었다는 확신의 척도로 볼 수 있는데 마진이 너무 작기 때문이다. 최대 마진 초평면이 단일 관측값의 변화에 극도로 민감하다는 사실은 그것이 훈련 데이터에 과적합되었을 수 있음을 시사한다.</p>
+<p><strong>그림 14.5.</strong> 왼쪽: 두 가지 클래스(파란색과 보라색)의 관측과 최대 마진 초평면이 나와 있다. 오른쪽: 기존의 최대 마진 초평면 아래쪽에 파란색 관측 포인트가 하나 추가됨으로써 최대 마진 초평면이 기존의 점선에서 직선으로 크게 바뀐다.</p>
+<p><img alt="서포트 벡터 분류기의 개요" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-6.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: ISLP, FIGURE 9.5</p></li>
+</ul>
+<p>결국 이런 문제점을 감안하여 우리는 <strong>두 클래스를 (일부러) 완벽하게 분리하지 않는</strong> 초평면 기반 분류기를 생각해볼 필요가 있다. 대부분의 관측을 분류하는 데 도움이 된다면 일부 몇 개의 훈련 관측을 잘못 분류하는 것이 오히려 가치가 있을 수 있기 때문이다.</p>
+<p>소프트 마진 분류기(soft margin classifier)라고도 하는 <strong>서포트 벡터 분류기</strong>(support vector classifier)가 이런 아이디어에 입각한 분류기다. 앞의 최대 마진 분류기는 모든 관측이 초평면은 물론이고 마진에 대해서도 올바른 쪽에 있도록 가장 큰 마진을 찾는 것인데 반해, 서포트 벡터 분류기는 일부 관측이 마진의 잘못된 쪽에 있거나 심지어 초평면의 잘못된 쪽에 있는 것을 허용한다. 마진이 일부 훈련 관측에 위반될 수 있다는 점에서 “소프트 마진”이라고 표현한다. 아래 그림 14.6의 왼쪽 패널에 예가 나와 있다. 대부분의 관측은 마진의 올바른 쪽에 있다. 그러나 일부 관측들이 마진의 잘못된 쪽에 있는 것을 알 수 있다.</p>
+<p>관측은 마진의 잘못된 쪽뿐만 아니라 초평면의 잘못된 쪽에도 있을 수 있다. 사실 (완전)분리 초평면이 없는 경우에는 이러한 상황이 불가피하다. 그림 14.6의 오른쪽 패널이 그런 경우를 보여준다.</p>
+<p><strong>그림 14.6.</strong> 왼쪽: 서포트 벡터 분류기를 두 가지 데이터세트에 피팅한 결과이다. 초평면은 실선으로 표시되고, 마진은 점선으로 표시돼 있다. 보라색 관측을 보면, 관측 3, 4, 5, 6은 마진의 올바른 쪽에 있고, 관측 2는 마진 상에 있고, 관측 1은 마진의 잘못된 쪽에 있다. 파란색 관측의 경우, 관측 7과 10은 마진의 올바른 쪽에 있고, 관측 9는 마진 상에 있고, 관측 8은 마진의 잘못된 쪽에 있다. 초평면의 잘못된 쪽에 있는 관측은 없다. 오른쪽: 두 개의 추가 점(11 및 12)을 제외하고는 왼쪽 패널과 동일하다. 이들 두 관측은 마진의 잘못된 쪽에 있는 것은 물론이고 초평면에 대해서도 잘못된 쪽에 있다.</p>
+<p><img alt="두 가지 데이터세트에 피팅한 결과" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-7.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: ISLP, FIGURE 9.6</p></li>
+</ul>
+</section>
+<section id="id11">
+<h3>서포트 벡터 분류기 세부 내용<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<p>서포트 벡터 분류기는 테스트 관측이 초평면의 어느 쪽에 있는지에 따라 클래스를 분류한다. 여기에서 초평면은 일부 관측을 잘못 분류하는 것을 허용한다는 점이 앞의 최대 마진 분류기와 다른 점이다. 서포트 벡터 초평면을 앞에서처럼 식으로 표현하면 다음과 같다.</p>
+<div class="math notranslate nohighlight">
+\[
+\underset{ \beta_0, \beta_1,...,\beta_p,~\epsilon_1,...,\epsilon_n,~M} {\rm maximize }~~ M ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\tag{14.12}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+{\rm subject~to} \sum_{j=1}^{p} \beta_{j}^2 = 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \tag{14.13}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+y_i(\beta_0 + \beta_1x_{i1} + \beta_2x_{i2}+· ··+\beta_px_{ip})\ge M(1-\epsilon_i) \tag{14.14}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\epsilon_i \ge 0,~~ \sum_{i=1}^{n} \epsilon_{i} \le C ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\tag{14.15}
+\]</div>
+<p>여기에서 <span class="math notranslate nohighlight">\(C\)</span>는 0이거나 양수인 <strong>조정 파라미터</strong>(tuning parameter)이다. 앞에서와 마찬가지로 <span class="math notranslate nohighlight">\(M\)</span>은 마진이고, 우리는 이것을 최대한 크게 만들고자 한다. 또한 <span class="math notranslate nohighlight">\(\epsilon_1, . . . , \epsilon_n\)</span>은 개별 관측이 마진 또는 초평면의 잘못된 쪽에 있는 것을 얼마만큼 허용하는지를 규정하는 여유 변수(slack variable)이다. 일단 식 14.12-15에 의해 최적 초평면이 도출되면, 테스트 관측 <span class="math notranslate nohighlight">\(x^*\)</span>가 초평면의 어느 쪽에 놓여 있는지에 따라 클래스를 분류한다는 점은 앞과 동일하다. 즉, <span class="math notranslate nohighlight">\(f(x^*) = \beta_0+\beta_1x^*_1 +· · ·+\beta_px^*_p\)</span>의 부호에 따라 테스트 관측을 분류한다.</p>
+<p>식 14.12-15의 배후에 있는 아이디어를 직관적으로 이해해보자. 우선, 여유 변수 <span class="math notranslate nohighlight">\(\epsilon_i\)</span>는 0이거나 0보다 큰 값을 가질 수 있는데, 그 값에 따라 초평면과 마진을 기준으로 각 관측이 어디에 있는지 그 위치가 결정된다. 일단 <span class="math notranslate nohighlight">\(\epsilon_i=0\)</span>이면, <span class="math notranslate nohighlight">\(i\)</span>번째 관측은 앞의 최대 마진 분류기에서 보았듯이 마진의 올바른 쪽에 있다. 반면 <span class="math notranslate nohighlight">\(\epsilon_i&gt;0\)</span>이면, 마진의 잘못된 쪽에 있고, 이때 우리는 <span class="math notranslate nohighlight">\(i\)</span>번째 관측이 마진을 위반했다고 말한다. 만약 <span class="math notranslate nohighlight">\(\epsilon_i&gt;1\)</span>이면, <span class="math notranslate nohighlight">\(i\)</span>번째 관측이 마진은 물론이고 초평면의 잘못된 쪽에 있다.</p>
+<p>다음으로 조정 파라미터 <span class="math notranslate nohighlight">\(C\)</span>의 역할을 생각해보자. 식 14.15를 보면, <span class="math notranslate nohighlight">\(C\)</span>는 <span class="math notranslate nohighlight">\(\epsilon_i\)</span>의 합을 제한하는 역할을 한다. 따라서 바로 앞에서 생각해본 <span class="math notranslate nohighlight">\(\epsilon_i\)</span>의 역할을 감안할 때, <span class="math notranslate nohighlight">\(C\)</span>는 우리가 허용할 마진(및 초평면)에 대한 <strong>위반의 수와 심각도</strong>를 결정한다고 할 수 있다. 달리 표현하면, <span class="math notranslate nohighlight">\(C\)</span>는 <span class="math notranslate nohighlight">\(n\)</span>개의 관측이 마진을 위반할 수 있는 총 예산(budget)으로 생각할 수 있다. <span class="math notranslate nohighlight">\(C = 0\)</span>이면 마진 위반에 대한 예산이 전혀 없는 것을 의미하고, <span class="math notranslate nohighlight">\(\epsilon_1 = · · · = \epsilon_n = 0\)</span>이 된다. 이 경우 식 14.12–15는 앞의 최대 마진 초평면 최적화 문제(식 14.9-11)와 동일해진다. 이 특수한 경우를 제외한다면, 즉 <span class="math notranslate nohighlight">\(C &gt; 0\)</span>의 경우에는, 일단 초평면의 잘못된 쪽에 <span class="math notranslate nohighlight">\(C\)</span>개 이상의 관측이 있을 수 없게 된다. 왜냐하면 관측이 초평면의 잘못된 쪽에 있다는 것은 <span class="math notranslate nohighlight">\(\epsilon_i&gt;1\)</span>을 의미하는데, 식 14.15는 <span class="math notranslate nohighlight">\(\sum_{i=1}^{n} \epsilon_{i} \le C\)</span>를 요구하기 때문이다. 결국 <strong>조정 파라미터 <span class="math notranslate nohighlight">\(C\)</span>가 커</strong>(작아)<strong>질수록 마진 위반에 대해 더</strong>(덜) <strong>관대해지며, 따라서 마진은 더 넓어</strong>(좁아)<strong>진다.</strong> 예가 다음 그림 14.7에 나와 있다.</p>
+<p>실제 데이터분석에서 <span class="math notranslate nohighlight">\(C\)</span>는 교차검증(cross-validation)을 통해 선택될 수 있다. 다른 조정 파라미터와 마찬가지로 <span class="math notranslate nohighlight">\(C\)</span> 역시 통계적 학습 기법의 <strong>편향-분산</strong>(bias-variance) <strong>상충</strong>(trade-off) 관계를 규정한다. <span class="math notranslate nohighlight">\(C\)</span>를 아주 작게 하면 위반이 거의 발생하지 않는 좁은 마진을 찾게 된다. 이것은 데이터 피팅이 매우 좋은 분류기에 해당하기 때문에, 편향은 낮지만 분산은 높을 수 있다. 반면에 <span class="math notranslate nohighlight">\(C\)</span>가 커지면 마진이 더 넓어지고 더 많은 위반이 허용된다. 이것은 데이터 피팅 성과를 떨어뜨림으로써 편향이 커질 수 있지만, 그 대신 분산은 낮아질 수 있다.</p>
+<p>최적화 문제 식 14.12–15에는 매우 흥미로운 속성이 있다. 전체 관측 중에서 마진 상에 있거나 마진을 위반하는 관측만 초평면에 영향을 미친다는 점이다. 다시 말해, 마진의 올바른 쪽에 있는 관측은 서포트 벡터 분류기에 영향을 미치지 않는다! 이들은 (그 위치가 마진의 올바른 쪽으로만 유지된다면) 관측의 위치가 변경돼도 분류기는 전혀 영향을 받지 않는 것이다. 서포트 벡터 분류기에서는 (앞의 최대 마진 분류기와 약간 달리) 해당 클래스의 마진 상에 있거나 마진의 잘못된 쪽에 있는 관측을 서포트 벡터라고 하며, 이러한 관측들만 분류기에 영향을 미친다.</p>
+<p><strong>그림 14.7.</strong> 주어진 데이터세트에 대해 서포트 벡터 분류기를 이용하여 조정 파라미터 <span class="math notranslate nohighlight">\(C\)</span>에 대해 네 가지 다른 값을 사용하여 피팅했다. 왼쪽 상단 패널의 <span class="math notranslate nohighlight">\(C\)</span>값이 가장 크며, 그 다음이 오른쪽 상단, 왼쪽 하단, 오른쪽 하단 순이다. <span class="math notranslate nohighlight">\(C\)</span>가 클(작을)수록 관측이 마진의 잘못된 쪽에 있는 것에 대한 허용도(tolerance)가 커(작아)지므로 마진이 커(작아)진다.</p>
+<p><img alt="네 가지 C로 피팅" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-8.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: ISLP, FIGURE 9.7</p></li>
+</ul>
+<p>서포트 벡터만 분류기에 영향을 미친다는 사실은 <span class="math notranslate nohighlight">\(C\)</span>가 서포트 벡터 분류기의 편향-분산 상충 관계를 규정한다는 앞의 설명과 일맥상통하다. 조정 파라미터 <span class="math notranslate nohighlight">\(C\)</span>가 크면 마진이 넓고, 그에 따라 많은 관측이 마진을 위반하므로 서포트 벡터가 많아진다. 초평면을 결정하는 데 관련된 관측이 많아지는 것이다. 위 그림 14.7의 왼쪽 상단 패널은 이 같은 경우를 보여준다. 이런 분류기는 (많은 관측이 서포트 벡터이기 때문에) 분산은 낮지만, 편향이 높아질 가능성이 있다. 대조적으로, <span class="math notranslate nohighlight">\(C\)</span>가 작으면 서포트 벡터가 더 적으므로 거기에서 도출된 분류기는 편향은 낮지만 분산이 높아질 가능성이 있다. 그림 14.7의 오른쪽 하단 패널이 이 경우에 속한다.</p>
+</section>
+</section>
+<section id="id12">
+<h2>14.4 서포트 벡터 머신<a class="headerlink" href="#id12" title="Link to this heading">#</a></h2>
+<section id="id13">
+<h3>비선형 결정 경계를 사용한 분류<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<p>두 클래스 간의 경계가 선형(linear)이라면, 앞 절의 서포트 벡터 분류기가 자연스러운 접근 방식이다. 그러나 실제로 우리는 <strong>비선형 경계</strong>에 때때로 직면한다. 예를 들어, 그림 14.8의 왼쪽 패널에 있는 데이터를 생각해보자. 서포트 벡터 분류기 또는 선형 분류기는 여기에서 제대로 작동하지 않을 것이 분명하다. 실제로 그림 14.8의 오른쪽 패널에 표시된 것이 서포트 벡터 분류기에 의한 피팅 결과인데 (훈련 관측에 대해서조차) 분류 성과가 매우 안 좋다는 것을 알 수 있다.</p>
+<p><strong>그림 14.8.</strong> 왼쪽: 관측값은 두 클래스로 나뉘며 둘 사이에는 비선형 경계가 있음을 알 수 있다. 오른쪽: 서포트 벡터 분류기를 사용할 경우, 선형 경계를 구하게 되고 결과적으로 분류 성과가 매우 안 좋다.</p>
+<p><img alt="비선형 결정 경계를 사용한 분류" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-9.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: ISLP, FIGURE 9.8</p></li>
+</ul>
+<p>우리는 회귀 분석에서도 유사한 상황에 직면한 적이 있다. 예측변수와 반응 사이에 비선형 관계가 있을 때 선형 회귀의 예측 성능이 저하될 수 있는 것이다. 이러한 비선형성을 해결하기 위해 우리는 예측변수의 2차 및 3차 함수들을 사용하여 <strong>특성 공간</strong>(feature space)을 확대하는 시도를 했다. 서포트 벡터 분류기에 있어서도 예측변수의 2차, 3차, 그리고 고차 다항식(polynomial) 함수를 사용하여 특성 공간을 확장함으로써 유사한 방식으로 비선형 경계 문제를 해결할 수 있다. 예를 들어, 다음과 같은 <span class="math notranslate nohighlight">\(p\)</span>개 특성을 사용하여 서포트 벡터 분류기를 피팅하는 대신</p>
+<div class="math notranslate nohighlight">
+\[
+X_1,X_2,...,X_p
+\]</div>
+<p>다음과 같이 각 변수의 2차 항을 포함시킴으로써 <span class="math notranslate nohighlight">\(2p\)</span>개의 특성을 사용하여 서포트 벡터 분류기를 피팅할 수 있다.</p>
+<div class="math notranslate nohighlight">
+\[
+X_1,X_1^2,X_2,X_2^2,...,X_p,X_p^2
+\]</div>
+<p>그러면 앞의 식 14.12-15는 다음과 같이 바뀌게 된다.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation} \tag{14.16}
+\begin{aligned}
+&amp; \underset{\beta_0, \beta_{11}, \beta_{12}, ..., \beta_{p1}, \beta_{p2}, ~\epsilon_1, · · ·, \epsilon_n, ~M}{\rm maximize}~~ M \\
+&amp; {\rm subject~to}~~y_i \left( \beta_0 + \sum_{j=1}^{p} \beta_{j1} x_{ij} + \sum_{j=1}^{p} \beta_{j2} x_{ij}^2 \right) \ge M(1-\epsilon_i) \\
+&amp; \epsilon_i \ge 0,~~ \sum_{i=1}^{n} \epsilon_{i} \le C,~~ \sum_{j=1}^{p} \sum_{k=1}^{2} \beta_{jk}^2 = 1
+\end{aligned}
+\end{equation}
+\end{split}\]</div>
+<p>사실 식 14.16에 의해 도출되는 결정 경계는 <strong>확장된 특성 공간</strong>에서는 여전히 <strong>선형</strong>이다. 그러나 확장된 공간이 아니라 <strong>원래의 특성 공간</strong>에서는 이 결정 경계가 <strong>선형이 아니라</strong> <span class="math notranslate nohighlight">\(q(x) = 0\)</span> 형식이 된다. 여기서 <span class="math notranslate nohighlight">\(q\)</span>는 2차 다항식이고, 해는 일반적으로 비선형이다.</p>
+<p>2차 항뿐만 아니라 추가로 고차 다항식 항을 사용하거나, 또는 <span class="math notranslate nohighlight">\(X_jX_{j'}\)</span>(<span class="math notranslate nohighlight">\(j \ne j'\)</span>) 형식의 상호작용(interaction) 항을 사용하여 특성 공간을 확장할 수도 있다. 또는 다항식이 아닌 다른 함수를 고려할 수도 있다. 이처럼 특성 공간을 확장할 수 있는 많은 방법이 있기 때문에 특성의 수가 엄청나게 많아질 수도 있고, 그러면 계산을 관리할 수 없게 된다. 다음에 소개할 서포트 벡터 머신을 사용하면 효율적인 계산으로 이어지는 방식으로 서포트 벡터 분류기의 특성 공간을 확장할 수 있다.</p>
+</section>
+<section id="id14">
+<h3>서포트 벡터 머신<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<p>서포트 벡터 머신(SVM)은 <strong>커널(kernel)을 사용하여 특정 방식으로 서포트 벡터 분류기의 특성 공간을 확장</strong>한 것이다. 핵심은 클래스 간의 비선형 경계를 수용하기 위해 특성 공간을 확장시킨다는 점으로서 아이디어 자체는 앞에서 이미 설명되었다. 단지 이를 효율적으로 실행(계산)하기 위해 커널을 사용하는 것이다.</p>
+<p>세부적으로 논의하지 않았지만, 앞의 서포트 벡터 분류기(식 14.12–15) 문제에 대한 솔루션은 (관측값 자체가 아니라) 관측값의 <strong>내적</strong>(inner product)만 포함한다. 두 개의 <span class="math notranslate nohighlight">\(r\)</span>-벡터 <span class="math notranslate nohighlight">\(a\)</span>와 <span class="math notranslate nohighlight">\(b\)</span>가 있을 때, 이들의 내적은 <span class="math notranslate nohighlight">\(⟨a, b⟩ = \sum_{i=1}^{r} a_ib_i\)</span>로 정의된다. 따라서 두 관측 <span class="math notranslate nohighlight">\(x_i\)</span>와 <span class="math notranslate nohighlight">\(x_{i'}\)</span>의 내적은 다음과 같다.</p>
+<div class="math notranslate nohighlight">
+\[⟨x_i, x_{i'}⟩ = \sum_{j=1}^{p} x_{ij}x_{i'j} \tag{14.17}\]</div>
+<p>앞의 서포트 벡터 분류기와 관련하여 다음과 같은 것을 보일 수 있다.</p>
+<p>첫째, 새로운 포인트 <span class="math notranslate nohighlight">\(x\)</span>와 각 훈련 포인트 <span class="math notranslate nohighlight">\(x_i\)</span>가 있을 때, <span class="math notranslate nohighlight">\(x\)</span>에 대한 선형 서포트 벡터 분류기는 다음과 같이 나타낼 수 있다.</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = \beta_0 + \sum_{i=1}^{n} \alpha_i⟨x, x_{i}⟩ \tag{14.18}
+\]</div>
+<p>여기서 파라미터 <span class="math notranslate nohighlight">\(\alpha_i~(i = 1, . . . ,n)\)</span>는 모든 훈련 관측당 하나씩, 총 <span class="math notranslate nohighlight">\(n\)</span>개가 존재한다. 그런데 훈련 관측이 서포트 벡터가 아닌 경우에는 <span class="math notranslate nohighlight">\(\alpha_i\)</span> 값은 0이 된다. 즉 서포트 벡터에 대해서만 <span class="math notranslate nohighlight">\(\alpha_i\)</span>가 0이 아니다. 따라서 서포트 포인트들의 인덱스 모음을 <span class="math notranslate nohighlight">\(\mathcal S\)</span>로 표기하면, 위 식 14.18을 다음과 같이 다시 적을 수 있다.(이 식은 일반적으로 식 14.18보다 훨씬 적은 항을 포함한다.)</p>
+<div class="math notranslate nohighlight">
+\[ f(x) = \beta_0 + \sum_{i \in \mathcal S} \alpha_i⟨x, x_{i}⟩ \tag{14.19} \]</div>
+<p>둘째, 파라미터 <span class="math notranslate nohighlight">\(\alpha_i,...,\alpha_n\)</span> 및 <span class="math notranslate nohighlight">\(\beta_0\)</span>을 추정하기 위해 우리가 필요로 하는 것은 모든 쌍의 훈련 관측 간의 내적 <span class="math notranslate nohighlight">\(⟨x_i, x_{i'}⟩\)</span>뿐이다.(총 <span class="math notranslate nohighlight">\(\binom{n}{2} = n(n − 1)/2\)</span>개의 내적이 있음.)</p>
+<p>요약하자면, 선형 분류기 <span class="math notranslate nohighlight">\(f(x)\)</span>의 계수를 계산할 때, 우리에게 필요한 것은 훈련 관측 간의 내적뿐이다. 이 점에 착안하여 이제 서포트 벡터 분류기에 대한 솔루션 계산에서 내적(식 14.17)이 나타날 때마다 그것을 일반화한 다음 형식으로 그것을 대체하기로 한다.</p>
+<div class="math notranslate nohighlight">
+\[ K(x_i, x_{i'}) \tag{14.20} \]</div>
+<p>여기서 <span class="math notranslate nohighlight">\(K\)</span>는 <strong>커널</strong>이라고 부르는 함수이다. 커널은 두 관측값의 유사성을 수량화하는 함수이다. 예를 들어, 커널이 다음과 같은 함수라면(즉 커널이 내적 함수라면), 이는 다름 아닌 서포트 벡터 분류기다.</p>
+<div class="math notranslate nohighlight">
+\[ K(x_i, x_{i'})=\sum_{j=1}^{p} x_{ij}x_{i'j} \tag{14.21} \]</div>
+<p>서포트 벡터 분류기는 특성(feature)에 대해 선형이기 때문에 식 14.21을 <strong>선형 커널</strong>(linear kernel)이라고 부른다. 선형 커널 대신 다른 형식을 선택할 수 있다. 예를 들어, 내적 대신 다음과 같은 수량을 사용할 수 있다.</p>
+<div class="math notranslate nohighlight">
+\[ K(x_i, x_{i'})=\left( 1+\sum_{j=1}^{p} x_{ij}x_{i'j} \right)^d \tag{14.22} \]</div>
+<p>이것은 <span class="math notranslate nohighlight">\(d\)</span>차 <strong>다항식 커널</strong>(polynomial kernel of degree <span class="math notranslate nohighlight">\(d\)</span>)이라고 하며, 여기서 <span class="math notranslate nohighlight">\(d\)</span>는 양의 정수이다. 서포트 벡터 분류기 알고리즘에서 선형 커널 대신 이러한 비선형 커널을 사용하면 훨씬 더 유연한 결정 경계가 생성된다. 본질적으로 원래의 특성 공간이 아닌 더욱 고차원 공간에서 서포트 벡터 분류기를 피팅하는 것과 같다. 서포트 벡터 분류기가 식 14.22와 같은 비선형 커널과 결합될 때, 그 결과로 나온 분류기를 <strong>서포트 벡터 머신</strong>(SVM)이라고 한다. 이 경우 (비선형) 분류기는 다음과 같은 식이 된다.</p>
+<div class="math notranslate nohighlight">
+\[ f(x) = \beta_0 + \sum_{i \in \mathcal S} \alpha_i K(x, x_{i}) \tag{14.23} \]</div>
+<p>아래 그림 14.9의 왼쪽 패널은 앞의 그림 14.8의 비선형 데이터에 다항식 커널을 사용한 SVM의 적용 예를 보여준다. 선형 서포트 벡터 분류기에 비해 피팅이 상당히 개선된 것을 알 수 있다.</p>
+<p>식 14.22의 다항식 커널은 비선형 커널의 한 가지 예이고, 다른 대안도 많다. 또 다른 인기 있는 선택은 다음 형식을 취하는 <strong>방사형 커널</strong>(radial kernel) 이다.</p>
+<div class="math notranslate nohighlight">
+\[ K(x_i, x_{i'})=\exp\left( -\gamma\sum_{j=1}^{p} (x_{ij}-x_{i'j})^2 \right) \tag{14.24} \]</div>
+<p>여기에서 <span class="math notranslate nohighlight">\(\gamma\)</span>는 양의 상수이다. 그림 14.9의 오른쪽 패널은 동일한 비선형 데이터에 방사형 커널의 SVM을 적용한 예를 보여준다. 역시 두 클래스를 잘 분류하는 것을 알 수 있다.</p>
+<p><strong>그림 14.9.</strong> 왼쪽: 앞의 그림 14.8의 비선형 데이터에 3차 다항식 커널을 사용한 SVM을 적용한 결과 훨씬 더 적절한 결정 규칙이 생성된 것을 알 수 있다. 오른쪽: 방사형 커널을 사용한 SVM을 적용한 결과 역시 결정 경계를 잘 포착한다.</p>
+<p><img alt="3차 다항식 커널" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-10.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: ISLP, FIGURE 9.9</p></li>
+</ul>
+<p>식 14.16과 같이 그냥 특성의 함수를 사용하여 특성 공간을 확장하는 것이 아니라, 커널을 사용하면 어떤 이점이 있을까? 가장 중요한 것은 계산 측면에서 커널을 사용하면 모든 <span class="math notranslate nohighlight">\(\binom{n}{2}\)</span>개의 쌍에 대해 <span class="math notranslate nohighlight">\(K(x_i, x_{i'})\)</span>만 계산하면 된다. 이는 확장된 특성 공간에서 명시적으로 작업하지 않고도 수행할 수 있다. SVM의 경우 확장된 특성 공간이 너무 커서 그 공간에서는 계산을 수행하기 어려울 수 있기 때문에 이 측면은 중요한 의미를 갖는다.</p>
+</section>
+</section>
+<section id="svm">
+<h2>14.5 다중 클래스 SVM<a class="headerlink" href="#svm" title="Link to this heading">#</a></h2>
+<p>지금까지 우리는 이항(binary) 분류의 경우만 다루었다. 즉, 클래스가 2개만 있는 상황에서의 분류이다. 그러면 클래스가 2개보다 많은 경우에는 SVM을 어떻게 적용할 수 있을까?</p>
+<p>SVM은 분리 초평면의 개념을 기반으로 하고 있는데, 이 개념은 본질적으로 클래스가 2개보다 많은 경우로 자연스럽게 확장시키는 것이 <strong>가능하지 않다</strong>. 그래서 SVM을 다중 클래스에 적용시킬 때는 일종의 편법을 사용한다. 즉 2개 클래스만을 커버하는 SVM을 <strong>여러 차례 적용</strong>함으로써 모든 클래스를 커버하는 방식이다. 많이 쓰이는 두 가지 접근 방식은 일대일 접근과 일대전체 접근이다.</p>
+<section id="id15">
+<h3>일대일 분류<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
+<p>데이터세트의 반응변수에 <span class="math notranslate nohighlight">\(K(&gt; 2)\)</span>개의 클래스가 있다고 가정하자. <strong>일대일</strong>(one-versus-one) 접근 방식은 클래스들의 <strong>모든 쌍을 비교</strong>하는 총 <span class="math notranslate nohighlight">\(\binom{n}{2}\)</span>개의 SVM을 구성하는 방식이다. 예를 들어, <span class="math notranslate nohighlight">\(k\)</span>번째 클래스를 <span class="math notranslate nohighlight">\(+1\)</span>로 코딩하고, <span class="math notranslate nohighlight">\(k'\)</span>번째 클래스를 <span class="math notranslate nohighlight">\(-1\)</span>로 코딩하여 이들 두 개의 클래스를 비교한다. 이런 식으로 총 <span class="math notranslate nohighlight">\(\binom{n}{2}\)</span>개의 분류기를 사용하여 각각의 테스트 관측을 분류한다. 그리고 각 테스트 관측별로 각 클래스에 할당된 횟수를 집계한다. 그런 다음, 이러한 <span class="math notranslate nohighlight">\(\binom{n}{2}\)</span>번의 쌍별 분류에서 가장 많이 할당된 클래스에 해당 테스트 관측을 할당하는 방식으로 최종 분류를 수행한다.</p>
+</section>
+<section id="id16">
+<h3>일대전체 분류<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
+<p><strong>일대전체</strong>(one-versus-all) 접근 방식은 <span class="math notranslate nohighlight">\(K(&gt; 2)\)</span>개의 클래스가 있을 때, 그중 어떤 하나를 나머지 <span class="math notranslate nohighlight">\(K − 1\)</span>개 클래스 전체와 비교하는 방식을 취한다. 가령 <span class="math notranslate nohighlight">\(k\)</span>번째 클래스(<span class="math notranslate nohighlight">\(+1\)</span>로 코딩됨)를 나머지 다른 클래스(<span class="math notranslate nohighlight">\(-1\)</span>로 코딩됨)와 비교하는 SVM의 피팅 결과로 얻은 파라미터를 <span class="math notranslate nohighlight">\(\beta_{0k},\beta_{1k},\beta_{2k},...,,\beta_{pk}\)</span>라 하자. 이런 식으로 SVM을 피팅하면, 총 <span class="math notranslate nohighlight">\(K\)</span>개의 SVM 결과(즉 파라미터 세트)가 나오게 된다. 그런 다음, 테스트 관측 <span class="math notranslate nohighlight">\(x^*\)</span>가 주어졌을 때, <span class="math notranslate nohighlight">\(\beta_{0k}+\beta_{1k}x_1^*+\beta_{2k}x_2^*+\cdots+\beta_{pk}x_p^*\)</span>를 <span class="math notranslate nohighlight">\(k=1,...,K\)</span>에 대해(즉 모든 파라미터 세트에 대해) 비교한 다음, 이 값이 가장 큰 클래스에 주어진 관측을 할당하는 방식이다. 이 값이 크다는 것은 테스트 관측이 해당 클래스에 속한다는 신뢰도가 가장 높은 것을 의미하기 때문이다.</p>
+</section>
+</section>
+<section id="id17">
+<h2>14.6 로지스틱 회귀와의 관계<a class="headerlink" href="#id17" title="Link to this heading">#</a></h2>
+<p>SVM이 1990년대 중반 처음 도입되었을 때 통계학 및 머신러닝 커뮤니티에서 상당한 인기를 얻었다. 무엇보다 추정 성과가 일반적으로 우수했을 뿐만 아니라, 마케팅도 좋았고, 기본 접근 방식이 참신하고 신비롭게 보였다는 점들 때문이었다. 데이터를 가능한 한 잘 분리하는(그러면서도 일부 위반을 허용하는) 초평면을 찾는 아이디어는 로지스틱 회귀와 같은 고전적인 접근 방식과는 확연히 다른 것처럼 보였다. 또한 비선형 클래스 경계를 수용하기 위해 커널을 사용하여 특성 공간을 확장한다는 아이디어는 독특하고 가치 있는 특징으로 보였다.</p>
+<p>그러나 시간이 지나면서 SVM과 다른 고전적인 통계 방법이 사실상 밀접하게 관련돼 있다는 것이 밝혀졌다. 서포트 벡터 분류기 <span class="math notranslate nohighlight">\(f(x) = \beta_0+\beta_1x_1 +· · ·+\beta_px_p\)</span>를 도출하기 위한 식 14.12–15를 다음과 같이 다시 적을 수 있다.</p>
+<div class="math notranslate nohighlight">
+\[
+\underset{ \beta_0, \beta_1,...,\beta_p} {\rm minimize } \left\{ \sum_{i=1}^{n} {\rm max}[0,1-y_if(x_i)]+ \lambda \sum_{j=1}^{p}\beta_j^2  \right\} \tag{14.25}
+\]</div>
+<p>여기서 <span class="math notranslate nohighlight">\(\lambda\)</span>는 음이 아닌 값을 갖는 조정 파라미터다. <span class="math notranslate nohighlight">\(\lambda\)</span>가 크면 <span class="math notranslate nohighlight">\(\beta_1,...,\beta_p\)</span>는 작아지고 더 많은 마진 위반이 허용된다. 그러면 분산은 낮지만 편향이 높은 분류기가 생성된다. 반대로 <span class="math notranslate nohighlight">\(\lambda\)</span>가 작으면 마진 위반이 거의 발생하지 않는다. 그러면 편향은 낮지만 분산이 높은 분류기가 된다. 따라서 식 14.25에서 <span class="math notranslate nohighlight">\(\lambda\)</span>의 역할은 식 14.15에서 <span class="math notranslate nohighlight">\(C\)</span>에 해당한다. 식 14.25의 <span class="math notranslate nohighlight">\(\lambda \sum_{j=1}^{p}\beta_j^2\)</span> 항은 앞에서 정규화 회귀 기법으로 배웠던 릿지(ridge) 회귀에서의 페널티 항으로서 서포트 벡터 분류기에 있어서도 편향-분산 상충을 규정하는 유사한 역할을 한다.</p>
+<p>우리는 식 14.25에서 최소화의 목적 함수를 다음과 같이 “<strong>손실 + 페널티</strong>”라는 일반화된 형식으로 표현할 수 있다.</p>
+<div class="math notranslate nohighlight">
+\[
+\underset{ \beta_0, \beta_1,...,\beta_p} {\rm minimize } \left\{ L(\mathbf X,\mathbf y,\beta) +  P(\beta) \right\} \tag{14.26}
+\]</div>
+<p>여기에서 <span class="math notranslate nohighlight">\(L(\mathbf X,\mathbf y,\beta)\)</span>는 모델이 데이터 <span class="math notranslate nohighlight">\((\mathbf X,\mathbf y)\)</span>에 피팅된 정도를 수량화하는 손실(loss) 함수이고, <span class="math notranslate nohighlight">\(P(\beta)\)</span>는 파라미터 벡터 <span class="math notranslate nohighlight">\(\beta\)</span>에 대한 페널티(penalty) 항으로서 조정 파라미터 <span class="math notranslate nohighlight">\(\lambda\)</span>에 의해 제어된다. 이와 관련해 릿지 회귀와 라쏘(Lasso)를 다시 생각해보면, 두 기법의 손실 함수는 똑같이 다음과 같은 “잔차의 제곱합”이다.</p>
+<div class="math notranslate nohighlight">
+\[
+L(\mathbf X,\mathbf y,\beta) = \sum_{i=1}^{n} \left( y_i- \beta_0 -\sum_{j=1}^{p}\beta_j x_{ij} \right)^2
+\]</div>
+<p>단지, 페널티 항이 다른데, 릿지 회귀는 <span class="math notranslate nohighlight">\(P(\beta) = \sum_{j=1}^{p}\beta_j^2 \)</span>이고, 라쏘는 <span class="math notranslate nohighlight">\(P(\beta) = \sum_{j=1}^{p}|\beta_j|\)</span>이다. 식 14.25를 보면, 서포트 벡터 분류기 역시 릿지와 라쏘처럼 최소화 목적 함수가 “손실 + 페널티”의 형식을 취하고 있는 것을 알 수 있다. 서포트 벡터 분류기의 경우 손실 함수는 다음과 같다.</p>
+<div class="math notranslate nohighlight">
+\[
+L(\mathbf X,\mathbf y,\beta) = \sum_{i=1}^{n} {\rm max} \left[ 0,1 - y_i(\beta_0+\beta_1x_{i1} +· · ·+\beta_px_{ip}) \right]
+\]</div>
+<p>이것은 힌지 손실(hinge loss) 함수로 알려져 있으며, 아래 그림 14.10에 그림이 나와 있다. 이 그림에서 중요한 것은 서포트 벡터 분류의 손실 함수가 로지스틱 회귀의 손실 함수와 상당히 유사하다는 점이다.</p>
+<p>물론 서포트 벡터 분류기에서는 서포트 벡터들만 분류기에서 역할을 하고, 마진의 올바른 쪽에 있는 관측은 영향을 미치지 않는다. 이 때문에 아래 그림에서 보듯이 관측이 <span class="math notranslate nohighlight">\(y_i(\beta_0+\beta_1x_{i1} +· · ·+\beta_px_{ip}) \ge 1\)</span>이면(즉 관측이 마진의 올바른 쪽에 있으면), 손실 함수 값은 항상 0이 된다. 이에 반해 아래 그림에서 로지스틱 회귀의 손실 함수는 어디에서도 정확히 0인 곳은 없다. 하지만, 로지스틱 회귀에서도 결정 경계에서 멀리 떨어진 관측은 손실 함수 값이 매우 작다는 점에서 서포트 벡터 분류기와 유사하다. 이와 같은 손실 함수 간의 유사성으로 인해 로지스틱 회귀와 서포트 벡터 분류기는 종종 매우 유사한 결과를 제공한다. 클래스가 잘 분리돼 있으면, SVM이 로지스틱 회귀보다 더 잘 작동하는 경향이 있다. 반면, 클래스가 더 겹치는 상황에서는 로지스틱 회귀가 더 나은 경우가 많다.</p>
+<p><strong>그림 14.10.</strong> SVM과 로지스틱 회귀의 손실을 <span class="math notranslate nohighlight">\(y_i(\beta_0+\beta_1x_{i1} +· · ·+\beta_px_{ip})\)</span>에 대해 그린 것으로서 전체적으로 두 손실 함수가 비슷한 형태이다. 가로축 <span class="math notranslate nohighlight">\(y_i(\beta_0+\beta_1x_{i1} +· · ·+\beta_px_{ip})\)</span>의 값이 1보다 크면, SVM의 경우 관측이 마진의 올바른 쪽에 있는 것을 의미하기 때문에 손실은 0이 된다.</p>
+<p><img alt="SVM과 로지스틱 회귀" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-11.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: ISLP, FIGURE 9.12</p></li>
+</ul>
+<p>서포트 벡터 분류기와 SVM이 처음 도입되었을 때만 해도 식 14.15의 조정 파라미터 <span class="math notranslate nohighlight">\(C\)</span>는 그냥 1과 같은 기본값으로 설정하면 되는, 일종의 “성가신(nuisance)” 파라미터라고 생각했다. 그러나 서포트 벡터 분류기를 “손실 + 페널티”의 관점에서 보는 식 14.25는 이것이 사실이 아님을 보여준다. 조정 파라미터의 선택은 매우 중요하며, 앞의 그림 14.7에서 보았듯이 모델이 데이터를 과소적합(underfit)하거나 과대적합(overfit)하는 정도를 결정한다.</p>
+<p>우리는 여기에서 서포트 벡터 분류기가 로지스틱 회귀 및 기타 기존 통계 방법과 상당히 유사하다는 것을 확인했다. 그렇다면 비선형 커널을 사용하여 특성 공간을 확장하는 점이야말로 SVM의 고유한 특징이라고 할 수 있는 것은 아닐까? 이 질문에 대한 대답 역시 “아니오”이다. 왜냐하면 로지스틱 회귀나 기타 많은 분류 기법 역시 비선형 커널을 사용하여 수행될 수도 있기 때문이다. 물론 비선형 커널의 사용은 로지스틱 회귀보다는 SVM에 훨씬 더 광범위하게 사용된다.</p>
+</section>
+<section id="id18">
+<h2>14.7 서포트 벡터 머신 예제<a class="headerlink" href="#id18" title="Link to this heading">#</a></h2>
+<p>코드 출처:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://nbviewer.org/github/JWarmenhoven/ISL-python/blob/master/Notebooks/Chapter%209.ipynb">Support Vector Machines by J. Warmenhoven</a></p></li>
+<li><p><a class="reference external" href="https://github.com/HatefDastour/Notes/blob/master/Statistical_Learning/Support_Vector_Machines.ipynb">Support Vector Machines by Hatef Dastour</a></p></li>
+<li><p><a class="reference external" href="http://www.science.smith.edu/~jcrouser/SDS293/labs/lab15-py.html">Support Vector Machines R. Jordan Crouser</a></p></li>
+</ul>
+<section id="id19">
+<h3>필요 라이브러리 불러들이기<a class="headerlink" href="#id19" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.colors</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">label_binarize</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span><span class="p">,</span> <span class="n">LinearSVC</span>
+<span class="kn">from</span> <span class="nn">sklearn.discriminant_analysis</span> <span class="kn">import</span> <span class="n">LinearDiscriminantAnalysis</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">roc_curve</span><span class="p">,</span> <span class="n">auc</span><span class="p">,</span> <span class="n">classification_report</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="plot-svc">
+<h3>plot_svc() 함수 만들기<a class="headerlink" href="#plot-svc" title="Link to this heading">#</a></h3>
+<p>서포트 벡터 분류기 결과를 그림으로 그리는 <code class="docutils literal notranslate"><span class="pre">plot_svc()</span></code> 함수를 미리 만들어 둔다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ColorMap</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">LinearSegmentedColormap</span><span class="o">.</span><span class="n">from_list</span><span class="p">(</span>
+    <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;OrangeRed&#39;</span><span class="p">,</span> <span class="s1">&#39;Lime&#39;</span><span class="p">,</span> <span class="s1">&#39;RoyalBlue&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">plot_svc</span><span class="p">(</span><span class="n">svc</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ColorMap</span> <span class="o">=</span> <span class="n">ColorMap</span><span class="p">):</span>
+    <span class="c1"># adding margins</span>
+    <span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">-</span><span class="n">pad</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="n">pad</span>
+    <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">-</span><span class="n">pad</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="n">pad</span>
+    <span class="c1"># Generating meshgrids</span>
+    <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+    <span class="c1"># Predictions</span>
+    <span class="n">Pred</span> <span class="o">=</span> <span class="n">svc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+    <span class="n">Pred</span> <span class="o">=</span> <span class="n">Pred</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="c1"># Figure</span>
+    <span class="k">if</span> <span class="n">ax</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">Pred</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">ColorMap</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">ColorMap</span><span class="p">,</span> <span class="n">edgecolor</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">)</span>
+    <span class="c1"># Vertical lines</span>
+    <span class="n">sv</span> <span class="o">=</span> <span class="n">svc</span><span class="o">.</span><span class="n">support_vectors_</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">sv</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">sv</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">facecolors</span><span class="o">=</span><span class="s1">&#39;Black&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> 
+                   <span class="n">linewidths</span><span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">)</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">)</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$X_1$&#39;</span><span class="p">)</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$X_2$&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The Number of Support Vectors = </span><span class="si">%i</span><span class="s1">&#39;</span><span class="o">%</span> <span class="n">svc</span><span class="o">.</span><span class="n">support_</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="svc">
+<h3>서포트 벡터 분류기(SVC)<a class="headerlink" href="#svc" title="Link to this heading">#</a></h3>
+<p><strong>예시 데이터 만들기</strong></p>
+<p>여기서 우리는 가장 간단한 예로서 입력변수가 2개만 있는 2차원 예제를 생각해보기로 한다. 먼저 관측값을 생성하고 클래스가 선형으로 분리 가능한지 확인하는 것부터 시작한다.</p>
+<p>이를 위해 아래에서는 2개의 클래스에 속하는 20개의 관측을 무작위로 생성하는데, 특성(<code class="docutils literal notranslate"><span class="pre">X</span></code> 변수)이 2개이고, 클래스(빨간색 및 파란색) 역시 2개이며, 클래스별로 레이블이 붙는다. 빨간색 클래스는 <span class="math notranslate nohighlight">\(-1\)</span>, 파란색 클래스는 <span class="math notranslate nohighlight">\(+1\)</span>의 값을 부여한다.</p>
+<p>아래 발생시킨 관측값에서 확인할 수 있듯이, 전체적으로 <span class="math notranslate nohighlight">\(X\)</span>값이 조금 클 때, <span class="math notranslate nohighlight">\(y\)</span>가 <span class="math notranslate nohighlight">\(+1\)</span>의 값(즉, 파란색 클래스)을 갖는다. 클래스를 선형(즉 직선)으로 분리하는 것이 가능한지 확인하기 위해 데이터를 그림으로 그려보자.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+<span class="c1"># y = 1인 인덱스를 가진 X값에 1을 더함으로써 두 클래스의 X값을 어느 정도 분리시킨다.</span>
+<span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="c1"># 데이터 그리기</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">ColorMap</span><span class="p">,</span> <span class="n">edgecolor</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$X_1$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$X_2$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c197ad83601199c8f01201ac59dfe0364cfbf06d0d82a143ba35b912b3570cae.png" src="../_images/c197ad83601199c8f01201ac59dfe0364cfbf06d0d82a143ba35b912b3570cae.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 2.62434536  0.38824359  1.        ]
+ [ 0.47182825 -0.07296862  1.        ]
+ [ 1.86540763 -1.3015387   1.        ]
+ [ 2.74481176  0.2387931   1.        ]
+ [ 1.3190391   0.75062962  1.        ]
+ [ 2.46210794 -1.06014071  1.        ]
+ [ 0.6775828   0.61594565  1.        ]
+ [ 2.13376944 -0.09989127  1.        ]
+ [ 0.82757179  0.12214158  1.        ]
+ [ 1.04221375  1.58281521  1.        ]
+ [-1.10061918  1.14472371 -1.        ]
+ [ 0.90159072  0.50249434 -1.        ]
+ [ 0.90085595 -0.68372786 -1.        ]
+ [-0.12289023 -0.93576943 -1.        ]
+ [-0.26788808  0.53035547 -1.        ]
+ [-0.69166075 -0.39675353 -1.        ]
+ [-0.6871727  -0.84520564 -1.        ]
+ [-0.67124613 -0.0126646  -1.        ]
+ [-1.11731035  0.2344157  -1.        ]
+ [ 1.65980218  0.74204416 -1.        ]]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>서포트 벡터 분류기 피팅</strong></p>
+<p>위 결과를 보면 눈으로 보기에도 선형의 초평면(즉 직선)으로 두 클래스를 분리할 수 없다. 실제로 서포트 벡터 분류기가 어떤 결과를 제공하는지 알아보자.</p>
+<p>우리는 <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html"><strong>sklearn SVC</strong></a> 모듈을 사용한다. 사이킷런 <code class="docutils literal notranslate"><span class="pre">SVC()</span></code> 함수에서 파라미터 <code class="docutils literal notranslate"><span class="pre">C</span></code>와 관련하여 한 가지 유의할 점이 있다. 여기에서 <code class="docutils literal notranslate"><span class="pre">C</span></code>의 역할은 우리가 위에서 식 14.15와 관련해 설명한 <span class="math notranslate nohighlight">\(C\)</span>와 그 역할은 동일하지만, 그 의미는 정반대라는 점이다. 앞에서 식 14.15와 관련해 조정 파라미터 <span class="math notranslate nohighlight">\(C\)</span>는 마진 위반의 허용 크기를 규정하는 값이다. 즉 <span class="math notranslate nohighlight">\(C\)</span>가 커(작아)지면 마진 위반에 더 관대(엄격)해져 마진은 더 넓어(좁아)지는 것이다.</p>
+<p>그런데 <code class="docutils literal notranslate"><span class="pre">SVC()</span></code> 함수에서의 <code class="docutils literal notranslate"><span class="pre">C</span></code> 파라미터는 마진 위반의 <strong>허용 정도</strong>가 아니라 마진 위반에 대한 <strong>비용</strong>(cost)을 규정하는 값이다. 비용이 크면(작으면) 허용 정도를 낮출(높일) 것이기 때문에 결국 <code class="docutils literal notranslate"><span class="pre">SVC()</span></code> 함수에서의 <code class="docutils literal notranslate"><span class="pre">C</span></code>와 식 14.15의 <span class="math notranslate nohighlight">\(C\)</span>는 반대 의미를 지닌다. 즉 <code class="docutils literal notranslate"><span class="pre">SVC()</span></code> 함수에서 <code class="docutils literal notranslate"><span class="pre">C</span></code>값을 크게(작게) 설정할 경우, 마진 위반의 비용이 커(작아)지기 때문에 마진 위반에 더 엄격(관대)해지는 것이다. 결국 <code class="docutils literal notranslate"><span class="pre">C</span></code>값이 커(작아)지면 마진이 좁아(넓어)지고 마진 상에 있거나 마진을 위반하는 서포트 벡터가 적어(많아)지게 된다.</p>
+<p>서포트 벡터 분류기(<code class="docutils literal notranslate"><span class="pre">SVC()</span></code> 함수)를 훈련 세트(<code class="docutils literal notranslate"><span class="pre">X</span></code> 및 <code class="docutils literal notranslate"><span class="pre">y</span></code>)에 피팅시켜 보자. 선형 커널(<code class="docutils literal notranslate"><span class="pre">kernel='linear'</span></code>)을 사용했으며, <code class="docutils literal notranslate"><span class="pre">C</span></code>를 1로 설정했다(기본값이 1임). 훈련 세트에 대한 피팅 결과를 앞에서 만들어 놓은 <code class="docutils literal notranslate"><span class="pre">plot_svc()</span></code>함수를 사용해 그림으로 그린 것이 아래 나와 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svc</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span> <span class="c1"># SVC 모델을 설정하여 &#39;svc&#39; 이름으로 지정</span>
+<span class="n">svc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="c1"># fit() 메서드를 사용하여 모델을 훈련 세트(X 및 y)에 피팅</span>
+<span class="n">plot_svc</span><span class="p">(</span><span class="n">svc</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="c1"># SVC 결과를 그리기</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The Number of Support Vectors = 10
+</pre></div>
+</div>
+<img alt="../_images/4fab13f0048ebad7da9feba6c51078fc05a24e91e728239d12aaa593b0b303e5.png" src="../_images/4fab13f0048ebad7da9feba6c51078fc05a24e91e728239d12aaa593b0b303e5.png" />
+</div>
+</div>
+<p>위 그림에서 좌측에 베이지색으로 표시된 영역은 빨간색(레이블: <span class="math notranslate nohighlight">\(-1\)</span>) 클래스에 해당하는 영역이고, 우측에 하늘색으로 표시된 영역은 파란색(레이블: <span class="math notranslate nohighlight">\(+1\)</span>) 클래스에 해당하는 영역이다. 두 클래스 사이에 녹색으로 표시된 결정 경계는 (미세한 굴곡이 있어보이지만) <code class="docutils literal notranslate"><span class="pre">kernel=&quot;linear&quot;</span></code> 인수를 사용했기 때문에 기본적으로 선형(즉 직선)이다. 관측 중 마진 상에 있거나 마진을 위반한 서포트 벡터에 해당하는 관측들은 동그라미 위에 플러스(+) 표시가 돼있고, 서포트 벡터가 아닌 나머지 관측은 그냥 동그라미로 표시돼 있다.</p>
+<p>위 경우에는 10개의 서포트 벡터가 있음을 알 수 있다. <code class="docutils literal notranslate"><span class="pre">SVC()</span></code>의 속성(attribute)인 <code class="docutils literal notranslate"><span class="pre">support_</span></code>를 이용하여 서포트 벡터들의 인덱스를 확인할 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svc</span><span class="o">.</span><span class="n">support_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([11, 12, 13, 14, 19,  1,  2,  6,  8,  9])
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>혼동 행렬</strong></p>
+<p>혼동행렬(confusion matrix, 분류결과표)은 앞의 7장 “로지스틱 회귀를 이용한 분류”의 부록에서 설명했듯이 관측 중 얼마만큼이 정확하게 분류되었고, 얼마만큼이 잘못 분류되었는지를 표로 정리한 것이다.</p>
+<p>여기에서는 사이킷런(<code class="docutils literal notranslate"><span class="pre">sklearn</span></code>)의 <code class="docutils literal notranslate"><span class="pre">confusion_matrix()</span></code> 함수를 이용해 혼동행렬을 만든다. 아래 결과에서 각 열(column)이 “예측(Predicted)”에 해당하고 각 행(row)이 “실제(True)” 관측에 해당한다. 혼동행렬에서 정확도(accuracy)는 전체 관측 중에서 올바르게 예측된 관측의 비율인데, 아래 결과를 보면 20개 훈련 관측 중 <span class="math notranslate nohighlight">\(7+9=16\)</span>개(80%)가 올바르게 예측됐다. 따라서 훈련 관측에 있어서의 오분류율은 20%이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">svc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+<span class="n">cm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">svc</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">svc</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Predicted&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted  -1   1
+True             
+-1          7   3
+ 1          1   9
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>조정 파라미터 <code class="docutils literal notranslate"><span class="pre">C</span></code>값을 줄이는 경우</strong></p>
+<p>조정 파라미터인 <code class="docutils literal notranslate"><span class="pre">C</span></code>값을 1이 아니라 0.1로 더 작게 하면 어떻게 되는지 알아보자. 비용 파라미터의 값이 작아지면, 마진 위반을 더 허용하게 된다. 따라서 마진이 더 넓어지고 서포트 벡터(해당 클래스의 마진 상에 있거나 마진의 잘못된 쪽에 있는 관측들)의 개수가 늘어나는 것을 예상할 수 있다. 아래 결과에서 그것을 확인할 수 있다. 즉 서포트 벡터가 10개에서 16개로 늘었다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svc2</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span> <span class="c1"># SVC 모델을 새롭게 설정하여 &#39;svc2&#39; 이름으로 지정</span>
+<span class="n">svc2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="c1"># fit() 메서드를 사용하여 새로운 모델을 훈련 세트(X 및 y)에 피팅</span>
+<span class="n">plot_svc</span><span class="p">(</span><span class="n">svc2</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The Number of Support Vectors = 16
+</pre></div>
+</div>
+<img alt="../_images/09784346186cd832557a95252ab85fe3379c581ece40c2906a40351791a37c46.png" src="../_images/09784346186cd832557a95252ab85fe3379c581ece40c2906a40351791a37c46.png" />
+</div>
+</div>
+<p>마찬가지로 <code class="docutils literal notranslate"><span class="pre">C=0.1</span></code>에 대해서도 정확도를 구한 결과, 혼동행렬 자체가 앞의 <code class="docutils literal notranslate"><span class="pre">C=1</span></code>의 경우와 정확히 동일한 것으로 나타났다. 서포트 벡터 개수 등은 바뀌었지만, 결정 경계가 거의 바뀌지 않은 것을 위 두 개의 그림 결과에서 확인할 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">svc2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+<span class="n">cm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">svc2</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">svc2</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Predicted&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted  -1   1
+True             
+-1          7   3
+ 1          1   9
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>교차검증을 통해 최적 <code class="docutils literal notranslate"><span class="pre">C</span></code>값 구하기</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">sklearn.grid_search</span></code> 모듈에는 <strong>교차검증</strong>(cross-validation)을 수행하는 <code class="docutils literal notranslate"><span class="pre">GridSearchCV()</span></code> 함수가 있다(교차검증에 대해서는 앞의 10장 “선형모형 변수선택 및 정규화”의 부록 참조). 이를 이용하여 <code class="docutils literal notranslate"><span class="pre">SVC()</span></code> 함수에서 최적의 <code class="docutils literal notranslate"><span class="pre">C</span></code>값을 구해보자.</p>
+<p>우선 <code class="docutils literal notranslate"><span class="pre">C</span></code> 파라미터의 가능한 후보로 7개 값(0.001, 0.01, 0.1, 1, 5, 10, 100)을 선택했다. 그런 다음, 교차검증 모델을 설정하고 이를 <code class="docutils literal notranslate"><span class="pre">clf</span></code>라는 이름으로 지정했다. <code class="docutils literal notranslate"><span class="pre">SVC()</span></code> 함수의 커널은 앞에서와 마찬가지로 <code class="docutils literal notranslate"><span class="pre">kernel='linear'</span></code>를 사용하고, <code class="docutils literal notranslate"><span class="pre">cv=10</span></code>으로 함으로써 10중(10-fold) 교차검증을 선택했다. 즉 훈련 데이터를 10개 폴드로 분할하여 각 폴드(우리 예에서는 전체 훈련 관측이 20개이므로 각 폴드에 2개의 관측이 들어가게 됨)를 “번갈아 가면서” 테스트 세트로 사용하는 방식이다. 성과 측정 기준을 정확도(<code class="docutils literal notranslate"><span class="pre">scoring='accuracy'</span></code>)로 했기 때문에 10개 폴드 각각에 대해 정확도를 측정한 다음, 그 평균값을 기준으로 최고의 성과를 낳는 <code class="docutils literal notranslate"><span class="pre">C</span></code>를 선택하게 된다.</p>
+<p>이런 식으로 설정한 교차검증 모델을 <code class="docutils literal notranslate"><span class="pre">fit()</span></code> 메서드를 사용하여 훈련 세트(<code class="docutils literal notranslate"><span class="pre">X</span></code> 및 <code class="docutils literal notranslate"><span class="pre">y</span></code>)에 피팅하고, <code class="docutils literal notranslate"><span class="pre">cv_results_</span></code> 속성을 이용해 결과를 호출했다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tuned_parameters</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">]}]</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">),</span> <span class="n">tuned_parameters</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> 
+                   <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span> <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># 교차검증 모델 설정</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="c1"># fit() 메서드를 사용하여 모델을 훈련 세트(X 및 y)에 피팅</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">cv_results_</span> <span class="c1"># 교차검증 결과</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;mean_fit_time&#39;: array([0.00083051, 0.00083888, 0.00062394, 0.000738  , 0.00073659,
+        0.00063424, 0.00103817]),
+ &#39;std_fit_time&#39;: array([4.15827801e-04, 4.19940136e-04, 5.09447027e-04, 4.83953625e-04,
+        4.82711481e-04, 7.11590865e-04, 2.88318948e-06]),
+ &#39;mean_score_time&#39;: array([0.00062418, 0.00062423, 0.00084105, 0.00062537, 0.00072985,
+        0.00077386, 0.00062351]),
+ &#39;std_score_time&#39;: array([0.00050964, 0.00050968, 0.00042122, 0.00051063, 0.0004778 ,
+        0.0005225 , 0.0005091 ]),
+ &#39;param_C&#39;: masked_array(data=[0.001, 0.01, 0.1, 1.0, 5.0, 10.0, 100.0],
+              mask=[False, False, False, False, False, False, False],
+        fill_value=1e+20),
+ &#39;params&#39;: [{&#39;C&#39;: 0.001},
+  {&#39;C&#39;: 0.01},
+  {&#39;C&#39;: 0.1},
+  {&#39;C&#39;: 1},
+  {&#39;C&#39;: 5},
+  {&#39;C&#39;: 10},
+  {&#39;C&#39;: 100}],
+ &#39;split0_test_score&#39;: array([1., 1., 1., 1., 1., 1., 1.]),
+ &#39;split1_test_score&#39;: array([0., 0., 0., 0., 0., 0., 0.]),
+ &#39;split2_test_score&#39;: array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]),
+ &#39;split3_test_score&#39;: array([1., 1., 1., 1., 1., 1., 1.]),
+ &#39;split4_test_score&#39;: array([1., 1., 1., 1., 1., 1., 1.]),
+ &#39;split5_test_score&#39;: array([1., 1., 1., 1., 1., 1., 1.]),
+ &#39;split6_test_score&#39;: array([0.5, 0.5, 0.5, 1. , 1. , 1. , 1. ]),
+ &#39;split7_test_score&#39;: array([1., 1., 1., 1., 1., 1., 1.]),
+ &#39;split8_test_score&#39;: array([0.5, 0.5, 1. , 1. , 1. , 1. , 1. ]),
+ &#39;split9_test_score&#39;: array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]),
+ &#39;mean_test_score&#39;: array([0.7 , 0.7 , 0.75, 0.8 , 0.8 , 0.8 , 0.8 ]),
+ &#39;std_test_score&#39;: array([0.33166248, 0.33166248, 0.3354102 , 0.33166248, 0.33166248,
+        0.33166248, 0.33166248]),
+ &#39;rank_test_score&#39;: array([6, 6, 5, 1, 1, 1, 1]),
+ &#39;split0_train_score&#39;: array([0.77777778, 0.77777778, 0.77777778, 0.77777778, 0.77777778,
+        0.77777778, 0.77777778]),
+ &#39;split1_train_score&#39;: array([0.83333333, 0.83333333, 0.88888889, 0.88888889, 0.88888889,
+        0.88888889, 0.88888889]),
+ &#39;split2_train_score&#39;: array([0.77777778, 0.77777778, 0.83333333, 0.83333333, 0.83333333,
+        0.83333333, 0.83333333]),
+ &#39;split3_train_score&#39;: array([0.72222222, 0.72222222, 0.77777778, 0.83333333, 0.83333333,
+        0.77777778, 0.77777778]),
+ &#39;split4_train_score&#39;: array([0.72222222, 0.72222222, 0.77777778, 0.83333333, 0.77777778,
+        0.77777778, 0.77777778]),
+ &#39;split5_train_score&#39;: array([0.77777778, 0.77777778, 0.77777778, 0.77777778, 0.77777778,
+        0.77777778, 0.77777778]),
+ &#39;split6_train_score&#39;: array([0.77777778, 0.77777778, 0.77777778, 0.77777778, 0.77777778,
+        0.77777778, 0.77777778]),
+ &#39;split7_train_score&#39;: array([0.72222222, 0.72222222, 0.77777778, 0.77777778, 0.77777778,
+        0.77777778, 0.77777778]),
+ &#39;split8_train_score&#39;: array([0.77777778, 0.77777778, 0.77777778, 0.77777778, 0.77777778,
+        0.77777778, 0.77777778]),
+ &#39;split9_train_score&#39;: array([0.77777778, 0.77777778, 0.83333333, 0.83333333, 0.88888889,
+        0.88888889, 0.88888889]),
+ &#39;mean_train_score&#39;: array([0.76666667, 0.76666667, 0.8       , 0.81111111, 0.81111111,
+        0.80555556, 0.80555556]),
+ &#39;std_train_score&#39;: array([0.03333333, 0.03333333, 0.03685139, 0.03685139, 0.04444444,
+        0.04479032, 0.04479032])}
+</pre></div>
+</div>
+</div>
+</div>
+<p>위에는 교차검증의 제반 결과가 나와 있는데, 이중 <code class="docutils literal notranslate"><span class="pre">'rank_test_score'</span></code> 항목을 보면, 우리가 사용한 7개 조정 파라미터 별로 10중 교차검증으로 구한 정확도 순위가 나와 있는 것을 볼 수 있다. 즉, <code class="docutils literal notranslate"><span class="pre">array([6,</span> <span class="pre">6,</span> <span class="pre">5,</span> <span class="pre">1,</span> <span class="pre">1,</span> <span class="pre">1,</span> <span class="pre">1]</span></code> 부분이다. 이는 7개 <code class="docutils literal notranslate"><span class="pre">C</span></code>값 중 마지막 4개에 해당하는 경우(즉 1, 5, 10, 100)가 정확도 면에서 공동 1위라는 것을 의미한다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GridSearchCV()</span></code> 함수의 <code class="docutils literal notranslate"><span class="pre">best_params_</span></code> 속성을 이용하면, 우리가 제공한 7개 조정 파라미터값 중에서 어느 경우에 정확도가 가장 높은지(즉 오류율이 가장 낮은지)를 반환해준다. 언급했듯이 <code class="docutils literal notranslate"><span class="pre">C</span></code>값이 1, 5, 10, 100인 네 가지 경우가 공동으로 1위이지만, 아래 결과에서는 그중에서 순서가 가장 앞선 <code class="docutils literal notranslate"><span class="pre">C=1</span></code>이 반환되었다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clf</span><span class="o">.</span><span class="n">best_params_</span> <span class="c1"># 베스트 파라미터</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;C&#39;: 1}
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>테스트 세트에 대한 분류 성과</strong></p>
+<p>지금까지는 정확도(및 오류율)를 평가할 때, 전적으로 훈련 데이터세트를 사용했다. 그러나 보다 중요한 것은 테스트 세트에 대한 분류 성과이다. 이를 위해 우선 테스트 데이터세트를 생성하는 것부터 시작한다. 앞에서 훈련 세트를 생성한 것과 동일한 방식으로 20개 관측으로 이루어진 테스트 세트를 생성했다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">X_test</span><span class="p">[</span><span class="n">y_test</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[</span><span class="n">y_test</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X_test</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">ColorMap</span><span class="p">,</span> 
+            <span class="n">edgecolor</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$X_1$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$X_2$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/249d3dec7e2941264f58be4f0f3cb47d6cd252937ccdbc1ab4cc1581ca3b5108.png" src="../_images/249d3dec7e2941264f58be4f0f3cb47d6cd252937ccdbc1ab4cc1581ca3b5108.png" />
+</div>
+</div>
+<p>교차검증에서 가장 성과가 우수한 것으로 나온 <code class="docutils literal notranslate"><span class="pre">C=1</span></code>의 서포트 벡터 분류기를 바로 앞에서 생성한 테스트 세트에 적용하여 분류 성과를 평가했다. 아래 결과를 보면 20개 테스트 관측 중 <span class="math notranslate nohighlight">\(9+6=15\)</span>개(75%)가 올바르게 예측됐다. 따라서 테스트 세트에 있어서의 오분류율은 25%이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svc3</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+<span class="n">svc3</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">svc3</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="n">cm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">svc3</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">svc3</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Predicted&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted  -1   1
+True             
+-1          9   1
+ 1          4   6
+</pre></div>
+</div>
+</div>
+</div>
+<p>이번에는 <code class="docutils literal notranslate"><span class="pre">C=1</span></code> 대신 <code class="docutils literal notranslate"><span class="pre">C=0.1</span></code>인 서포트 벡터 분류기를 테스트 세트에 적용하여 분류 성과를 평가했다. <code class="docutils literal notranslate"><span class="pre">C=0.1</span></code>인 서포트 벡터 분류기는 위의 10중 교차검증에서 정확도가 다섯 번째에 해당한다. 하지만 아래에서 보듯이 테스트 세트에서는 <code class="docutils literal notranslate"><span class="pre">C=1</span></code>의 경우와 분류 성과가 동일하다. 훈련 세트에서 가장 성과가 좋은 모델이 테스트 세트에서도 그런다는 보장은 없다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svc</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+<span class="n">svc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">svc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="n">cm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">svc</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">svc</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Predicted&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted  -1   1
+True             
+-1          9   1
+ 1          4   6
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>최대 마진 분류기 vs. 서포트 벡터 분류기</strong></p>
+<p>앞에서 우리는 실제 데이터세트에서 두 클래스의 관측이 초평면에 의해 완전 분리되는 경우는 많지 않으며, 설사 분리 초평면이 존재하는 경우라도 그것이 분류기로서 반드시 바람직한 것은 아닐 수도 있다는 점을 지적했다. 그런 경우를 예제 데이터로 살펴보자.</p>
+<p>우선 앞에서 사용했던 훈련 데이터세트를 약간 변화시켜 분리 초평면이 (가까스로) 가능한 상황을 만들어 보자. <code class="docutils literal notranslate"><span class="pre">y</span></code>값이 1인 훈련 관측들에 대해 <span class="math notranslate nohighlight">\(X_1\)</span>과 <span class="math notranslate nohighlight">\(X_2\)</span>에 모두 1.2씩을 더했다. 아래 결과를 보면, 이제는 결정 경계로서 분리 초평면이 가능하다는 것을 알 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.2</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">ColorMap</span><span class="p">,</span> <span class="n">edgecolor</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$X_1$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$X_2$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/f3dbf1ef7fe2552a634ac4a5a5db74a13a4ea38e5cb228f813e1a0c92186e86c.png" src="../_images/f3dbf1ef7fe2552a634ac4a5a5db74a13a4ea38e5cb228f813e1a0c92186e86c.png" />
+</div>
+</div>
+<p>먼저 최대 마진 분류기를 도출해보자. 일부러 분리 초평면이 가까스로 가능한 상황을 만들었기 때문에 마진 위반을 엄격하게 해야 분리 초평면이 도출될 수 있다. 따라서 <code class="docutils literal notranslate"><span class="pre">SVC()</span></code> 함수의 비용 파라미터인 <code class="docutils literal notranslate"><span class="pre">C</span></code>를 100이라는 큰 값으로 설정해보았다. 아래 결과를 보면, 분리 초평면을 가진 최대 마진 분류기가 도출됐으며, 서포트 벡터(마진 상에 있거나 마진의 잘못된 쪽에 있는 관측들)의 개수는 3개이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svc4</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+<span class="n">svc4</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plot_svc</span><span class="p">(</span><span class="n">svc4</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The Number of Support Vectors = 3
+</pre></div>
+</div>
+<img alt="../_images/06c49bd6cad41a03266f1f41a4d4ed4f56216d1ce33f73d8ba77cdcfc8f58314.png" src="../_images/06c49bd6cad41a03266f1f41a4d4ed4f56216d1ce33f73d8ba77cdcfc8f58314.png" />
+</div>
+</div>
+<p>그런데 앞에서도 설명했듯이, 분리 초평면에 기반한 분류기는 모든 훈련 관측을 완벽하게 분류하지만, 이것이 오히려 개별 관측에 대해 너무 민감한 결과로 이어질 수 있다. 위 결과를 보면, 마진이 아주 좁은 것을 알 수 있는데, 훈련 데이터 피팅은 아주 좋지만 분산은 높을 수 있다. 훈련 데이터에 과적합되었을 수 있는 것이다.</p>
+<p>그래서 이번에는 <code class="docutils literal notranslate"><span class="pre">C=0.1</span></code>로 하여 마진 위반을 상당히 허용하는 서포트 벡터 분류기를 도출해보았다. 아래 결과를 보면, 초평면을 위반하는 관측(녹색선 초평면 오른쪽의 빨간색 동그라미)까지 발생한 것을 알 수 있다. 훈련 관측을 잘못 분류하기는 했지만, 훨씬 더 마진이 넓어지고 서포트 벡터가 8개로 늘어났다. 이 <code class="docutils literal notranslate"><span class="pre">C=0.1</span></code> 모델이 앞의 <code class="docutils literal notranslate"><span class="pre">C=100</span></code> 모델보다 테스트 데이터에서 분류 성과가 더 좋을 가능성이 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svc5</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+<span class="n">svc5</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plot_svc</span><span class="p">(</span><span class="n">svc5</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The Number of Support Vectors = 8
+</pre></div>
+</div>
+<img alt="../_images/9e1b10b4dea4b9c1e93bd27de7e11b0fc243ef6417bd4d72231b5f621ee93a3f.png" src="../_images/9e1b10b4dea4b9c1e93bd27de7e11b0fc243ef6417bd4d72231b5f621ee93a3f.png" />
+</div>
+</div>
+</section>
+<section id="id20">
+<h3>서포트 벡터 머신<a class="headerlink" href="#id20" title="Link to this heading">#</a></h3>
+<p>앞 절에서는 분류 경계가 선형인 경우, 즉 서포트 벡터 분류기에 대해 살펴보았는데, 여기에서는 분류 경계가 비선형(non-linear)인 경우, 즉 서포트 벡터 머신(SVM)에 대해 살펴보자.</p>
+<p><strong>훈련 및 테스트 데이터 생성</strong></p>
+<p>먼저 다음과 같이 비선형 클래스 경계가 있는 훈련 및 테스트 데이터를 생성한다. 앞에서와 마찬가지로 <span class="math notranslate nohighlight">\(-1\)</span>(빨간색)과 <span class="math notranslate nohighlight">\(+1\)</span>(파란색)의 2개 클래스가 있으며, 빨간색이 150개, 파란색이 50개 등 총 200개의 관측을 발생시킨 다음, 임의로 절반을 나눠 각각 훈련 세트와 테스트 세트로 삼았다. 일단 전체 200개 관측 데이터를 그림으로 그려본 결과, 클래스 경계가 비선형이라는 것을 눈으로도 확인할 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">X</span><span class="p">[:</span><span class="mi">100</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="mi">100</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="n">X</span><span class="p">[</span><span class="mi">101</span><span class="p">:</span><span class="mi">150</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">101</span><span class="p">:</span><span class="mi">150</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">50</span><span class="p">)])</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">ColorMap</span><span class="p">,</span> <span class="n">edgecolor</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$X_1$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$X_2$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/58b62a0c4207febd6ad7b0920c631c30cbf6526c78de60ac38c5255b37a32293.png" src="../_images/58b62a0c4207febd6ad7b0920c631c30cbf6526c78de60ac38c5255b37a32293.png" />
+</div>
+</div>
+<p><strong>비선형 커널의 SVM</strong></p>
+<p>분류 경계가 비선형인 서포트 벡터 머신(SVM)을 피팅할 때도 앞의 서포트 벡터 분류기와 마찬가지로 <code class="docutils literal notranslate"><span class="pre">SVC()</span></code> 함수를 사용한다. 단지, 선형 커널(<code class="docutils literal notranslate"><span class="pre">kernel='linear'</span></code>) 대신 비선형 커널을 사용한다는 점이 다르다.</p>
+<p>SVM을 다항식 커널로 피팅하려면 <code class="docutils literal notranslate"><span class="pre">kernel='poly'</span></code>를 사용하고, 방사형 커널로 피팅하려면 <code class="docutils literal notranslate"><span class="pre">kernel='rbf'</span></code>를 사용한다. 전자의 경우, 다항식 커널에 대한 차수(식 14.22의 <span class="math notranslate nohighlight">\(d\)</span>)를 지정하기 위해서는 <code class="docutils literal notranslate"><span class="pre">degree</span></code> 인수를 사용하고, 후자의 경우 방사형 커널(식 14.24)의 <span class="math notranslate nohighlight">\(\gamma\)</span> 파라미터를 지정하기 위해서는 <code class="docutils literal notranslate"><span class="pre">gamma</span></code> 인수를 사용한다. 아래는 피팅 결과이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 다항식 커널</span>
+<span class="n">svm1</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;poly&#39;</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">svm1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">plot_svc</span><span class="p">(</span><span class="n">svm1</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The Number of Support Vectors = 27
+</pre></div>
+</div>
+<img alt="../_images/0169f6d549c20fe9fafef8334757021cafb66e33936f610a81176924b726ca65.png" src="../_images/0169f6d549c20fe9fafef8334757021cafb66e33936f610a81176924b726ca65.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 방사형 커널</span>
+<span class="n">svm2</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">svm2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">plot_svc</span><span class="p">(</span><span class="n">svm2</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The Number of Support Vectors = 51
+</pre></div>
+</div>
+<img alt="../_images/794eb35b7936fab968d0fdcb25c88a3a32a6e8a79455bcc424ea18241cd90c26.png" src="../_images/794eb35b7936fab968d0fdcb25c88a3a32a6e8a79455bcc424ea18241cd90c26.png" />
+</div>
+</div>
+<p>위 결과를 보면, SVM이 비선형 경계를 갖는다는 것을 확실히 알 수 있다. 선형 경계로는 제대로 된 분류가 불가능한 상황에서 비선형 커널을 사용함으로써 상당히 괜찮은 분류 성과를 거두었다.</p>
+<p><strong>비용 파라미터 값을 높이는 경우</strong></p>
+<p>위 결과를 보면, 비선형 커널을 사용했음에도 불구하고 SVM 피팅에 어느 정도 훈련 오류가 있는데, 비용 파라미터 <code class="docutils literal notranslate"><span class="pre">C</span></code>를 높임으로써 훈련 오류율을 낮추는 것을 시도해볼 수 있다.</p>
+<p>아래에서는 방사형 커널(<code class="docutils literal notranslate"><span class="pre">kernel='rbf'</span></code>) SVM에 대해 <code class="docutils literal notranslate"><span class="pre">C</span></code>값을 1에서 100으로 높여 보았다. 아래 결과를 보면, 결정 경계의 굴곡(유연성)이 더욱 심해졌으며, 서포트 벡터의 개수는 51개에서 36개로 줄어든 것을 알 수 있다. 그림 상으로 보면, 적어도 훈련 데이터에 대해서는 오분류율이 거의 0에 가까운 것으로 보이지만, 이것은 훈련 데이터에 과적합되었을 위험을 높이는 것이기도 하다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svm3</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">svm3</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">plot_svc</span><span class="p">(</span><span class="n">svm3</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The Number of Support Vectors = 36
+</pre></div>
+</div>
+<img alt="../_images/8c06944e634e894c6dd3057dc6b525dd9f45542134186a9e36330029e5d97f80.png" src="../_images/8c06944e634e894c6dd3057dc6b525dd9f45542134186a9e36330029e5d97f80.png" />
+</div>
+</div>
+<p><strong>교차검증을 통한 조정 파라미터 선택</strong></p>
+<p>앞에서와 마찬가지로 <code class="docutils literal notranslate"><span class="pre">sklearn.grid_search</span></code> 모듈의 <code class="docutils literal notranslate"><span class="pre">GridSearchCV()</span></code> 함수를 이용하여 적정 파라미터 값을 찾아보자. 즉 교차검증을 통해 방사형 커널(<code class="docutils literal notranslate"><span class="pre">kernel='rbf'</span></code>) SVM에 대해 최적의 <code class="docutils literal notranslate"><span class="pre">C</span></code> 및 <code class="docutils literal notranslate"><span class="pre">gamma</span></code>값을 구해보자.</p>
+<p>우선 <code class="docutils literal notranslate"><span class="pre">C</span></code> 파라미터 값으로 0.01, 0.1, 1, 10, 100 등 5개 후보를 두고, <code class="docutils literal notranslate"><span class="pre">gamma</span></code> 파라미터에 대해서도 0.5, 1, 2, 3, 4 등 5개 후보를 설정했다. 총 25개의 조합이 생기게 된다. 그런 다음, 교차검증 모델을 설정하고 이를 <code class="docutils literal notranslate"><span class="pre">clf</span></code>라는 이름으로 지정했다. <code class="docutils literal notranslate"><span class="pre">SVC()</span></code> 함수의 커널을 <code class="docutils literal notranslate"><span class="pre">kernel='rbf'</span></code>로 하고, <code class="docutils literal notranslate"><span class="pre">cv=10</span></code>으로 함으로써 10중(10-fold) 교차검증을 선택했으며, 정확도를 기준으로(<code class="docutils literal notranslate"><span class="pre">scoring='accuracy'</span></code>) 최고의 성과를 낳는 <code class="docutils literal notranslate"><span class="pre">C</span></code> 및 <code class="docutils literal notranslate"><span class="pre">gamma</span></code>의 조합을 찾도록 했다.</p>
+<p>이렇게 설정한 교차검증 모델을 <code class="docutils literal notranslate"><span class="pre">fit()</span></code> 메서드를 사용하여 훈련 세트(<code class="docutils literal notranslate"><span class="pre">X_train</span></code> 및 <code class="docutils literal notranslate"><span class="pre">y_train</span></code>)에 피팅하고, <code class="docutils literal notranslate"><span class="pre">best_params_</span></code> 속성을 이용해 최상의 결과를 낳는 파라미터를 반환시켰다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 10중 교차검증을 통한 조정 파라미터 선택</span>
+<span class="n">tuned_parameters</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
+                     <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]}]</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">),</span> <span class="n">tuned_parameters</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span> 
+                   <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">cv_results_</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">best_params_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;C&#39;: 10, &#39;gamma&#39;: 0.5}
+</pre></div>
+</div>
+</div>
+</div>
+<p></br> 위 결과를 보면, 2개 파라미터에 대한 총 25가지 조합 중, <code class="docutils literal notranslate"><span class="pre">C=10</span></code>이고 <code class="docutils literal notranslate"><span class="pre">gamma=0.5</span></code>일 때, (훈련 세트에 대한) 분류 정확도가 가장 높은 것으로 나타났다. 이들 인수를 사용한 SVM 분류 결과가 아래 나와 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svm4</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">svm4</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">plot_svc</span><span class="p">(</span><span class="n">svm4</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The Number of Support Vectors = 32
+</pre></div>
+</div>
+<img alt="../_images/09e7b10b8c2e90ca622b6fe2df3f1d2b992abc6503d9ce9907f584bbb829129e.png" src="../_images/09e7b10b8c2e90ca622b6fe2df3f1d2b992abc6503d9ce9907f584bbb829129e.png" />
+</div>
+</div>
+<p>훈련 세트에 대한 SVM 피팅 결과를 앞에서 만들어둔 테스트 세트에 적용하여 분류 성과를 혼동행렬로 평가해보았다. 총 100개의 테스트 관측 중 <span class="math notranslate nohighlight">\(66+21=87\)</span>개가 정확히 예측된 것으로 나타났다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 혼동행렬</span>
+<span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[66,  7],
+       [ 6, 21]], dtype=int64)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 정확도</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.87
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="roc">
+<h3>ROC 곡선<a class="headerlink" href="#roc" title="Link to this heading">#</a></h3>
+<p><strong>ROC 곡선</strong>은 모델의 분류 성과를 보여주는 그래프이다.(아래 <a class="reference internal" href="#%EB%B6%80%EB%A1%9D:-ROC-%EA%B3%A1%EC%84%A0"><span class="xref myst">부록</span></a> 참조) 여기에서는 ROC 곡선을 이용하여 두 가지 SVM 모델의 분류 성능을 비교해보기로 한다.</p>
+<p>앞에서 비선형 커널 SVM 피팅에서 사용한 훈련/테스트 데이터를 그대로 사용하여 두 가지 모델에 대해 ROC 곡선을 비교해보기로 한다. 모델은 둘 다 방사형 커널 SVM으로서 <code class="docutils literal notranslate"><span class="pre">C</span></code>값은 1로 동일하게 두고, 단지 <code class="docutils literal notranslate"><span class="pre">gamma</span></code> 인수만 2와 10 두 가지로 달리 해보았다. 두 모델 중 <code class="docutils literal notranslate"><span class="pre">gamma=10</span></code>의 경우가 훨씬 유연한 모델에 속한다. 각 모델에 대해 결정 경계 그림, 훈련 세트 혼동행렬, 테스트 세트 혼동행렬을 구했다.</p>
+<p><strong>모델 1: 방사형 커널 SVM (<code class="docutils literal notranslate"><span class="pre">gamma=2</span></code>)</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svm5</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">svm5</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">plot_svc</span><span class="p">(</span><span class="n">svm5</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The Number of Support Vectors = 68
+</pre></div>
+</div>
+<img alt="../_images/629482fbf2e3144bbd04237f16b7b571913f0b7318ad775d15af03b2319d81df.png" src="../_images/629482fbf2e3144bbd04237f16b7b571913f0b7318ad775d15af03b2319d81df.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 훈련 세트 혼동행렬(분류성과표)</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">svm5</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+<span class="n">cm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">svm5</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">svm5</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Predicted&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted  -1   1
+True             
+-1         76   1
+ 1          3  20
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 테스트 세트 혼동행렬(분류성과표)</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">svm5</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="n">cm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">svm5</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">svm5</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Predicted&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted  -1   1
+True             
+-1         67   6
+ 1          9  18
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>모델 2: 방사형 커널 SVM (<code class="docutils literal notranslate"><span class="pre">gamma=10</span></code>)</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 모델 1에 비해 더 유연한 모델</span>
+<span class="n">svm6</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">svm6</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">plot_svc</span><span class="p">(</span><span class="n">svm6</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The Number of Support Vectors = 95
+</pre></div>
+</div>
+<img alt="../_images/8e4e1c3b852c7f8e05adf7c191771e943ab374176adff14b2a96c4b4e9a6753a.png" src="../_images/8e4e1c3b852c7f8e05adf7c191771e943ab374176adff14b2a96c4b4e9a6753a.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 훈련 세트 혼동행렬(분류성과표)</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">svm6</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+<span class="n">cm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">svm6</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">svm6</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Predicted&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted  -1   1
+True             
+-1         77   0
+ 1          1  22
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 테스트 세트 혼동행렬(분류성과표)</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">svm6</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="n">cm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">svm6</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">svm6</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Predicted&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted  -1   1
+True             
+-1         69   4
+ 1         18   9
+</pre></div>
+</div>
+</div>
+</div>
+<p></br> 위 결과를 보면, 우선 그림 상으로 모델 2의 결정 경계가 모델 1에 비해서 훨씬 굴곡이 심한(즉 유연한) 것을 알 수 있다. 그 결과 모델 2의 경우에는 훈련 관측 대부분(95개)이 서포트 벡터로 사용되어 서포트 벡터 개수 68개인 모델 1과 크게 비교가 된다.</p>
+<p>이처럼 모델 2가 유연성이 높아 훈련 세트에 있어서는 정확도가 거의 99%에 달하지만, 테스트 세트에 있어서는 100개 중 올바로 예측된 것이 <span class="math notranslate nohighlight">\(69+9=78\)</span>개로서 정확도가 크게 낮아진다. 이에 반해 유연성이 낮은 모델 1은 훈련 세트에 있어서는 정확도가 96%로서 모델 2에 비해 다소 낮으나, 테스트 세트에 있어서는 정확도가 85%로서 모델 2보다 더 높은 것을 알 수 있다.</p>
+<p><strong>ROC 곡선(모델 1 vs. 모델 2)</strong></p>
+<p>ROC 곡선을 그리기 위해서는 우선 주어진 SVM 모델의 적합값이 필요하다. 서포트 벡터 분류기 및 서포트 벡터 머신은 최종적으로 각 관측에 대한 클래스 레이블을 제공한다. 그런데 클래스를 분류하기 위해서는 그것을 판단하는 데 사용되는 숫자 점수인 각 관측에 대한 적합값(fitted value)을 먼저 계산해야 한다.</p>
+<p>서포트 벡터 분류기의 경우, 관측 <span class="math notranslate nohighlight">\(X = (X_1,X_2,...,X_p)^T\)</span>에 대한 적합값은 <span class="math notranslate nohighlight">\(\hat\beta_0  + \hat\beta_1X_1 + \hat\beta_2X_2 + \cdots + \hat\beta_pX_p\)</span>이다. 또한 비선형 커널을 사용한 SVM의 경우 식 14.23이 적합값을 산출하는 식이다. 즉  <span class="math notranslate nohighlight">\(\beta_0 + \sum_{i \in \mathcal S} \alpha_i K(x, x_{i})\)</span>이다. 이 적합값의 부호에 따라 관측이 결정 경계의 어느 쪽에 있는지가 결정된다. 우리 경우에는 적합값이 0보다 크면 관측이 파란색 클래스(<span class="math notranslate nohighlight">\(+1\)</span> 레이블)에 할당되고, 적합값이 0보다 작으면 빨간색 클래스(<span class="math notranslate nohighlight">\(-1\)</span> 레이블)에 할당된다.</p>
+<p>SVM 모델의 적합값을 얻으려면 <code class="docutils literal notranslate"><span class="pre">SVC()</span></code> 함수에 <code class="docutils literal notranslate"><span class="pre">decision_function()</span></code> 메서드를 적용하면 된다. 이 적합값을 사용하여 클래스 분류의 분계점을 변화시켜가면서(가령, 분계점을 아주 큰 값에서 시작해서 점차 낮춰가는 식으로 변화시켜가면서) 위양성률(FPR)과 진양성률(TPR)의 변화를 그림으로 그린 것이 ROC 곡선이다. 이 작업을 해주는 것이 <code class="docutils literal notranslate"><span class="pre">roc_curve()</span></code> 함수이다. 이 함수의 괄호 안에는 분류할 데이터세트의 레이블 변수와 적합값을 집어넣는다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_train_score5</span> <span class="o">=</span> <span class="n">svm5</span><span class="o">.</span><span class="n">decision_function</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">y_train_score6</span> <span class="o">=</span> <span class="n">svm6</span><span class="o">.</span><span class="n">decision_function</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+<span class="n">false_pos_rate5</span><span class="p">,</span> <span class="n">true_pos_rate5</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_train_score5</span><span class="p">)</span>
+<span class="n">roc_auc5</span> <span class="o">=</span> <span class="n">auc</span><span class="p">(</span><span class="n">false_pos_rate5</span><span class="p">,</span> <span class="n">true_pos_rate5</span><span class="p">)</span>
+
+<span class="n">false_pos_rate6</span><span class="p">,</span> <span class="n">true_pos_rate6</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_train_score6</span><span class="p">)</span>
+<span class="n">roc_auc6</span> <span class="o">=</span> <span class="n">auc</span><span class="p">(</span><span class="n">false_pos_rate6</span><span class="p">,</span> <span class="n">true_pos_rate6</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span><span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">false_pos_rate5</span><span class="p">,</span> <span class="n">true_pos_rate5</span><span class="p">,</span> 
+         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SVM $</span><span class="se">\\</span><span class="s1">gamma = 1$ ROC curve (AUC = </span><span class="si">%0.2f</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="n">roc_auc5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">false_pos_rate6</span><span class="p">,</span> <span class="n">true_pos_rate6</span><span class="p">,</span> 
+         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SVM $</span><span class="se">\\</span><span class="s1">gamma = 10$ ROC curve (AUC = </span><span class="si">%0.2f</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="n">roc_auc6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Training Data&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">15</span><span class="p">)</span>
+
+<span class="n">y_test_score5</span> <span class="o">=</span> <span class="n">svm5</span><span class="o">.</span><span class="n">decision_function</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">y_test_score6</span> <span class="o">=</span> <span class="n">svm6</span><span class="o">.</span><span class="n">decision_function</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="n">false_pos_rate5</span><span class="p">,</span> <span class="n">true_pos_rate5</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_test_score5</span><span class="p">)</span>
+<span class="n">roc_auc5</span> <span class="o">=</span> <span class="n">auc</span><span class="p">(</span><span class="n">false_pos_rate5</span><span class="p">,</span> <span class="n">true_pos_rate5</span><span class="p">)</span>
+
+<span class="n">false_pos_rate6</span><span class="p">,</span> <span class="n">true_pos_rate6</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_test_score6</span><span class="p">)</span>
+<span class="n">roc_auc6</span> <span class="o">=</span> <span class="n">auc</span><span class="p">(</span><span class="n">false_pos_rate6</span><span class="p">,</span> <span class="n">true_pos_rate6</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">false_pos_rate5</span><span class="p">,</span> <span class="n">true_pos_rate5</span><span class="p">,</span> 
+         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SVM $</span><span class="se">\\</span><span class="s1">gamma = 1$ ROC curve (AUC = </span><span class="si">%0.2f</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="n">roc_auc5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">false_pos_rate6</span><span class="p">,</span> <span class="n">true_pos_rate6</span><span class="p">,</span> 
+         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SVM $</span><span class="se">\\</span><span class="s1">gamma = 10$ ROC curve (AUC = </span><span class="si">%0.2f</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="n">roc_auc6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Test Data&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">15</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k--&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;False Positive Rate&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;True Positive Rate&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b1a20e50e44222d2d532a9967777e378a5f32e373875a721314dba6ea90af1ef.png" src="../_images/b1a20e50e44222d2d532a9967777e378a5f32e373875a721314dba6ea90af1ef.png" />
+</div>
+</div>
+<p></br> 위 ROC 곡선과 AUC(즉 ROC 곡선 아래 영역의 면적) 결과 역시 바로 앞에서 살펴봤던 두 모델의 혼동행렬 결과와 일맥상통하다. 즉 훈련 데이터에 있어서는 유연성이 더 높은 <span class="math notranslate nohighlight">\(\gamma=10\)</span> 모델의 분류 성과가 AUC 기준으로 1.00 대 0.99로 약간 더 우수하나, 테스트 데이터에 대해서는 <span class="math notranslate nohighlight">\(\gamma=10\)</span> 모델의 분류 성과가 AUC 기준으로 0.86 대 0.87로 약간 더 안 좋은 것으로 나타났다,</p>
+</section>
+<section id="id21">
+<h3>다중 클래스 SVM<a class="headerlink" href="#id21" title="Link to this heading">#</a></h3>
+<p>앞에서 반응변수의 클래스가 2개보다 많은 경우에 SVM의 적용과 관련하여 일대일 분류와 일대전체 분류의 두 가지 접근을 소개했다.(이 장의 4절 참조.) 이 두 가지 접근 중, 사이킷런의 <code class="docutils literal notranslate"><span class="pre">SVC()</span></code> 함수는 일대일 접근 방식을 사용하여 다중 클래스 분류를 수행한다. 우리는 여기에서 클래스가 3개인 데이터세트를 만들어 <code class="docutils literal notranslate"><span class="pre">SVC()</span></code> 함수를 적용해보기로 한다.</p>
+<p>우선 클래스가 3개인 데이터세트를 생성한다. 우리는 14.6.2절(서포트 벡터 머신)에서 비선형 클래스 경계가 있는 데이터를 생성한 적이 있는데, 그것에다 하나의 클래스를 추가하기로 한다. 즉 앞에서 이미 만들어 놓은 데이터세트(<code class="docutils literal notranslate"><span class="pre">X</span></code> 및 <code class="docutils literal notranslate"><span class="pre">y</span></code>)는 <span class="math notranslate nohighlight">\(−1\)</span>(빨간색)과  <span class="math notranslate nohighlight">\(+1\)</span>(파란색)의 2개 클래스가 있으며, 빨간색이 150개, 파란색이 50개 등 총 200개의 관측이 있다. 여기에다 <span class="math notranslate nohighlight">\(0\)</span>의 레이블(연두색)을 갖는  관측 50개를 추가하여 총 250개의 관측으로 구성된 데이터세트(<code class="docutils literal notranslate"><span class="pre">XX</span></code> 및 <code class="docutils literal notranslate"><span class="pre">yy</span></code>)를 만들었다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">XX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">2</span><span class="p">)])</span>
+<span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">50</span><span class="p">)])</span>
+<span class="n">XX</span><span class="p">[</span><span class="n">yy</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">XX</span><span class="p">[</span><span class="n">yy</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">4</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">XX</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">XX</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">yy</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">ColorMap</span><span class="p">,</span> <span class="n">edgecolor</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$X_1$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$X_2$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/7e3e76b7b8256c2778f783d84732c51c2c152c9376027ac5f8ddac94bafbeecd.png" src="../_images/7e3e76b7b8256c2778f783d84732c51c2c152c9376027ac5f8ddac94bafbeecd.png" />
+</div>
+</div>
+<p>다중 클래스 SVM의 경우에도 <code class="docutils literal notranslate"><span class="pre">SVC()</span></code> 함수를 그대로 사용한다. 다른 옵션을 선택하지 않아도 <code class="docutils literal notranslate"><span class="pre">SVC()</span></code> 함수가 스스로 다중 클래스를 인식하고 피팅을 한다.</p>
+<p>앞에서 언급했듯이 <code class="docutils literal notranslate"><span class="pre">SVC()</span></code> 함수는 일대일 접근 방식으로 다중 클래스를 처리한다. 우리 경우에는 클래스가 3개이므로 이들의 모든 쌍을 비교하는 총 3개의 SVM(즉 빨간색 대 파란색, 빨간색 대 연두색, 파란색 대 연두색)을 구성하는 방식이다. 이렇게 총 3개의 분류기를 사용하여 각 관측을 분류한 다음, 각 관측별로 각 클래스에 할당된 횟수를 집계하여 가장 많이 할당된 클래스로 해당 관측을 최종 분류한다. 이 모든 과정을 <code class="docutils literal notranslate"><span class="pre">SVC()</span></code> 함수가 알아서 진행하기 때문에 이와 관련해 다른 코딩이 필요없다.</p>
+<p>여기에서는 방사형 커널(<code class="docutils literal notranslate"><span class="pre">kernel='rbf'</span></code>)을 사용했다. 앞에서와 달리 <code class="docutils literal notranslate"><span class="pre">gamma</span></code> 인수를 지정하지 않았는데, 이럴 경우 기본값(default)으로 <code class="docutils literal notranslate"><span class="pre">gamma='scale'</span></code>이 사용된다. 여기에서 <code class="docutils literal notranslate"><span class="pre">'scale'</span></code>은 (n_features * X.var())<span class="math notranslate nohighlight">\(^{-1}\)</span>을 의미한다. n_feature는 입력변수의 개수(우리 예에서는 2개)이고, X.var()는 입력변수의 모든 값, 즉 flattened 배열(array)에 대해 모분산값을 구한 것이다. 이 두 개 값을 곱해서 역수를 취한 것이 <code class="docutils literal notranslate"><span class="pre">gamma</span></code>값으로 사용된다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svm7</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">)</span>
+<span class="n">svm7</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">XX</span><span class="p">,</span> <span class="n">yy</span><span class="p">)</span>
+<span class="n">plot_svc</span><span class="p">(</span><span class="n">svm7</span><span class="p">,</span> <span class="n">XX</span><span class="p">,</span> <span class="n">yy</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The Number of Support Vectors = 128
+</pre></div>
+</div>
+<img alt="../_images/15294e26437cd073d5b1bdfa897b6bc4225c8365c9b49c10b36c59dc11123245.png" src="../_images/15294e26437cd073d5b1bdfa897b6bc4225c8365c9b49c10b36c59dc11123245.png" />
+</div>
+</div>
+<p></br> 위 결과를 보면, 이제는 클래스가 3개라서 분류 영역 역시 3개인 것을 알 수 있다. 즉 우측 윗부분에 연두색 영역이 새로 생겼는데, 관측이 여기에 속할 경우, 연두색(<span class="math notranslate nohighlight">\(레이블=0\)</span>) 클래스로 분류되는 것이다.</p>
+<p>방사형 커널을 사용한 SVM 분류 결과가 그런대로 괜찮은 편으로 여겨진다. 아래 혼동행렬을 구했는데, 총 250개 훈련 관측중 클래스가 올바로 분류된 관측이 <span class="math notranslate nohighlight">\(133+42+38=213\)</span>개로서 정확도가 85.2%이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">yy</span><span class="p">,</span> <span class="n">svm7</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">XX</span><span class="p">))</span>
+<span class="n">cm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">svm7</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">svm7</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Predicted&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted   -1   0   1
+True                  
+-1         133   6  11
+ 0           8  42   0
+ 1          12   0  38
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id22">
+<h2>14.8 서포트 벡터 분류 사례<a class="headerlink" href="#id22" title="Link to this heading">#</a></h2>
+<section id="id23">
+<h3>데이터세트<a class="headerlink" href="#id23" title="Link to this heading">#</a></h3>
+<p>여기에서 사용할 데이터세트는 Khan 등(2001)의 연구에서 사용된 데이터로 4가지 유형의 SRBCT(소형 원형 청색 세포 종양)에 관한 것이다. 총 83개의 조직(tissue) 샘플에 대해 2,308개의 유전자 발현값(<code class="docutils literal notranslate"><span class="pre">x</span></code> 변수)과 종양의 종류(<code class="docutils literal notranslate"><span class="pre">y</span></code> 변수)를 기록한 것이다. 전체 83개 관측 중 63개를 훈련 세트(<code class="docutils literal notranslate"><span class="pre">X_train</span></code>, <code class="docutils literal notranslate"><span class="pre">y_train</span></code>)로 사용하고, 나머지 20개 관측은 테스트 세트(<code class="docutils literal notranslate"><span class="pre">X_test</span></code>, <code class="docutils literal notranslate"><span class="pre">y_test</span></code>)이다. 분류 클래스는 4개 종양 유형이고, 분류 모델의 목표는 어떤 조직 샘플이 주어질 때, 2,308개의 유전자 발현 특성을 사용해 해당 관측의 종양 유형을 잘 예측하는 것이다.</p>
+<p>먼저 인터넷에서 데이터 파일을 불러들이고, 데이터세트의 형태를 파악한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url_X_train</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/JWarmenhoven/ISLR-python/master/Notebooks/Data/Khan_xtrain.csv&quot;</span>
+<span class="n">url_y_train</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/JWarmenhoven/ISLR-python/master/Notebooks/Data/Khan_ytrain.csv&quot;</span>
+<span class="n">url_X_test</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/JWarmenhoven/ISLR-python/master/Notebooks/Data/Khan_xtest.csv&quot;</span>
+<span class="n">url_y_test</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/JWarmenhoven/ISLR-python/master/Notebooks/Data/Khan_ytest.csv&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 훈련 세트</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url_X_train</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url_y_train</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="c1"># 테스트 세트</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url_X_test</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url_y_test</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 데이터세트 형태</span>
+<span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_test</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>((63, 2308), (63,), (20, 2308), (20,))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 훈련 세트 입력변수 프린트</span>
+<span class="n">X_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>V1</th>
+      <th>V2</th>
+      <th>V3</th>
+      <th>V4</th>
+      <th>V5</th>
+      <th>V6</th>
+      <th>V7</th>
+      <th>V8</th>
+      <th>V9</th>
+      <th>V10</th>
+      <th>...</th>
+      <th>V2299</th>
+      <th>V2300</th>
+      <th>V2301</th>
+      <th>V2302</th>
+      <th>V2303</th>
+      <th>V2304</th>
+      <th>V2305</th>
+      <th>V2306</th>
+      <th>V2307</th>
+      <th>V2308</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.773344</td>
+      <td>-2.438405</td>
+      <td>-0.482562</td>
+      <td>-2.721135</td>
+      <td>-1.217058</td>
+      <td>0.827809</td>
+      <td>1.342604</td>
+      <td>0.057042</td>
+      <td>0.133569</td>
+      <td>0.565427</td>
+      <td>...</td>
+      <td>-0.238511</td>
+      <td>-0.027474</td>
+      <td>-1.660205</td>
+      <td>0.588231</td>
+      <td>-0.463624</td>
+      <td>-3.952845</td>
+      <td>-5.496768</td>
+      <td>-1.414282</td>
+      <td>-0.647600</td>
+      <td>-1.763172</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-0.078178</td>
+      <td>-2.415754</td>
+      <td>0.412772</td>
+      <td>-2.825146</td>
+      <td>-0.626236</td>
+      <td>0.054488</td>
+      <td>1.429498</td>
+      <td>-0.120249</td>
+      <td>0.456792</td>
+      <td>0.159053</td>
+      <td>...</td>
+      <td>-0.657394</td>
+      <td>-0.246284</td>
+      <td>-0.836325</td>
+      <td>-0.571284</td>
+      <td>0.034788</td>
+      <td>-2.478130</td>
+      <td>-3.661264</td>
+      <td>-1.093923</td>
+      <td>-1.209320</td>
+      <td>-0.824395</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.084469</td>
+      <td>-1.649739</td>
+      <td>-0.241308</td>
+      <td>-2.875286</td>
+      <td>-0.889405</td>
+      <td>-0.027474</td>
+      <td>1.159300</td>
+      <td>0.015676</td>
+      <td>0.191942</td>
+      <td>0.496585</td>
+      <td>...</td>
+      <td>-0.696352</td>
+      <td>0.024985</td>
+      <td>-1.059872</td>
+      <td>-0.403767</td>
+      <td>-0.678653</td>
+      <td>-2.939352</td>
+      <td>-2.736450</td>
+      <td>-1.965399</td>
+      <td>-0.805868</td>
+      <td>-1.139434</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.965614</td>
+      <td>-2.380547</td>
+      <td>0.625297</td>
+      <td>-1.741256</td>
+      <td>-0.845366</td>
+      <td>0.949687</td>
+      <td>1.093801</td>
+      <td>0.819736</td>
+      <td>-0.284620</td>
+      <td>0.994732</td>
+      <td>...</td>
+      <td>0.259746</td>
+      <td>0.357115</td>
+      <td>-1.893128</td>
+      <td>0.255107</td>
+      <td>0.163309</td>
+      <td>-1.021929</td>
+      <td>-2.077843</td>
+      <td>-1.127629</td>
+      <td>0.331531</td>
+      <td>-2.179483</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.075664</td>
+      <td>-1.728785</td>
+      <td>0.852626</td>
+      <td>0.272695</td>
+      <td>-1.841370</td>
+      <td>0.327936</td>
+      <td>1.251219</td>
+      <td>0.771450</td>
+      <td>0.030917</td>
+      <td>0.278313</td>
+      <td>...</td>
+      <td>-0.200404</td>
+      <td>0.061753</td>
+      <td>-2.273998</td>
+      <td>-0.039365</td>
+      <td>0.368801</td>
+      <td>-2.566551</td>
+      <td>-1.675044</td>
+      <td>-1.082050</td>
+      <td>-0.965218</td>
+      <td>-1.836966</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 2308 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 훈련 세트 반응변수 프린트</span>
+<span class="n">y_train</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+       2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3,
+       3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1],
+      dtype=int64)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 훈련 세트 클래스별 관측 개수</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2    23
+4    20
+3    12
+1     8
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 테스트 세트 클래스별 관측 개수</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3    6
+2    6
+4    5
+1    3
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id24">
+<h3>선형 커널 서포트 벡터 분류<a class="headerlink" href="#id24" title="Link to this heading">#</a></h3>
+<p>우리는 유전자 발현값을 사용하여 종양의 유형을 예측하기 위해 서포트 벡터 접근 방식을 사용한다. 그런데 이 데이터세트에는 관측 개수(63개)에 비해 매우 많은 수(2,308개)의 특성이 있다. 이것은 굳이 다항식 또는 방사형 커널을 사용하여 모델의 유연성을 높일 필요 없이 선형 커널로도 충분하다는 것을 시사한다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">SVC()</span></code> 함수를 사용했으며, 선형 커널(<code class="docutils literal notranslate"><span class="pre">kernel='linear'</span></code>)을 지정했다. 조정 파라미터는 기본값(<code class="docutils literal notranslate"><span class="pre">C=1</span></code>)을 사용했는데, 이를 달리해도 결과가 거의 영향을 받지 않는다. 아래 결과를 보면, 서포트 벡터가 54개인 것을 알 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svc</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+<span class="n">svc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">svc</span><span class="o">.</span><span class="n">support_</span><span class="o">.</span><span class="n">size</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>54
+</pre></div>
+</div>
+</div>
+</div>
+<p></br> 앞의 서포트 벡터 분류 결과를 바탕으로 훈련 세트와 테스트 세트에 대해 각각 혼동행렬을 만들었다. 아래 결과를 보면, 훈련 세트에 대해서는 오분류율이 0이다. 정확도가 100%인 것이다. 단, 테스트 세트에 대해서는 총 20개 관측 중 2개가 잘못되어 오분류율이 10%이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 훈련 세트 혼동행렬</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">svc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+<span class="n">cm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">svc</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">svc</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Predicted&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted  1   2   3   4
+True                    
+1          8   0   0   0
+2          0  23   0   0
+3          0   0  12   0
+4          0   0   0  20
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 테스트 세트 혼동행렬</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">svc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="n">cm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">svc</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">svc</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Predicted&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted  1  2  3  4
+True                 
+1          3  0  0  0
+2          0  6  0  0
+3          0  2  4  0
+4          0  0  0  5
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id25">
+<h2>부록: ROC 곡선<a class="headerlink" href="#id25" title="Link to this heading">#</a></h2>
+<p><strong>ROC 곡선은 모델의 분류 성능을 보여주는 그래프</strong>이다. ROC(receiver operating characteristic: 수신자 조작 특성)라는 특이한 이름을 가진 이유는 이것이 신호탐지이론(Signal detection theory)에서 개발되었기 때문이다.</p>
+<p>ROC 곡선은 어떤 분류 모델에 있어서 분류 분계점(threshold)이 달라짐에 따라 해당 모델의 위양성률(가로축)과 진양성률(세로축)이 어떻게 변하는지를 보여주는 곡선이다(아래 그림 참조). <strong>위양성률</strong>(FPR: false positive rate)은 실제 음성인데, 양성으로 잘못 예측된 관측의 비율이고, <strong>진양성률</strong>(TPR: true positive rate)은 재현율(recall) 또는 민감도(sensitivity)라고도 하는데, 실제 양성 관측들 중 양성으로 제대로 예측된 관측의 비율이다.</p>
+<p>위양성률과 진양성률 모두 0에서 1까지의 값을 가질 수 있는데, 위양성률의 경우 (잘못 예측된 비율이기 때문에) 이 값이 0에 가까울수록 분류 성능이 좋은 반면, 진양성률은 (제대로 예측된 비율이기 때문에) 이 값이 1에 가까울수록 좋은 모델이다. 따라서 아래 그림의 ROC 평면에서 왼쪽 상단의 파란색 점(“Perfect classifier”)이 분류 성과가 가장 좋은 분류기를 의미한다. 이 파란색 점에서 위양성률은 0이고 진양성률은 1이기 때문이다.</p>
+<p>아래 그림에는 네 가지 ROC 곡선이 그려져 있다. 이 중에서 파란색의 ROC 곡선이 가장 좋은 분류기(또는 분류 모델)이고, 그 다음이 연두색, 오렌지색, 빨간색(점선) 순이다. 즉 왼쪽 상단의 파란색 점(완벽한 분류기)에 가까울수록 분류 성능이 좋은 모델인 것이다.</p>
+<p>아래 그림에서는 네 가지 ROC 곡선에 서로 겹치는 부분이 없어서 분류 모델의 성능을 눈으로도 쉽게 평가할 수 있지만, 실제로는 곡선들이 서로 겹치는 경우가 있을 것이기 때문에 그런 경우에 있어서 분류 성능을 평가하는 기준을 마련할 필요가 있다. 그것이 바로 <strong>AUC</strong>(area under curve)로서 <strong>ROC 곡선 아래 영역의 면적</strong>을 의미한다. 아래 그림에서 “Perfect classifier”의 AUC는 1로서 최대값이며, 파란색 ROC 곡선은 AUC가 (눈으로 보기에) 대략 0.95 정도이다.</p>
+<p><img alt="ROC 곡선" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-12.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: Wikipedia, “<a class="reference external" href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic">Receiver operating characteristic</a>”.</p></li>
+</ul>
+<p>ROC 곡선을 그리는 방법은 분계점을 변화시켜가면서 표본 관측들의 위양성률(FPR)과 진양성률(TPR)을 계산하여 이를 ROC 평면에 표시하면 된다. 가령 코로나19 진단 키트를 생각해보자. 만약 음성을 양성으로 잘못 분류하는 위양성자(즉 false alarm)가 절대 나오지 않게 하려면, 양성 판정 기준(이를 분계점이라 부름)을 극도로 엄격하게 하면 된다. 물론 이럴 경우 양성을 양성으로 제대로 분류하는 진양성률 역시 낮아질 가능성이 있다. 아무튼 FPR를 0으로 만드는 분계점에 대해 TPR이 어느 수준인지를 파악한 것에서 출발하여, 점진적으로 분계점을 조금씩 완화해가면서 FPR과 TPR이 어떻게 바뀌는지를 기록하여 ROC 평면에 그리면 된다.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="13_%ED%8A%B8%EB%A6%AC_%EA%B8%B0%EB%B0%98_%EB%AA%A8%ED%98%95.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">13장 트리 기반 모형</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="15_%EB%94%A5%EB%9F%AC%EB%8B%9D_%EC%9E%85%EB%AC%B8.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">15장 딥러닝 입문</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">14.1 소개</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chatgpt-q-a">ChatGPT Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">기본 아이디어</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">14.2 최대 마진 분류기</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">초평면이란?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">분리 초평면을 사용한 분류</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">최대 마진 분류기</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">분리 불가능한 케이스</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">14.3 서포트 벡터 분류기</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">서포트 벡터 분류기의 개요</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">서포트 벡터 분류기 세부 내용</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">14.4 서포트 벡터 머신</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">비선형 결정 경계를 사용한 분류</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">서포트 벡터 머신</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#svm">14.5 다중 클래스 SVM</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">일대일 분류</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">일대전체 분류</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">14.6 로지스틱 회귀와의 관계</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">14.7 서포트 벡터 머신 예제</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">필요 라이브러리 불러들이기</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-svc">plot_svc() 함수 만들기</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#svc">서포트 벡터 분류기(SVC)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">서포트 벡터 머신</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#roc">ROC 곡선</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">다중 클래스 SVM</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id22">14.8 서포트 벡터 분류 사례</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id23">데이터세트</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id24">선형 커널 서포트 벡터 분류</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id25">부록: ROC 곡선</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 최필선 민인식
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,3014 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>7장 로지스틱 회귀를 이용한 분류 &#8212; 데이터과학의 첫걸음</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/07_로지스틱_회귀를_이용한_분류';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="8장 KNN 분류" href="08_KNN%EC%9D%84_%EC%9D%B4%EC%9A%A9%ED%95%9C_%EB%B6%84%EB%A5%98.html" />
+    <link rel="prev" title="6장 선형 회귀" href="06_%EC%84%A0%ED%98%95_%ED%9A%8C%EA%B7%80.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="00_%EC%84%9C%EB%AC%B8.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="데이터과학의 첫걸음 - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="데이터과학의 첫걸음 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_%EC%84%9C%EB%AC%B8.html">
+                    데이터과학의 첫걸음: 시작하며
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_%ED%8C%8C%EC%9D%B4%EC%8D%AC_%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.html">1장 파이썬 시작하기</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_%ED%8C%8C%EC%9D%B4%EC%8D%AC_%EC%BD%94%EB%94%A9_%EA%B8%B0%EC%B4%88.html">2장 파이썬 코딩 기초</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_%EC%9D%80%ED%96%89_%ED%85%94%EB%A0%88%EB%A7%88%EC%BC%80%ED%8C%85_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%B6%84%EC%84%9D.html">3장 은행 텔레마케팅 데이터 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_%EC%A0%84%EC%9E%90%EC%83%81%EA%B1%B0%EB%9E%98_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%B6%84%EC%84%9D.html">4장 전자상거래 데이터 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_%ED%86%B5%EA%B3%84%EC%A0%81_%ED%95%99%EC%8A%B5.html">5장 통계적 학습</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_%EC%84%A0%ED%98%95_%ED%9A%8C%EA%B7%80.html">6장 선형 회귀</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">7장 로지스틱 회귀를 이용한 분류</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_KNN%EC%9D%84_%EC%9D%B4%EC%9A%A9%ED%95%9C_%EB%B6%84%EB%A5%98.html">8장 KNN 분류</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_%EB%82%98%EC%9D%B4%EB%B8%8C_%EB%B2%A0%EC%9D%B4%EC%A6%88_%EB%B6%84%EB%A5%98.html">9장 나이브 베이즈 분류</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_%EB%B3%80%EC%88%98%EC%84%A0%ED%83%9D_%EB%B0%8F_%EC%A0%95%EA%B7%9C%ED%99%94.html">10장 변수선택 및 정규화</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_%EC%B6%94%EC%B2%9C_%EC%8B%9C%EC%8A%A4%ED%85%9C.html">11장 추천 시스템</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_%EA%B2%B0%EC%A0%95_%ED%8A%B8%EB%A6%AC_%EB%A7%8C%EB%93%A4%EA%B8%B0.html">12장 결정 트리 만들기</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_%ED%8A%B8%EB%A6%AC_%EA%B8%B0%EB%B0%98_%EB%AA%A8%ED%98%95.html">13장 트리 기반 모형</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_%EC%84%9C%ED%8F%AC%ED%8A%B8_%EB%B2%A1%ED%84%B0_%EB%A8%B8%EC%8B%A0.html">14장 서포트 벡터 머신</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_%EB%94%A5%EB%9F%AC%EB%8B%9D_%EC%9E%85%EB%AC%B8.html">15장 딥러닝 입문</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_%EB%B9%84%EC%A7%80%EB%8F%84%ED%95%99%EC%8A%B5%EA%B3%BC_%EC%A3%BC%EC%84%B1%EB%B6%84_%EB%B6%84%EC%84%9D.html">16장 비지도학습과 주성분 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_%EC%83%9D%EC%A1%B4%EB%B6%84%EC%84%9D.html">17장 생존분석</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book1" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book1/issues/new?title=Issue%20on%20page%20%2Fnotebooks/07_로지스틱_회귀를_이용한_분류.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/07_로지스틱_회귀를_이용한_분류.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>7장 로지스틱 회귀를 이용한 분류</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">7.1 개요</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">분류 문제 예</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#default">Default 데이터세트 사례</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">7.2 로지스틱 회귀</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">로지스틱 회귀</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">최대가능도 추정</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vs">선형 회귀 vs 로지스틱 회귀 예시</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Default 데이터세트 로지스틱 회귀</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">다중 로지스틱 회귀</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">교란요인</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">7.3 교란요인 추가 설명</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">교란 사례</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">7.4 로지스틱 회귀 예제</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">주식시장 데이터</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chatgpt-q-a">ChatGPT Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">캐러밴 보험 데이터</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">타이타닉 데이터</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">ChatGPT Q&amp;A</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">부록: 혼동행렬</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">사례</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">다양한 평가기준</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">사이킷런 혼동행렬 표 읽는 법</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>7장 로지스틱 회귀를 이용한 분류<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>자료 출처: <a class="reference external" href="https://www.statlearning.com/">ISLP (An Introduction to Statistical Learning with Applications in Python)</a></p>
+<section id="id2">
+<h2>7.1 개요<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>앞에서 배운 선형 회귀 모델에서는 종속변수 또는 반응변수(response variable) <span class="math notranslate nohighlight">\(Y\)</span>가 정량적(quantitative)이지만, 많은 상황에서 반응변수는 <strong>정성적</strong>(qualitative)이다. 정성적 변수를 범주형(categorical)이라고도 한다.</p>
+<p>정성적 반응에 대한 추정 및 예측을 <strong>분류</strong>(classification)라고 부른다. 가령 스팸 메일 예를 생각해보자. 이 경우 정성적 반응을 예측하는 것은 메일이 스팸인지 햄인지 예측하는 것으로서 관측을 어떤 범주나 등급에 할당하는 것이기 때문에 분류로 지칭될 수 있다.</p>
+<p>분류 기법에는 여러가지 있다. 로지스틱 회귀(logistic regression), 선형판별 분석(linear discriminant analysis), K-최근접이웃(K-nearest neighbors) 등이 널리 사용되는 분류 기법이다. 또한 일반가산 모델(generalized additive model), 트리(tree), 랜덤 포레스트(random forest), 부스팅(boosting), 서포트 벡터 머신(support vector machine) 등 컴퓨팅 집약적인 방법도 사용된다. 본 장에서는 이 중에서 로지스틱 회귀를 다룬다.</p>
+<section id="id3">
+<h3>분류 문제 예<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>온라인 뱅킹 서비스는 사용자의 IP 주소, 과거 거래 내역 등을 기반으로 어떤 사이트에서 수행중인 거래가 <strong>금융사기</strong>인지 여부를 파악할 수 있어야 한다.</p></li>
+<li><p>생물학자는 여러 환자에 대한 DNA 염기 서열 데이터를 바탕으로 어떤 DNA 변이가 <strong>해로운지</strong>(질병을 유발하는지), 그렇지 않은지를 파악하려고 한다.</p></li>
+<li><p>어떤 사람이 <strong>세 가지 질환</strong> 중 하나에 기인할 수 있는 일련의 증상을 가지고 응급실에 도착한다. 이 사람은 세 가지 질환 중 어떤 것에 속하는가?</p></li>
+</ul>
+</section>
+<section id="default">
+<h3>Default 데이터세트 사례<a class="headerlink" href="#default" title="Link to this heading">#</a></h3>
+<p>ISLP에서 제공하는 “Default.csv” 데이터세트를 불러들인다. 우리는 이 데이터를 사용해 사람들이 신용카드 결제에서 디폴트(<code class="docutils literal notranslate"><span class="pre">default</span></code>: 채무불이행 또는 연체)가 발생할지 예측하는 데 관심이 있다. <strong>시뮬레이션</strong> 데이터세트이며, 예측변수로는 개인들의 연간 소득(<code class="docutils literal notranslate"><span class="pre">income</span></code>)과 월간 신용카드 사용액(<code class="docutils literal notranslate"><span class="pre">balance</span></code>) 등이 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.precision&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../Data/Default.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>default</th>
+      <th>student</th>
+      <th>balance</th>
+      <th>income</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>No</td>
+      <td>No</td>
+      <td>729.526</td>
+      <td>44361.625</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>No</td>
+      <td>Yes</td>
+      <td>817.180</td>
+      <td>12106.135</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>No</td>
+      <td>No</td>
+      <td>1073.549</td>
+      <td>31767.139</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>No</td>
+      <td>No</td>
+      <td>529.251</td>
+      <td>35704.494</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>No</td>
+      <td>No</td>
+      <td>785.656</td>
+      <td>38463.496</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Default 데이터세트 변수</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">default</span></code>: 채무불이행 여부(<code class="docutils literal notranslate"><span class="pre">Yes</span></code>/<code class="docutils literal notranslate"><span class="pre">No</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">student</span></code>: 학생 여부(<code class="docutils literal notranslate"><span class="pre">Yes</span></code>/<code class="docutils literal notranslate"><span class="pre">No</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">balance</span></code>: 월간 신용카드 사용액</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">income</span></code>: 연간 소득</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>default</th>
+      <th>student</th>
+      <th>balance</th>
+      <th>income</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>10000</td>
+      <td>10000</td>
+      <td>10000.000</td>
+      <td>10000.000</td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td>2</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>top</th>
+      <td>No</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td>9667</td>
+      <td>7056</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>835.375</td>
+      <td>33516.982</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>483.715</td>
+      <td>13336.640</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.000</td>
+      <td>771.968</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>481.731</td>
+      <td>21340.463</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>823.637</td>
+      <td>34552.645</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1166.308</td>
+      <td>43807.729</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2654.323</td>
+      <td>73554.233</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Default 데이터세트 시각적 분석</strong></p>
+<p>아래 그림 7.1은 <code class="docutils literal notranslate"><span class="pre">income</span></code>(연간 소득)과 <code class="docutils literal notranslate"><span class="pre">balance</span></code>(카드 사용액)에 대해 디폴트가 발생한 그룹과 그렇지 않은 그룹을 구별하여 산점도 및 상자그림(boxplot)을 그린 것이다. 왼쪽 그림에서 오렌지색은 디폴트인 경우이고 파란색은 그렇지 않은 경우를 나타낸다.(전체 데이터에서 디폴트 비율이 약 3%로 너무 적어서 채무를 이행한 사람들은 전체가 아니라 일부만 표시한 것임) 디폴트인 경우가 그렇지 않은 경우에 비해 카드 사용액이 더 많은 경향이 있는 것을 알 수 있다. 그림 오른쪽의 상자그림에서 첫 번째는 디폴트 그룹과 디폴트가 아닌 그룹 각각에 대해 <code class="docutils literal notranslate"><span class="pre">balance</span></code>의 분포를 보여주고, 두 번째는 <code class="docutils literal notranslate"><span class="pre">income</span></code>의 분포를 보여준다. <code class="docutils literal notranslate"><span class="pre">balance</span></code>의 경우에는 두 그룹의 차이가 크지만, <code class="docutils literal notranslate"><span class="pre">income</span></code>의 경우에는 두 그룹 간에 큰 차이가 없는 것을 알 수 있다.</p>
+<p><strong>그림 7.1.</strong> Default 데이터세트. <code class="docutils literal notranslate"><span class="pre">income</span></code>과 <code class="docutils literal notranslate"><span class="pre">balance</span></code>에 대해 디폴트 여부별로 산점도 및 상자그림을 그린 것이다.</p>
+<p><img alt="Default 데이터세트" src="https://raw.githubusercontent.com/pilsunchoi/images/main/7-1.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: ISLP, FIGURE 4.1</p></li>
+</ul>
+</section>
+</section>
+<section id="id4">
+<h2>7.2 로지스틱 회귀<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>Default 데이터세트에서 우리의 관심은 신용카드 사용자들의 디폴트(채무불이행) 여부를 잘 예측하는 것이다. <code class="docutils literal notranslate"><span class="pre">default</span></code> 변수가 Yes/No의 범주형 변수이기 때문에 회귀 분석을 위해서는 이를 <strong>더미 변수</strong>(dummy variable)로 바꿔야 한다. <code class="docutils literal notranslate"><span class="pre">default</span></code> 변수값이 Yes인 경우 1, No인 경우 0의 값을 부여해 이를 반응변수 <span class="math notranslate nohighlight">\(Y\)</span>라 하자.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+Y=
+\begin{cases}
+0, &amp; \text{if default=No} \\[2ex]
+1, &amp; \text{if default=Yes} \\[2ex]
+\end{cases}
+\end{split}\]</div>
+<p>위와 같은 이항(binary) 반응의 경우, 앞에서 배운 <strong>선형 회귀 모델로 추정하는 것도 나름대로 의미</strong>가 있다. 선형 회귀를 사용하여 얻은 <strong>적합값 <span class="math notranslate nohighlight">\( \hat Y = X \hat\beta\)</span>을 채무불이행의 확률</strong>, 즉 <span class="math notranslate nohighlight">\(\Pr(Y=1)\)</span>에 대한 추정값으로 해석하는 것이다. 이 경우 <span class="math notranslate nohighlight">\(Y\)</span>, 즉 채무이행 여부에 대한 예측 작업도 수행할 수 있는데, <span class="math notranslate nohighlight">\(\hat Y &gt;0\)</span>.5이면 채무불이행, 그렇지 않으면 채무이행으로 예측할 수 있다.</p>
+<p>그러나 선형 회귀를 사용하는 경우, 아래 그림 7.2의 왼쪽 그림에서 보듯이 일부 추정치가 0과 1 사이의 범위를 벗어나는 문제가 발생한다.(추정선이 수평선이 아닌 한, 0과 1 사이의 범위를 벗어나는 구간이 발생할 것이다.) 즉, 확률이 마이너스가 되거나 1보다 큰 경우가 발생할 수 있다.</p>
+<p>이런 경우를 없애고 아래 그림 7.2의 오른쪽 그림과 같이 되도록 모델을 설정한 것이 <strong>로지스틱 모델</strong>이다. 로지스틱 회귀의 경우, 아래 그림에서 보듯이 <code class="docutils literal notranslate"><span class="pre">balance</span></code> 값이 낮은 수준일 때, 디폴트 확률이 0에 가깝지만 절대 0보다 낮게 예측되지는 않는다. 또한 <code class="docutils literal notranslate"><span class="pre">balance</span></code> 값이 높은 경우, 디폴트 확률이 1에 가까울 수 있지만 그보다 높게 예측되지는 않는다.</p>
+<p><strong>그림 7.2.</strong> Default 데이터 분류. 양쪽 그림에서 0과 1의 수평 점선 상에 표시된 오렌지색 눈금 표시들은 각 관측들의 디폴트 여부(No 또는 Yes)를 의미하는 0과 1의 값이다. 왼쪽 패널에서 파란색 직선은 선형 회귀를 사용하여 추정된 디폴트 확률로서 일부 추정 확률이 음수이다! 오른쪽 패널에서 파란색 곡선은 로지스틱 회귀를 사용하여 추정된 디폴트 확률로서 모든 확률은 0과 1 사이에 있다.</p>
+<p><img alt="Default 데이터 분류" src="https://raw.githubusercontent.com/pilsunchoi/images/main/7-2.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: ISLP, FIGURE 4.2</p></li>
+</ul>
+<section id="id5">
+<h3>로지스틱 회귀<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Default</span></code> 데이터세트에서 반응변수 <span class="math notranslate nohighlight">\(Y\)</span>는 0(채무이행)과 1(채무불이행)의 값을 갖는 범주형 변수이다. 로지스틱 회귀 분석은 <span class="math notranslate nohighlight">\(Y\)</span>를 직접 모델링하는 대신 <span class="math notranslate nohighlight">\(Y\)</span>가 <strong>1의 범주에 속할 확률을 모델링</strong>한다.</p>
+<p>디폴트 확률을 예측하는 예측변수로 <code class="docutils literal notranslate"><span class="pre">balance</span></code>(카드 사용액) 변수 하나만 생각해보자. <code class="docutils literal notranslate"><span class="pre">balance</span></code>가 주어졌을 때의 디폴트 확률을 <span class="math notranslate nohighlight">\(\Pr⁡(Y=1 \mid \text{balance})\)</span>로 표현할 수 있다. 이를 간단히 <span class="math notranslate nohighlight">\(p⁡(\text{balance})\)</span>로 표기하기로 한다. 이 값은 확률이므로 0과 1 사이이다. 추정 후 <code class="docutils literal notranslate"><span class="pre">balance</span></code> 값이 주어지면 디폴트 여부를 예측할 수 있다. 예를 들어, <span class="math notranslate nohighlight">\(p⁡(\text{balance})&gt;0.5\)</span>이면, <span class="math notranslate nohighlight">\(Y=1\)</span>로 예측하는 식이다. 만약 디폴트 위험을 보수적으로 예측하기를 원하는 경우에는 가령 <span class="math notranslate nohighlight">\(p(\text{balance})&gt;0.1\)</span> 등 더 낮은 분계점(threshold)을 선택할 수도 있다.</p>
+<p>앞에서도 설명했듯이 0 또는 1로 코딩된 이항 반응을 <strong>직선으로 피팅</strong>하는 경우, (<span class="math notranslate nohighlight">\(X\)</span>값에 제한이 있지 않는 한) 기본적으로 <span class="math notranslate nohighlight">\(X\)</span>의 일부 값에 대해 <span class="math notranslate nohighlight">\(p(x)&lt;0\)</span>을 예측하고, 또 다른 값에 대해서는 <span class="math notranslate nohighlight">\(p(x)&gt;1\)</span>을 예측할 가능성이 발생한다. 이 문제를 피하기 위해서는 이항 반응을 직선 함수로 피팅하는 대신 항상 0과 1 사이의 값을 갖도록 하는 함수로 피팅시키면 된다. 아래 그림 7.3과 같은 모양을 가진 <strong>로지스틱 함수</strong>(logistic function)를 사용한 것이 바로 로지스틱 모델이다.</p>
+<p><strong>그림 7.3.</strong> 로지스틱 함수.</p>
+<p><img alt="로지스틱 함수" src="https://raw.githubusercontent.com/pilsunchoi/images/main/7-3.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: Wikipedia, “<a class="reference external" href="https://en.wikipedia.org/wiki/Logistic_function">Logistic function</a>”.</p></li>
+</ul>
+<p>로지스틱 함수를 식으로 표현하면 다음과 같다.</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = \frac {1}{1+e^{-x}}~~또는~~\frac {e^{x}}{1+e^{x}}
+\]</div>
+<p>위 식의 <span class="math notranslate nohighlight">\(x\)</span>에 어떤 값을 집어 넣든 <span class="math notranslate nohighlight">\(f(x)\)</span>는 0과 1 사이의 범위를 벗어나지 않는다. 따라서 위 식의 <span class="math notranslate nohighlight">\(x\)</span>에 예측변수의 선형결합(linear combination)인 <span class="math notranslate nohighlight">\(\beta_0 + \beta_1 X\)</span>를 대입한 것이 로지스틱 회귀 모델로서 다음과 같다.</p>
+<div class="math notranslate nohighlight">
+\[
+p(X) = \frac {e^{\beta_0 + \beta_1 X}}{1+e^{\beta_0 + \beta_1 X}} \tag{7.1}
+\]</div>
+<p>앞에서 로지스틱 회귀 분석은 <span class="math notranslate nohighlight">\(Y\)</span>를 직접 모델링하는 대신 <span class="math notranslate nohighlight">\(Y\)</span>가 1의 범주에 속할 확률을 모델링한다고 언급했는데, 식 7.1에서 그 의미를 알 수 있을 것이다. 좌변이 <span class="math notranslate nohighlight">\(Y\)</span>가 아니라 <span class="math notranslate nohighlight">\(p(X)\)</span>, 즉 <span class="math notranslate nohighlight">\(\Pr⁡(Y=1 \mid X)\)</span>이다.</p>
+<p>위 식 7.1을 약간 변형하면 다음과 같이 된다.</p>
+<div class="math notranslate nohighlight">
+\[
+{\rm ln}\left(\frac {p(X)}{1−p(X)}\right) =\beta_0 + \beta_1 X  \tag{7.2}
+\]</div>
+<p>선형 회귀 모형에서 <span class="math notranslate nohighlight">\(\beta_1\)</span>은 <span class="math notranslate nohighlight">\(X\)</span>가 1단위 증가시 <span class="math notranslate nohighlight">\(Y\)</span>의 평균적 변화이다. 하지만 식 7.1과 7.2에서 알 수 있듯이 로지스틱 모형에서는 <span class="math notranslate nohighlight">\(p(X)\)</span>와 <span class="math notranslate nohighlight">\(X\)</span>의 관계가 직선이 아니기 때문에 <span class="math notranslate nohighlight">\(\beta_1\)</span>은 <span class="math notranslate nohighlight">\(X\)</span>의 <span class="math notranslate nohighlight">\(p(X)\)</span>에 대한 한계효과(marginal effect)에 해당하지 않는다. 식 7.2의 좌변은 <strong>log-odds</strong> 또는 <strong>logit</strong>으로 불리며, 이에 따라 로지스틱 모델을 <strong>로짓(logit)</strong> 모델이라고도 부른다.</p>
+<p>위 식 7.1에서 알 수 있듯이 로지스틱 회귀 모델에서 <span class="math notranslate nohighlight">\(X\)</span>의 <span class="math notranslate nohighlight">\(p(X)\)</span>에 대한 한계효과는 <span class="math notranslate nohighlight">\(X\)</span>의 현재 값에 따라 달라지는 등 선형 회귀와는 다르다. 그러나 어찌됐든 <span class="math notranslate nohighlight">\(\beta_1\)</span>이 플러스이면 <span class="math notranslate nohighlight">\(X\)</span> 증가시 <span class="math notranslate nohighlight">\(p(X)\)</span>가 높아지고, <span class="math notranslate nohighlight">\(\beta_1\)</span>이 마이너스이면 <span class="math notranslate nohighlight">\(X\)</span> 증가시 <span class="math notranslate nohighlight">\(p(X)\)</span>가 낮아진다는 사실은 선형 회귀와 동일하다. 반면 <span class="math notranslate nohighlight">\(p(X)\)</span>와 <span class="math notranslate nohighlight">\(X\)</span> 사이에 직선 관계가 없으며, <span class="math notranslate nohighlight">\(X\)</span>의 단위 변화 당 <span class="math notranslate nohighlight">\(p(X)\)</span>의 변화가 <span class="math notranslate nohighlight">\(X\)</span>값이 무엇이냐에 따라 달라진다는 점은 선형 회귀와 다른 점이다. 이는 앞 그림 7.2의 오른쪽 패널에서도 시각적으로 확인할 수 있다.</p>
+</section>
+<section id="id6">
+<h3>최대가능도 추정<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p>선형 회귀 모형은 OLS(통상최소제곱) 방법으로 미지의 선형 회귀 계수를 추정한다. 이에 반해 로지스틱 회귀 모델은 <strong>최대가능도</strong>(maximum likelihood) 방법으로 추정하는데, 기본 직관은 다음과 같다. 앞의 로지스틱 회귀 모델 식을 사용하여 각 카드 사용자에 대해 디폴트 확률을 추정하게 되는데, 그 추정 확률 <span class="math notranslate nohighlight">\(\hat p(x_i)\)</span>을 실제 관측된 디폴트 여부와 가능한 한 가깝게 <span class="math notranslate nohighlight">\(\beta_0\)</span> 및 <span class="math notranslate nohighlight">\(\beta_1\)</span>에 대한 추정치를 구하는 것이다. 다시 말해, <span class="math notranslate nohighlight">\(p(X)\)</span> 모형에 <span class="math notranslate nohighlight">\(\hat \beta_0\)</span> 및 <span class="math notranslate nohighlight">\(\hat \beta_1\)</span>을 집어 넣었을 때, 디폴트가 발생한 모든 카드 사용자에 대해서는 가능한 한 1에 가까운 숫자가 나오게 하고, 그렇지 않은 모든 카드 사용자에게는 가능한 한 0에 가까운 숫자가 나오게 하도록 하려는 것이다.</p>
+<p>이 직관은 <strong>가능도함수</strong>(likelihood function)라는 다음의 식을 최대화하는 <span class="math notranslate nohighlight">\(\hat \beta_0\)</span> 및 <span class="math notranslate nohighlight">\(\hat \beta_1\)</span>을 선택하는 것을 의미한다.</p>
+<div class="math notranslate nohighlight">
+\[
+l(\beta_0,\beta_1)=\mathop{\prod}_{y_i=1} p(x_i) \mathop{\prod}_{y_i=0} (1-p(x_i))
+\]</div>
+<p>최대가능도는 <strong>비선형</strong> 모델에 적합한 방법이며, 매우 광범위하게 사용되는 접근 방식이다. 선형 회귀 모형의 최소제곱 접근은 최대가능도 방법의 특별한 경우에 해당한다. 최대가능도 추정은 파이썬이나 R과 같은 통계 소프트웨어 패키지를 사용하여 쉽게 실행할 수 있다.</p>
+</section>
+<section id="vs">
+<h3>선형 회귀 vs 로지스틱 회귀 예시<a class="headerlink" href="#vs" title="Link to this heading">#</a></h3>
+<p>먼저 예시적으로 간단한 <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code> 데이터를 만들어 <code class="docutils literal notranslate"><span class="pre">data</span></code>라는 데이터프레임으로 지정한다. 그런 다음 산점도를 그린다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>x</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>5</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>6</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>7</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>8</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>9</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plt.rcParams[&#39;font.size&#39;] = &#39;8&#39; # 전체적으로(globally) 폰트 크기 조정</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Scatter Plot&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/eb7733234fdda691614ae565a3ebfa91af6c5c02147ca77398649ca341734ee3.png" src="../_images/eb7733234fdda691614ae565a3ebfa91af6c5c02147ca77398649ca341734ee3.png" />
+</div>
+</div>
+<p><strong>선형 회귀 모델</strong></p>
+<p>위 시뮬레이션 데이터에 대해 선형 회귀 모델을 피팅한 다음, 각 <code class="docutils literal notranslate"><span class="pre">x</span></code>값에 대해서 확률 추정값(적합값)을 구해 산점도 위에 그린다. 이 경우 앞에서 우려한 대로 일부 적합값이 마이너스 값을 갖는 것을 볼 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;y ~ x&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">olsfit</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">olsfit</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Linear Regression&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/258ffae18aee3b0810fd0812c950ed93275f630d54bdf110f7827a4519f3af48.png" src="../_images/258ffae18aee3b0810fd0812c950ed93275f630d54bdf110f7827a4519f3af48.png" />
+</div>
+</div>
+<p><strong>로지스틱 회귀 모델</strong></p>
+<p>다음은 <code class="docutils literal notranslate"><span class="pre">statsmodels.formula.api</span></code> 모듈의 <code class="docutils literal notranslate"><span class="pre">logit()</span></code> 함수를 이용한 추정이다. 동일한 시뮬레이션 데이터에 대해 이번에는 로지스틱 회귀 모델을 피팅한 다음, 각 <code class="docutils literal notranslate"><span class="pre">x</span></code>값에 대해서 확률 추정값(적합값)을 구해 산점도 위에 그린다. 이 경우 선형 회귀와 같은 문제가 발생하지 않는 것을 알 수 있다. 즉, 모든 적합값이 0과 1 사이에 위치한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="s1">&#39;y ~ x&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">logitfit</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">logitfit</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimization terminated successfully.
+         Current function value: 0.355402
+         Iterations 7
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Logistic Regression&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/86f5c79c92f0b873a56a1e38d648a74e296f5fe802c5259007cf8b4d7c1298e1.png" src="../_images/86f5c79c92f0b873a56a1e38d648a74e296f5fe802c5259007cf8b4d7c1298e1.png" />
+</div>
+</div>
+</section>
+<section id="id7">
+<h3>Default 데이터세트 로지스틱 회귀<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<p>앞에서 예시적으로 사용한 <code class="docutils literal notranslate"><span class="pre">Default</span></code> 데이터세트에서 우선 <code class="docutils literal notranslate"><span class="pre">balance</span></code> 변수 하나만을 사용해 디폴트 확률을 예측하는 로지스틱 회귀 모델을 실행해보자. 먼저 범주형 변수인 <code class="docutils literal notranslate"><span class="pre">default</span></code> 변수를 <strong>더미 변수</strong>(dummy variable)로 인코딩해야 한다. 즉 <code class="docutils literal notranslate"><span class="pre">default</span></code> 변수 값이 Yes인 경우 1, No인 경우 0의 값을 부여해 이를 <code class="docutils literal notranslate"><span class="pre">default1</span></code> 이름으로 지정한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;default1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">if</span> <span class="n">default</span> <span class="o">==</span> <span class="s1">&#39;No&#39;</span> <span class="k">else</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">default</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">default</span><span class="p">]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>default</th>
+      <th>student</th>
+      <th>balance</th>
+      <th>income</th>
+      <th>default1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>No</td>
+      <td>No</td>
+      <td>729.526</td>
+      <td>44361.625</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>No</td>
+      <td>Yes</td>
+      <td>817.180</td>
+      <td>12106.135</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>No</td>
+      <td>No</td>
+      <td>1073.549</td>
+      <td>31767.139</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>No</td>
+      <td>No</td>
+      <td>529.251</td>
+      <td>35704.494</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>No</td>
+      <td>No</td>
+      <td>785.656</td>
+      <td>38463.496</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>balance</th>
+      <th>income</th>
+      <th>default1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>10000.000</td>
+      <td>10000.000</td>
+      <td>10000.000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>835.375</td>
+      <td>33516.982</td>
+      <td>0.033</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>483.715</td>
+      <td>13336.640</td>
+      <td>0.179</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000</td>
+      <td>771.968</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>481.731</td>
+      <td>21340.463</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>823.637</td>
+      <td>34552.645</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>1166.308</td>
+      <td>43807.729</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>2654.323</td>
+      <td>73554.233</td>
+      <td>1.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>다음은 <code class="docutils literal notranslate"><span class="pre">smf.logit</span></code>를 이용한 로지스틱 회귀 모델 추정 결과이다. 반응변수로는 범주형 변수인 <code class="docutils literal notranslate"><span class="pre">default</span></code>가 아니라 이를 더미변수로 인코딩한 <code class="docutils literal notranslate"><span class="pre">default1</span></code>을 사용해야 한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">est</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="s1">&#39;default1 ~ balance&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">est</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimization terminated successfully.
+         Current function value: 0.079823
+         Iterations 10
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:               default1   No. Observations:                10000
+Model:                          Logit   Df Residuals:                     9998
+Method:                           MLE   Df Model:                            1
+Date:                Fri, 17 Oct 2025   Pseudo R-squ.:                  0.4534
+Time:                        23:57:45   Log-Likelihood:                -798.23
+converged:                       True   LL-Null:                       -1460.3
+Covariance Type:            nonrobust   LLR p-value:                6.233e-290
+==============================================================================
+                 coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept    -10.6513      0.361    -29.491      0.000     -11.359      -9.943
+balance        0.0055      0.000     24.952      0.000       0.005       0.006
+==============================================================================
+
+Possibly complete quasi-separation: A fraction 0.13 of observations can be
+perfectly predicted. This might indicate that there is complete
+quasi-separation. In this case some parameters will not be identified.
+</pre></div>
+</div>
+</div>
+</div>
+<p>결과를 보면 <span class="math notranslate nohighlight">\(\beta_1 = 0.0055\)</span>이다. 이것은 <code class="docutils literal notranslate"><span class="pre">balance</span></code>의 증가가 디폴트 확률을 증가시키는 방향으로 영향을 미친다는 것을 의미한다. 정확히 말하면 <code class="docutils literal notranslate"><span class="pre">balance</span></code>가 1단위 증가하면 디폴트의 log odds가 0.0055단위 증가하는 것을 의미한다.</p>
+<p>선형 회귀와 마찬가지로 표준오차를 계산하여 계수 추정의 정확도를 측정할 수 있다. 표에 나와 있는 <span class="math notranslate nohighlight">\(z\)</span>-통계량은 선형 회귀의 <span class="math notranslate nohighlight">\(t\)</span>-통계량과 동일한 역할을 한다. 예를 들어 <span class="math notranslate nohighlight">\(\beta_1\)</span>의 <span class="math notranslate nohighlight">\(z\)</span>-통계량은 <span class="math notranslate nohighlight">\(\hat \beta_1 / SE(\beta_1)\)</span>이다. <span class="math notranslate nohighlight">\(z\)</span>-통계량이 (절대값으로) 크면 귀무가설 <span class="math notranslate nohighlight">\(H_0 : \beta_1 = 0\)</span>에 반하는 증거를 의미한다. 이 귀무가설은 <span class="math notranslate nohighlight">\(p(X)\)</span>, 즉 디폴트 확률이 <code class="docutils literal notranslate"><span class="pre">balance</span></code>에 의존하지 않는다는 것이다. 위 결과를 보면, <code class="docutils literal notranslate"><span class="pre">balance</span></code>의 <span class="math notranslate nohighlight">\(p\)</span>값이 작기 때문에 <span class="math notranslate nohighlight">\(H_0\)</span>을 기각할 수 있다. 즉 <code class="docutils literal notranslate"><span class="pre">balance</span></code>와 디폴트 확률 사이에 연관성이 있다고 결론내릴 수 있다.</p>
+<p><strong>정성적 예측변수 <code class="docutils literal notranslate"><span class="pre">student</span></code></strong></p>
+<p>로지스틱 회귀 모델에서도 앞의 선형 회귀와 마찬가지로 정성적 예측변수를 사용할 수 있다. 아래는 <code class="docutils literal notranslate"><span class="pre">student</span></code> 변수를 사용해 디폴트 확률을 예측하는 로지스틱 회귀 모델이다. 반응변수인 <code class="docutils literal notranslate"><span class="pre">default</span></code>와 달리 예측변수인 <code class="docutils literal notranslate"><span class="pre">student</span></code>는 1/0의 더미변수로 변환시키지 않고 범주형 변수 그대로 사용해도 된다. 이 경우 <code class="docutils literal notranslate"><span class="pre">smf.logit</span></code> 모듈은 <code class="docutils literal notranslate"><span class="pre">student</span></code>가 Yes이면 1을, 그렇지 않으면 0 값을 취하는 <code class="docutils literal notranslate"><span class="pre">student[T.Yes]</span></code> 더미 변수를 만들어 추정한다.</p>
+<p>아래 결과를 보면, <code class="docutils literal notranslate"><span class="pre">student</span></code>의 추정 계수는 플러스 값이고, 이에 대한 <span class="math notranslate nohighlight">\(p\)</span>값은 통계적 유의성을 의미한다. 즉, 학생 그룹이 비학생 그룹보다 디폴트 확률이 더 높은 경향이 있음을 나타낸다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">est</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="s1">&#39;default1 ~ student&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">est</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimization terminated successfully.
+         Current function value: 0.145434
+         Iterations 7
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:               default1   No. Observations:                10000
+Model:                          Logit   Df Residuals:                     9998
+Method:                           MLE   Df Model:                            1
+Date:                Fri, 17 Oct 2025   Pseudo R-squ.:                0.004097
+Time:                        23:57:45   Log-Likelihood:                -1454.3
+converged:                       True   LL-Null:                       -1460.3
+Covariance Type:            nonrobust   LLR p-value:                 0.0005416
+==================================================================================
+                     coef    std err          z      P&gt;|z|      [0.025      0.975]
+----------------------------------------------------------------------------------
+Intercept         -3.5041      0.071    -49.554      0.000      -3.643      -3.366
+student[T.Yes]     0.4049      0.115      3.520      0.000       0.179       0.630
+==================================================================================
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id8">
+<h3>다중 로지스틱 회귀<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<p>이제 여러 개의 예측변수를 사용하여 0/1의 이항(binary) 반응변수를 예측하는 문제를 생각해보자. 다중 로지스틱 회귀식은 다음과 같으며, 이는 선형 회귀에서 단순 모형을 다중 모형으로 확장하는 것과 유사하다.</p>
+<div class="math notranslate nohighlight">
+\[
+p(X) = \frac {e^{\beta_0 + \beta_1 X_1 +...+ \beta_p X_p}}{1+e^{\beta_0 + \beta_1 X_1 +...+ \beta_p X_p}}
+\]</div>
+<p>이를 다음과 같이 쓸 수도 있다.</p>
+<div class="math notranslate nohighlight">
+\[
+{\rm ln}\left(\frac {p(X)}{1−p(X)}\right) =\beta_0 + \beta_1 X_1 +...+ \beta_p X_p
+\]</div>
+<p>최대가능도법으로 다중 로지스틱 회귀 모델을 추정할 수 있다.</p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">Default</span></code> 데이터세트 로지스틱 회귀</strong></p>
+<p>아래에 <code class="docutils literal notranslate"><span class="pre">balance</span></code>, <code class="docutils literal notranslate"><span class="pre">income</span></code>, <code class="docutils literal notranslate"><span class="pre">student</span></code>를 사용하여 디폴트 확률을 예측하는 다중 로지스틱 회귀 모델에 대한 계수 추정치가 나와 있다.(<code class="docutils literal notranslate"><span class="pre">income</span></code> 변수는 단위를 1,000달러로 바꿈.)</p>
+<p>추정 결과를 보면, <code class="docutils literal notranslate"><span class="pre">balance</span></code> 및 <code class="docutils literal notranslate"><span class="pre">student</span></code> 변수의 경우 1% 수준에서 통계적으로 유의하여 이들 변수가 다중 디폴트 확률과 관련이 있음을 나타낸다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;income1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">income</span><span class="o">/</span><span class="mi">1000</span>
+<span class="n">est</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="s1">&#39;default1 ~ balance + income1 + student&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">est</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimization terminated successfully.
+         Current function value: 0.078577
+         Iterations 10
+==================================================================================
+                     coef    std err          z      P&gt;|z|      [0.025      0.975]
+----------------------------------------------------------------------------------
+Intercept        -10.8690      0.492    -22.079      0.000     -11.834      -9.904
+student[T.Yes]    -0.6468      0.236     -2.738      0.006      -1.110      -0.184
+balance            0.0057      0.000     24.737      0.000       0.005       0.006
+income1            0.0030      0.008      0.370      0.712      -0.013       0.019
+==================================================================================
+</pre></div>
+</div>
+</div>
+</div>
+<p>그런데 여기에서 특이한 사실이 하나 발견된다. <code class="docutils literal notranslate"><span class="pre">student</span></code> 변수의 계수가 마이너스로서 학생이 비학생보다 디폴트 가능성이 낮게 나온 것이다. 이는 앞의 단순 로지스틱 회귀에서 <code class="docutils literal notranslate"><span class="pre">student</span></code> 변수의 계수가 플러스인 것과 정반대의 결과이다.</p>
+</section>
+<section id="id9">
+<h3>교란요인<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<p>단순 회귀와 다중 회귀에서 <code class="docutils literal notranslate"><span class="pre">student</span></code> 더미 변수의 계수 부호가 반대로 나온 사실을 어떻게 이해해야 할까? 아래 그림 7.4는 이 사실을 그림으로 설명한다. 먼저 왼쪽 그림에서 오렌지색과 파란색 실선은 각각 학생과 비학생의 평균 디폴트율이 <code class="docutils literal notranslate"><span class="pre">balance</span></code>(카드 사용액)에 따라 어떻게 달라지는지 보여준다.(이는 다중 로지스틱 회귀 결과를 이용하여 계산한 것이다.) 여기에서 보듯이 모든 카드 사용액에 대해 학생 그룹(오렌지색)의 디폴트율이 비학생 그룹의 디폴트율보다 낮은 것을 알 수 있다. 이것이 다중 로지스틱 회귀에서 <code class="docutils literal notranslate"><span class="pre">student</span></code> 계수의 부호가 마이너스인 것을 반영한다. 즉 <code class="docutils literal notranslate"><span class="pre">balance</span></code> 및 <code class="docutils literal notranslate"><span class="pre">income</span></code>이 고정된 상태에서는 학생이 비학생보다 디폴트 확률이 더 낮다.</p>
+<p>한편 왼쪽 그림 하단의 수평 점선은 학생과 비학생의 디폴트율을 모든 <code class="docutils literal notranslate"><span class="pre">balance</span></code> 및 <code class="docutils literal notranslate"><span class="pre">income</span></code>에 대해 평균한 것이다. 주목할 점은 여기에서는 학생(오렌지색)의 디폴트율이 비학생(파란색)의 디폴트율보다 약간 더 높다는 것이다. 이것은 앞의 단일 변수 로지스틱 회귀 결과에 해당한다. 즉 <code class="docutils literal notranslate"><span class="pre">balance</span></code> 및 <code class="docutils literal notranslate"><span class="pre">income</span></code>이 고정되지 않은 상태에서는 학생이 비학생보다 디폴트 확률이 높은 것을 나타낸다.</p>
+<p><strong>그림 7.4.</strong> Default 데이터에 있어서의 교란(confounding). 왼쪽: 학생(오렌지색) 및 비학생(파란색)에 대한 디폴트율로서 실선은 신용카드 사용액(<code class="docutils literal notranslate"><span class="pre">balance</span></code>)의 함수로 표시된 디폴트율을 나타내고, 아래쪽 수평 점선은 전체 디폴트율이다. 오른쪽: 학생(오렌지색) 및 비학생(파란색)에 대해 신용카드 사용액의 분포를 상자그림으로 그린 것이다.</p>
+<p><img alt="Default 교란" src="https://raw.githubusercontent.com/pilsunchoi/images/main/7-4.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: ISLP, FIGURE 4.3</p></li>
+</ul>
+<p>위의 오른쪽 그림이 <code class="docutils literal notranslate"><span class="pre">student</span></code> 더미 변수의 계수 부호가 단순 회귀와 다중 회귀에서 서로 반대로 나온 것에 대한 설명을 제공한다. 한마디로 <code class="docutils literal notranslate"><span class="pre">student</span></code>와 <code class="docutils literal notranslate"><span class="pre">balance</span></code> 변수가 서로 관련돼있는 것이다. 학생 그룹의 카드 사용액이 비학생보다 더 많은 경향이 있으며, 이는 결국 디폴트 가능성을 높인다. 카드 사용액이 동일하다면 학생이 비학생보다 디폴트 가능성이 낮지만, 전체적으로는 학생의 카드 사용액이 더 많은 경향이 있기 때문에 학생이 비학생보다 더 높은 비율로 디폴트가 발생하는 것이다.</p>
+<p>이 사례에서 보듯이 하나의 예측변수를 사용하여 얻은 결과가 여러 예측변수를 사용하여 얻은 결과와 상당히 다를 수 있다(특히 예측변수 간에 상관관계가 있는 경우). 우리 예에서는 <code class="docutils literal notranslate"><span class="pre">balance</span></code>라는 요인이 <code class="docutils literal notranslate"><span class="pre">student</span></code>와 <code class="docutils literal notranslate"><span class="pre">default</span></code>에 동시에 영향을 미치는 <strong>교란요인</strong>(confounding factor)으로 작용하여 <code class="docutils literal notranslate"><span class="pre">student</span></code>와 <code class="docutils literal notranslate"><span class="pre">default</span></code> 간의 인과관계를 교란시키고 있다. 이러한 교란 문제를 해결하기 위해서는 다중 회귀를 통해 변수들을 <strong>통제</strong>(control)하는 것이 필요하다.</p>
+</section>
+</section>
+<section id="id10">
+<h2>7.3 교란요인 추가 설명<a class="headerlink" href="#id10" title="Link to this heading">#</a></h2>
+<p>통계학에서 <strong>교란요인</strong>(confounding factor 또는 confounder)은 외부 결정요인(extraneous determinant) 또는 잠복변수(lurking variable) 등으로도 불린다(Wikipedia, “<a class="reference external" href="https://en.wikipedia.org/wiki/Confounding">Confounding</a>”). 통계학 사전은 confounding을 “<strong>중첩</strong>”으로 번역하는데, 우리는 영어 “confound”의 원래 뜻(어리둥절하게 만들다)을 좀 더 살리는 “<strong>교란</strong>”으로 표기하기로 한다.</p>
+<p>교란요인은 종속변수(즉, 반응변수)와 독립변수(즉, 예측변수) 모두에 영향을 미침으로써 종속변수와 독립변수 간에 <strong>거짓 연관성</strong>(spurious association)을 유발하는 변수다. 교란요인이 잘못된 연관성을 야기할 수 있기 때문에 어떤 연관성(또는 상관성)이 있다고 해서 그것이 반드시 인과 관계를 의미하지는 않는다(Wikipedia, “<a class="reference external" href="https://en.wikipedia.org/wiki/Correlation_does_not_imply_causation">Correlation does not imply causation</a>”). 변수간 단순 연관성이 아니라 인과성을 규명하는 것을 최종 목표로 하는 <strong>인과 추론</strong>(Wikipedia, “<a class="reference external" href="https://en.wikipedia.org/wiki/Causal_inference">Causal inference</a>”)에서 교란요인은 핵심 개념이다.</p>
+<p>가령 어떤 약물 X가 환자의 회복(Y)에 미치는 효과를 평가하려고 한다. 즉 다른 조건이 동일할 때, 해당 약물이 환자의 회복에 어떤 효과를 미치는지 평가하기를 원한다. 그런데 아래 그림처럼 성별(Z)이 환자의 약물(X) 선택과 회복 가능성(Y)에 동시에 영향을 미치는 경우를 생각해보자. 가령 남성일수록 약물 X를 많이 선택하고, 또한 동시에 남성일수록 (약물과는 별개로) 신체구조 상 해당 질환에서 회복이 늦은 경우가 있을 수 있다. 이런 경우, 우리는 성별 Z가 X와 Y의 관계를 교란시킨다고 말한다.</p>
+<p><strong>그림 7.5.</strong> 교란요인(Z) 예시.</p>
+<p><img alt="교란요인" src="https://raw.githubusercontent.com/pilsunchoi/images/main/7-5.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: Wikipedia, “<a class="reference external" href="https://en.wikipedia.org/wiki/Confounding">Confounding</a>”.</p></li>
+</ul>
+<p>위 그림에서 X가 독립변수이고, Y가 종속변수일 때, X가 Y에 미치는 영향을 추정하려면 통계학자는 X와 Y 모두에 영향을 미치는 외부 변수의 영향을 억제해야 한다. 만약 외부 요인 Z가 X와 Y 모두에 영향을 미치는 경우, 우리는 X와 Y가 다른 변수 Z에 의해 교란된다(confounded)고 말한다.</p>
+<p>앞의 Default 데이터세트 예에서 <code class="docutils literal notranslate"><span class="pre">student</span></code>가 X이고, <code class="docutils literal notranslate"><span class="pre">default</span></code>가 Y이며, <code class="docutils literal notranslate"><span class="pre">balance</span></code>가 Z에 해당하는 경우를 생각해 볼 수 있다. <code class="docutils literal notranslate"><span class="pre">student</span></code>가 <code class="docutils literal notranslate"><span class="pre">default</span></code>에 미치는 영향을 평가하려고 하는데, <code class="docutils literal notranslate"><span class="pre">balance</span></code>라는 요인이 <code class="docutils literal notranslate"><span class="pre">student</span></code>와 <code class="docutils literal notranslate"><span class="pre">default</span></code> 모두에 영향을 미침으로써 평가를 교란시키는 것이다. 즉 학생 여부에 따라 <code class="docutils literal notranslate"><span class="pre">balance</span></code>가 달라지고, 그것에 따라 <code class="docutils literal notranslate"><span class="pre">default</span></code>가 영향을 받음으로써 효과가 중첩적으로 발생하게 된다. 이를 해결하기 위해서는 (여러 방법 중 하나로서) <code class="docutils literal notranslate"><span class="pre">balance</span></code> 변수를 회귀식에 포함시킴으로써 <code class="docutils literal notranslate"><span class="pre">balance</span></code>의 영향을 <strong>통제</strong>(control)하는 것이 필요하다. 다중 회귀에서는 각 계수의 의미가 “다른 조건이 동일할 때”를 전제로 하기 때문에 이러한 통제를 통해서 우리가 원하는 순수한 효과를 평가할 수 있기 때문이다.</p>
+<section id="id11">
+<h3>교란 사례<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>출생 순서(첫째 아이, 둘째 아이 등)와 다운 증후군 간의 관계를 연구한다고 가정해보자. 이 경우 산모의 나이가 교란요인이 될 수 있다. 일반적으로 산모의 연령과 아동의 다운 증후군은 직접적인 관련이 있다. 그런데 산모의 나이는 출생 순서와 직접적으로 관련된다(즉, 쌍둥이 경우를 제외하면, 둘째 아이는 첫째 아이에 비해 어머니가 나이가 많을 때 태어난다). 따라서 출생 순서와 다운 증후군 간의 관계가 산모의 나이라는 요인에 의해 교란된다.
+</br></p></li>
+<li><p>흡연이 건강에 미치는 영향을 생각해보자. 흡연, 음주, 식생활 등은 서로 관련된 라이프 스타일 활동이다. 흡연의 영향을 살펴볼 때, 알코올 섭취나 식생활을 통제하지 않을 경우 흡연의 위험이 과대평가될 수 있다.
+</br></p></li>
+<li><p>반대로 흡연에 있어서 나이라는 요인을 생각해보면, 젊은층에 비해 건강도가 떨어지는 고연령층일수록 흡연율이 낮다. 반대로 이야기하면, 흡연율이 낮은 고연령층일수록 건강도는 떨어진다. 따라서 나이를 고려하지 않을 경우, 흡연의 위험이 과소평가될 수 있다.
+</br></p></li>
+<li><p>과외가 성적에 미치는 효과를 분석하고자 할 때, 과외를 받은 그룹과 그렇지 않은 그룹의 성적 차이가 과연 전적으로 과외 때문인지, 아니면 다른 요인이 개입돼 있는지 생각해봐야 한다. 예컨대 과외 그룹에 속한 학생일수록 대도시에 살고 가계 소득이 높은 경우가 많다면, 두 그룹 간 성적의 차이가 과외 때문인지, 아니면 소득이나 지역적 영향인지 구별할 수 없다. 즉 소득이나 지역적 요인 등이 교란요인으로 작용할 수 있다.
+</br></p></li>
+<li><p>교육이 임금에 미치는 효과를 분석하고자 할 때, 교육을 더 많이 받을수록 더 높은 임금을 받는 것이 전적으로 교육의 효과인지, 아니면 다른 요인이 개입돼 있는지 생각해 봐야 한다. 대표적으로 능력이 더 우수할수록 교육을 더 많이 받는 경향이 있다면 교육이 임금에 미치는 효과가 순전히 교육의 효과인지, 아니면 능력이라는 (눈에 보이지 않는!) 요인이 개입된 것인지 구별할 수 없다. 즉 교육이 임금에 미치는 효과를 분석할 때, 능력이라는 요인이 교란요인으로 작용할 수 있다.</p></li>
+</ul>
+</section>
+</section>
+<section id="id12">
+<h2>7.4 로지스틱 회귀 예제<a class="headerlink" href="#id12" title="Link to this heading">#</a></h2>
+<p><strong>자료</strong>: <a class="github reference external" href="https://github.com/gperaza/ISLR-Python-Labs">gperaza/ISLR-Python-Labs</a> 및 <a class="github reference external" href="https://github.com/emredjan/ISL-python/tree/master/labs">emredjan/ISL-python</a></p>
+<section id="id13">
+<h3>주식시장 데이터<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<p>ISLP에서 제공하는 <code class="docutils literal notranslate"><span class="pre">Smarket</span></code> 데이터세트는 2001년 초부터 2005년 말까지 1,250일 동안 S&amp;P 500 주가지수의 수익률(%)을 기록한 것이다. 이 데이터로 주가의 상승과 하락을 분류하는 로지스틱 모델을 추정해보자.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Today</span></code>는 각 날짜의 수익률이고, 각 날짜에 대해 이전 5개 거래일의 수익률을 <code class="docutils literal notranslate"><span class="pre">Lag1</span></code>부터 <code class="docutils literal notranslate"><span class="pre">Lag5</span></code>까지의 이름으로 기록했다. 또한 <code class="docutils literal notranslate"><span class="pre">Volume</span></code>은 전날 거래된 주식 수(단위: 십억)이고, <code class="docutils literal notranslate"><span class="pre">Direction</span></code>은 해당 날짜에 시장이 상승(<code class="docutils literal notranslate"><span class="pre">Up</span></code>) 또는 하락(<code class="docutils literal notranslate"><span class="pre">Down</span></code>)했는지를 나타낸다. <code class="docutils literal notranslate"><span class="pre">Year</span></code>는 각 날짜가 속한 연도이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Smarket</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../Data/Smarket.csv&#39;</span><span class="p">)</span>
+<span class="n">Smarket</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Year</th>
+      <th>Lag1</th>
+      <th>Lag2</th>
+      <th>Lag3</th>
+      <th>Lag4</th>
+      <th>Lag5</th>
+      <th>Volume</th>
+      <th>Today</th>
+      <th>Direction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2001</td>
+      <td>0.381</td>
+      <td>-0.192</td>
+      <td>-2.624</td>
+      <td>-1.055</td>
+      <td>5.010</td>
+      <td>1.191</td>
+      <td>0.959</td>
+      <td>Up</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2001</td>
+      <td>0.959</td>
+      <td>0.381</td>
+      <td>-0.192</td>
+      <td>-2.624</td>
+      <td>-1.055</td>
+      <td>1.296</td>
+      <td>1.032</td>
+      <td>Up</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2001</td>
+      <td>1.032</td>
+      <td>0.959</td>
+      <td>0.381</td>
+      <td>-0.192</td>
+      <td>-2.624</td>
+      <td>1.411</td>
+      <td>-0.623</td>
+      <td>Down</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2001</td>
+      <td>-0.623</td>
+      <td>1.032</td>
+      <td>0.959</td>
+      <td>0.381</td>
+      <td>-0.192</td>
+      <td>1.276</td>
+      <td>0.614</td>
+      <td>Up</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2001</td>
+      <td>0.614</td>
+      <td>-0.623</td>
+      <td>1.032</td>
+      <td>0.959</td>
+      <td>0.381</td>
+      <td>1.206</td>
+      <td>0.213</td>
+      <td>Up</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Smarket</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1250, 9)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Smarket</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Year</th>
+      <th>Lag1</th>
+      <th>Lag2</th>
+      <th>Lag3</th>
+      <th>Lag4</th>
+      <th>Lag5</th>
+      <th>Volume</th>
+      <th>Today</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>1250.000</td>
+      <td>1250.000</td>
+      <td>1250.000</td>
+      <td>1250.000</td>
+      <td>1250.000</td>
+      <td>1250.000</td>
+      <td>1250.000</td>
+      <td>1250.000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>2003.016</td>
+      <td>0.004</td>
+      <td>0.004</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>0.006</td>
+      <td>1.478</td>
+      <td>0.003</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>1.409</td>
+      <td>1.136</td>
+      <td>1.136</td>
+      <td>1.139</td>
+      <td>1.139</td>
+      <td>1.148</td>
+      <td>0.360</td>
+      <td>1.136</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>2001.000</td>
+      <td>-4.922</td>
+      <td>-4.922</td>
+      <td>-4.922</td>
+      <td>-4.922</td>
+      <td>-4.922</td>
+      <td>0.356</td>
+      <td>-4.922</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>2002.000</td>
+      <td>-0.639</td>
+      <td>-0.639</td>
+      <td>-0.640</td>
+      <td>-0.640</td>
+      <td>-0.640</td>
+      <td>1.257</td>
+      <td>-0.639</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>2003.000</td>
+      <td>0.039</td>
+      <td>0.039</td>
+      <td>0.038</td>
+      <td>0.038</td>
+      <td>0.038</td>
+      <td>1.423</td>
+      <td>0.038</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>2004.000</td>
+      <td>0.597</td>
+      <td>0.597</td>
+      <td>0.597</td>
+      <td>0.597</td>
+      <td>0.597</td>
+      <td>1.642</td>
+      <td>0.597</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>2005.000</td>
+      <td>5.733</td>
+      <td>5.733</td>
+      <td>5.733</td>
+      <td>5.733</td>
+      <td>5.733</td>
+      <td>3.152</td>
+      <td>5.733</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">corr()</span></code> 메서드는 데이터세트의 모든 예측변수 쌍(pair)에 대해 상관계수 행렬을 제공한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Smarket</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;pearson&#39;</span><span class="p">,</span> <span class="n">numeric_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Year</th>
+      <th>Lag1</th>
+      <th>Lag2</th>
+      <th>Lag3</th>
+      <th>Lag4</th>
+      <th>Lag5</th>
+      <th>Volume</th>
+      <th>Today</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Year</th>
+      <td>1.000</td>
+      <td>0.030</td>
+      <td>0.031</td>
+      <td>0.033</td>
+      <td>0.036</td>
+      <td>0.030</td>
+      <td>0.539</td>
+      <td>0.030</td>
+    </tr>
+    <tr>
+      <th>Lag1</th>
+      <td>0.030</td>
+      <td>1.000</td>
+      <td>-0.026</td>
+      <td>-0.011</td>
+      <td>-0.003</td>
+      <td>-0.006</td>
+      <td>0.041</td>
+      <td>-0.026</td>
+    </tr>
+    <tr>
+      <th>Lag2</th>
+      <td>0.031</td>
+      <td>-0.026</td>
+      <td>1.000</td>
+      <td>-0.026</td>
+      <td>-0.011</td>
+      <td>-0.004</td>
+      <td>-0.043</td>
+      <td>-0.010</td>
+    </tr>
+    <tr>
+      <th>Lag3</th>
+      <td>0.033</td>
+      <td>-0.011</td>
+      <td>-0.026</td>
+      <td>1.000</td>
+      <td>-0.024</td>
+      <td>-0.019</td>
+      <td>-0.042</td>
+      <td>-0.002</td>
+    </tr>
+    <tr>
+      <th>Lag4</th>
+      <td>0.036</td>
+      <td>-0.003</td>
+      <td>-0.011</td>
+      <td>-0.024</td>
+      <td>1.000</td>
+      <td>-0.027</td>
+      <td>-0.048</td>
+      <td>-0.007</td>
+    </tr>
+    <tr>
+      <th>Lag5</th>
+      <td>0.030</td>
+      <td>-0.006</td>
+      <td>-0.004</td>
+      <td>-0.019</td>
+      <td>-0.027</td>
+      <td>1.000</td>
+      <td>-0.022</td>
+      <td>-0.035</td>
+    </tr>
+    <tr>
+      <th>Volume</th>
+      <td>0.539</td>
+      <td>0.041</td>
+      <td>-0.043</td>
+      <td>-0.042</td>
+      <td>-0.048</td>
+      <td>-0.022</td>
+      <td>1.000</td>
+      <td>0.015</td>
+    </tr>
+    <tr>
+      <th>Today</th>
+      <td>0.030</td>
+      <td>-0.026</td>
+      <td>-0.010</td>
+      <td>-0.002</td>
+      <td>-0.007</td>
+      <td>-0.035</td>
+      <td>0.015</td>
+      <td>1.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>예상대로 래그(lag) 변수들과 오늘의 수익률(<code class="docutils literal notranslate"><span class="pre">Today</span></code>) 간의 상관계수는 0에 가깝다. 즉, 오늘의 수익률과 전날 수익률간에 상관관계가 거의 없다.</p>
+<p><strong>로지스틱 회귀</strong></p>
+<p>시장이 상승했는지 아니면 하락했는지를 나타내는 <code class="docutils literal notranslate"><span class="pre">Direction</span></code>을 예측하기 위해 <code class="docutils literal notranslate"><span class="pre">Lag1</span></code>부터 <code class="docutils literal notranslate"><span class="pre">Lag5</span></code>, 그리고 <code class="docutils literal notranslate"><span class="pre">Volume</span></code> 등 모든 변수들을 사용하여 로지스틱 회귀 모델을 피팅한다. <code class="docutils literal notranslate"><span class="pre">statsmodels.formula.api</span></code>의 <code class="docutils literal notranslate"><span class="pre">logit()</span></code> 함수를 사용하여 피팅한다. 그 전에 반응변수 <code class="docutils literal notranslate"><span class="pre">Direction</span></code>에서 <code class="docutils literal notranslate"><span class="pre">Up</span></code> 및 <code class="docutils literal notranslate"><span class="pre">Down</span></code>을 각각 1과 0으로 변환하는 코딩이 필요하다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Smarket</span><span class="p">[</span><span class="s1">&#39;DirCoded&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="s1">&#39;Down&#39;</span> <span class="k">else</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">Smarket</span><span class="o">.</span><span class="n">Direction</span><span class="p">]</span>
+<span class="n">Smarket</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Year</th>
+      <th>Lag1</th>
+      <th>Lag2</th>
+      <th>Lag3</th>
+      <th>Lag4</th>
+      <th>Lag5</th>
+      <th>Volume</th>
+      <th>Today</th>
+      <th>Direction</th>
+      <th>DirCoded</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2001</td>
+      <td>0.381</td>
+      <td>-0.192</td>
+      <td>-2.624</td>
+      <td>-1.055</td>
+      <td>5.010</td>
+      <td>1.191</td>
+      <td>0.959</td>
+      <td>Up</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2001</td>
+      <td>0.959</td>
+      <td>0.381</td>
+      <td>-0.192</td>
+      <td>-2.624</td>
+      <td>-1.055</td>
+      <td>1.296</td>
+      <td>1.032</td>
+      <td>Up</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2001</td>
+      <td>1.032</td>
+      <td>0.959</td>
+      <td>0.381</td>
+      <td>-0.192</td>
+      <td>-2.624</td>
+      <td>1.411</td>
+      <td>-0.623</td>
+      <td>Down</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2001</td>
+      <td>-0.623</td>
+      <td>1.032</td>
+      <td>0.959</td>
+      <td>0.381</td>
+      <td>-0.192</td>
+      <td>1.276</td>
+      <td>0.614</td>
+      <td>Up</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2001</td>
+      <td>0.614</td>
+      <td>-0.623</td>
+      <td>1.032</td>
+      <td>0.959</td>
+      <td>0.381</td>
+      <td>1.206</td>
+      <td>0.213</td>
+      <td>Up</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">logit_fit</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="s1">&#39;DirCoded ~ Lag1+Lag2+Lag3+Lag4+Lag5+Volume&#39;</span><span class="p">,</span> <span class="n">Smarket</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">logit_fit</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimization terminated successfully.
+         Current function value: 0.691034
+         Iterations 4
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:               DirCoded   No. Observations:                 1250
+Model:                          Logit   Df Residuals:                     1243
+Method:                           MLE   Df Model:                            6
+Date:                Fri, 17 Oct 2025   Pseudo R-squ.:                0.002074
+Time:                        23:57:45   Log-Likelihood:                -863.79
+converged:                       True   LL-Null:                       -865.59
+Covariance Type:            nonrobust   LLR p-value:                    0.7319
+==============================================================================
+                 coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept     -0.1260      0.241     -0.523      0.601      -0.598       0.346
+Lag1          -0.0731      0.050     -1.457      0.145      -0.171       0.025
+Lag2          -0.0423      0.050     -0.845      0.398      -0.140       0.056
+Lag3           0.0111      0.050      0.222      0.824      -0.087       0.109
+Lag4           0.0094      0.050      0.187      0.851      -0.089       0.107
+Lag5           0.0103      0.050      0.208      0.835      -0.087       0.107
+Volume         0.1354      0.158      0.855      0.392      -0.175       0.446
+==============================================================================
+</pre></div>
+</div>
+</div>
+</div>
+<p>위 결과를 보면, 모든 예측변수가 10% 수준에서 유의하지 않다. 그나마 <code class="docutils literal notranslate"><span class="pre">Lag1</span></code> 변수(추정 계수: -0.0731)의 <span class="math notranslate nohighlight">\(p\)</span>값이 가장 작다. 추정 계수의 부호가 마이너스라는 것은 시장이 어제 플러스 수익을 냈다면 오늘 상승할 가능성이 낮다는 것을 나타낸다. 그러나 <span class="math notranslate nohighlight">\(p\)</span>값이 0.145로서 비교적 크기 때문에<code class="docutils literal notranslate"><span class="pre">Lag1</span></code>과 <code class="docutils literal notranslate"><span class="pre">Direction</span></code> 사이의 실제 연관성에 명확한 증거가 있다고는 말할 수 없다.</p>
+<p>다음과 같이 <code class="docutils literal notranslate"><span class="pre">params</span></code> 속성(attribute)을 사용하면 피팅된 모델의 계수에 액세스할 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">logit_fit</span><span class="o">.</span><span class="n">params</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Intercept   -0.126
+Lag1        -0.073
+Lag2        -0.042
+Lag3         0.011
+Lag4         0.009
+Lag5         0.010
+Volume       0.135
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>아래와 같이 <code class="docutils literal notranslate"><span class="pre">predict()</span></code> 메서드를 사용하면 예측변수의 값이 하나의 데이터프레임(여기에서는 <code class="docutils literal notranslate"><span class="pre">Smarket</span></code>)으로 주어졌을 때, 시장이 상승할 확률을 예측할 수 있다. 즉 <span class="math notranslate nohighlight">\(\Pr(Y = 1 \mid X)\)</span>을 출력해준다. <code class="docutils literal notranslate"><span class="pre">predict()</span></code> 함수에 데이터세트가 제공되지 않으면 로지스틱 회귀 모델을 피팅하는 데 사용된 훈련 데이터에 대한 확률이 계산된다. <code class="docutils literal notranslate"><span class="pre">Up</span></code>에 대해 1로 더미변수를 만들었기 때문에 이 값들은 시장이 상승할 확률에 해당한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">logit_probs</span> <span class="o">=</span> <span class="n">logit_fit</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Smarket</span><span class="p">)</span>
+<span class="n">logit_probs</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    0.507
+1    0.481
+2    0.481
+3    0.515
+4    0.511
+5    0.507
+6    0.493
+7    0.509
+8    0.518
+9    0.489
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>예측 확률을 1/0의 숫자가 아니라 <code class="docutils literal notranslate"><span class="pre">Up</span></code> 또는 <code class="docutils literal notranslate"><span class="pre">Down</span></code>의 레이블로 만들 수도 있다. 다음 명령은 예측된 상승 확률이 0.5보다 크면 <code class="docutils literal notranslate"><span class="pre">Up</span></code>, 그렇지 않으면 <code class="docutils literal notranslate"><span class="pre">Down</span></code>으로 분류한 것이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">logit_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="s1">&#39;Up&#39;</span> <span class="k">if</span> <span class="n">p</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="k">else</span> <span class="s1">&#39;Down&#39;</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">logit_probs</span><span class="p">])</span>
+<span class="n">logit_pred</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0      Up
+1    Down
+2    Down
+3      Up
+4      Up
+5      Up
+6    Down
+7      Up
+8      Up
+9    Down
+dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>혼동행렬</strong></p>
+<p>관측 중 얼마만큼이 정확하게 분류되었고 얼마만큼이 잘못 분류되었는지를 표로 정리한 것이 <strong>혼동행렬</strong>(confusion matrix)이다.(맨 아래 <a class="reference internal" href="#%EB%B6%80%EB%A1%9D:-%ED%98%BC%EB%8F%99%ED%96%89%EB%A0%AC"><span class="xref myst">부록</span></a> 참조.)</p>
+</section>
+<section id="chatgpt-q-a">
+<h3>ChatGPT Q&amp;A<a class="headerlink" href="#chatgpt-q-a" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p><strong>혼동행렬(confusion matrix)에 대해 쉽게 설명해줘.</strong></p>
+</div></blockquote>
+<hr class="docutils" />
+<blockquote>
+<div><p>혼동행렬(confusion matrix)은 분류(classification) 문제에서 모델의 성능을 평가하는 데 사용되는 도구입니다. 이 행렬은 실제 값과 모델이 예측한 값을 비교하여 얼마나 잘 맞추었는지를 보여줍니다. 주로 이진 분류(binary classification) 문제에서 사용되지만, 다중 클래스 분류(multi-class classification) 문제에도 적용할 수 있습니다.</p>
+<p>혼동행렬은 네 가지 기본 요소로 구성됩니다:</p>
+<ol class="arabic simple">
+<li><p><strong>진짜 양성(True Positive, TP)</strong>: 모델이 양성(positive)이라고 예측했고, 실제로도 양성인 경우입니다.</p></li>
+<li><p><strong>진짜 음성(True Negative, TN)</strong>: 모델이 음성(negative)이라고 예측했고, 실제로도 음성인 경우입니다.</p></li>
+<li><p><strong>거짓 양성(False Positive, FP)</strong>: 모델이 양성이라고 예측했지만, 실제로는 음성인 경우입니다. 이를 1종 오류(Type I error)라고도 합니다.</p></li>
+<li><p><strong>거짓 음성(False Negative, FN)</strong>: 모델이 음성이라고 예측했지만, 실제로는 양성인 경우입니다. 이를 2종 오류(Type II error)라고도 합니다.</p></li>
+</ol>
+<p>이러한 요소들을 행렬 형태로 배열하면 다음과 같습니다:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>                           예측값
+                    양성             음성  
+실제    양성     TP (진짜 양성)   FN (거짓 음성)  
+값      음성     FP (거짓 양성)   TN (진짜 음성)  
+</pre></div>
+</div>
+<p>혼동행렬을 통해 여러 성능 지표를 계산할 수 있습니다. 예를 들어, 정확도(accuracy), 정밀도(precision), 재현율(recall), F1 점수 등이 있습니다. 이러한 지표들은 모델의 성능을 다양한 관점에서 평가하는 데 도움을 줍니다. 예를 들어, 정밀도는 모델이 양성으로 예측한 것 중 실제로 양성인 비율을, 재현율은 실제 양성 중 모델이 양성으로 정확하게 예측한 비율을 나타냅니다.</p>
+</div></blockquote>
+<p>아래 혼동행렬을 만든 과정을 잘 살펴보면, 각 열이 “예측”에 해당하고 각 행이 “실제” 관측에 해당한다. 분류 분계점은 0.5를 사용했다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 혼동행렬을 직접 계산</span>
+<span class="c1"># pred_table[i,j]: the number of times “i” was observed and the model predicted “j”.</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">logit_fit</span><span class="o">.</span><span class="n">pred_table</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>  
+<span class="n">confusion_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Down&#39;</span><span class="p">,</span><span class="s1">&#39;Up&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Down&#39;</span><span class="p">,</span><span class="s1">&#39;Up&#39;</span><span class="p">])</span>
+<span class="n">confusion_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Down</th>
+      <th>Up</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Down</th>
+      <td>145.0</td>
+      <td>457.0</td>
+    </tr>
+    <tr>
+      <th>Up</th>
+      <td>141.0</td>
+      <td>507.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>위에서는 혼동행렬을 직접 계산했으나 사이킷런(<code class="docutils literal notranslate"><span class="pre">sklearn</span></code>: scikit-learn)이 제공하는 <code class="docutils literal notranslate"><span class="pre">confusion_matrix()</span></code> 함수를 이용하여 만들 수도 있다. 또한 <code class="docutils literal notranslate"><span class="pre">classification_report()</span></code>를 이용하면 혼동행렬과 관련하여 정확도 등 여러 값들을 표로 제공한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># confusion_matrix() 함수로 혼동행렬을 구함</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">classification_report</span>
+
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">Smarket</span><span class="o">.</span><span class="n">Direction</span><span class="p">,</span> <span class="n">logit_pred</span><span class="p">)</span>
+<span class="n">cm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Down&#39;</span><span class="p">,</span><span class="s1">&#39;Up&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Down&#39;</span><span class="p">,</span><span class="s1">&#39;Up&#39;</span><span class="p">])</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Predicted&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">Smarket</span><span class="o">.</span><span class="n">Direction</span><span class="p">,</span> <span class="n">logit_pred</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>  <span class="c1"># 정밀도 등</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted  Down   Up
+True                
+Down        145  457
+Up          141  507
+
+              precision    recall  f1-score   support
+
+        Down      0.507     0.241     0.327       602
+          Up      0.526     0.782     0.629       648
+
+    accuracy                          0.522      1250
+   macro avg      0.516     0.512     0.478      1250
+weighted avg      0.517     0.522     0.483      1250
+</pre></div>
+</div>
+</div>
+</div>
+<p>혼동행렬의 대각선 원소는 올바른 예측을 나타내고, 비대각선은 잘못된 예측을 나타낸다. 위 결과를 보면, 우리 모델이 상승을 올바르게 예측한 것은 507 거래일, 하락을 올바르게 예측한 것은 145 거래일로서 총 <span class="math notranslate nohighlight">\(507 + 145 = 652\)</span>개의 올바른 예측을 했다. 즉 로지스틱 회귀 분석은 전체의 52.16%(=652/1250)에 대해 시장의 움직임을 정확하게 예측했다. 이 계산을 다음과 같이 할 수도 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">logit_pred</span> <span class="o">==</span> <span class="n">Smarket</span><span class="o">.</span><span class="n">Direction</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.5216
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>훈련 세트 vs 테스트 세트</strong></p>
+<p>위 결과를 보면, 상승/하락의 예측 정확도가 50%를 넘었다는 점에서 로지스틱 회귀 모델이 무작위 추측(random guessing)보다는 약간 더 잘 작동하는 것으로 생각할 수 있다. 그러나 이런 평가는 잘못이다. 왜냐하면 모델을 테스트한 대상이 다름 아닌 1,250개의 훈련 데이터세트이기 때문이다. 정확도가 52.16%이기 때문에 훈련 오류율(training error rate)은 100 − 52.16 = 47.84%이다. 그런데 훈련 오류율은 종종 너무 낮게 나온다. 즉 훈련 데이터세트에 대해서는 추정 성과가 아주 좋을 수 있다는 것이다.</p>
+<p>로지스틱 회귀 모델의 정확도를 더 잘 평가하기 위해서는 데이터의 일부만을 사용하여 모델을 피팅한 다음, 훈련에 사용하지 않은 나머지 데이터에 대해 얼마나 잘 예측하는지를 조사해 봐야 한다. 모델을 피팅하는 데 사용한 데이터가 아니라 시장의 움직임을 알 수 없는 미래의 날짜에 대해 모델의 성능을 평가해 볼 필요가 있다. 즉 <strong>훈련 데이터세트</strong>가 아닌 <strong>테스트 데이터세트</strong>에 대해 오류율을 산출해 볼 필요가 있다. 이를 위해 데이터세트를 두 개로 나누어 2001년부터 2004년까지의 관측을 훈련 세트(<code class="docutils literal notranslate"><span class="pre">train_df</span></code>)로 하고, 2005년의 관측을 테스트 세트(<code class="docutils literal notranslate"><span class="pre">test_df</span></code>)로 한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_df</span> <span class="o">=</span> <span class="n">Smarket</span><span class="p">[</span><span class="n">Smarket</span><span class="o">.</span><span class="n">Year</span> <span class="o">&lt;</span> <span class="mi">2005</span><span class="p">]</span>
+<span class="n">test_df</span> <span class="o">=</span> <span class="n">Smarket</span><span class="p">[</span><span class="n">Smarket</span><span class="o">.</span><span class="n">Year</span> <span class="o">==</span> <span class="mi">2005</span><span class="p">]</span>
+<span class="n">test_df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(252, 10)
+</pre></div>
+</div>
+</div>
+</div>
+<p>이제 2004년까지의 날짜에 해당하는 관측, 즉 훈련 세트만 사용하여 로지스틱 회귀 모델을 피팅한다. 그런 다음 테스트 세트의 각 날짜, 즉 2005년에 대해 주식 시장의 상승 확률을 예측한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_fit</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="s1">&#39;DirCoded ~ Lag1+Lag2+Lag3+Lag4+Lag5+Volume&#39;</span><span class="p">,</span> <span class="n">train_df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">predicted_probs</span> <span class="o">=</span> <span class="n">train_fit</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimization terminated successfully.
+         Current function value: 0.691936
+         Iterations 4
+</pre></div>
+</div>
+</div>
+</div>
+<p>이로써 완전히 분리된 두 개의 데이터세트에 대해 모델을 훈련하고 테스트를 수행했다. 훈련은 2004년까지의 데이터만 사용하여 수행되었고, 테스트는 2005년의 데이터만 사용하여 수행되었다.</p>
+<p>이제 2005년에 대한 예측을 해당 기간 동안 시장의 실제 움직임과 비교해보자. 테스트 세트에 대해 예측의 정확도를 계산한 것과 혼동행렬이 아래 나와 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Up&#39;</span> <span class="k">if</span> <span class="n">p</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="k">else</span> <span class="s1">&#39;Down&#39;</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">predicted_probs</span><span class="p">]</span>
+<span class="n">test_df</span> <span class="o">=</span> <span class="n">test_df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">preds</span> <span class="o">=</span> <span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;이 모델은 테스트 세트에서 정확한 예측 비율이 </span><span class="si">%0.1f%%</span><span class="s1">이다&#39;</span> 
+      <span class="o">%</span> <span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">test_df</span><span class="o">.</span><span class="n">preds</span> <span class="o">==</span> <span class="n">test_df</span><span class="o">.</span><span class="n">Direction</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>이 모델은 테스트 세트에서 정확한 예측 비율이 48.0%이다
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">test_df</span><span class="o">.</span><span class="n">Direction</span><span class="p">,</span> <span class="n">test_df</span><span class="o">.</span><span class="n">preds</span><span class="p">)</span>
+<span class="n">cm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Down&#39;</span><span class="p">,</span><span class="s1">&#39;Up&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Down&#39;</span><span class="p">,</span><span class="s1">&#39;Up&#39;</span><span class="p">])</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Predicted&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">test_df</span><span class="o">.</span><span class="n">Direction</span><span class="p">,</span> <span class="n">test_df</span><span class="o">.</span><span class="n">preds</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>  <span class="c1"># 정밀도 등</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted  Down  Up
+True               
+Down         77  34
+Up           97  44
+
+              precision    recall  f1-score   support
+
+        Down      0.443     0.694     0.540       111
+          Up      0.564     0.312     0.402       141
+
+    accuracy                          0.480       252
+   macro avg      0.503     0.503     0.471       252
+weighted avg      0.511     0.480     0.463       252
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;이 모델은 훈련 세트에서 부정확한 예측 비율이 </span><span class="si">%0.1f%%</span><span class="s1">이다&#39;</span> 
+      <span class="o">%</span> <span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">test_df</span><span class="o">.</span><span class="n">preds</span> <span class="o">!=</span> <span class="n">test_df</span><span class="o">.</span><span class="n">Direction</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>이 모델은 훈련 세트에서 부정확한 예측 비율이 52.0%이다
+</pre></div>
+</div>
+</div>
+</div>
+<p>위 결과는 다소 실망스럽다. 왜냐하면 테스트 오류율이 52.0%로 무작위 추측보다 더 나쁘기 때문이다! 물론 이 결과는 그다지 놀라운 것은 아니다. 일반적으로 주식시장에서는 전날의 수익률을 사용하여 미래의 시장을 예측할 수 있을 것으로는 기대하지 않기 때문이다.</p>
+<p><strong>일부 예측변수 제거</strong></p>
+<p>앞의 로지스틱 회귀 모델 추정 결과를 보면, 모든 예측변수의 <span class="math notranslate nohighlight">\(p\)</span>값이 상당히 크고, 그나마 가장 작은 <span class="math notranslate nohighlight">\(p\)</span>값은 <code class="docutils literal notranslate"><span class="pre">Lag1</span></code>에 해당한다. 예측에 도움이 되지 않는 변수를 제거하면 보다 효과적인 모델을 얻을지도 모른다. 반응변수와 관계가 없는 예측변수를 사용하면 테스트 오류율이 나빠지는 경향이 있으므로 이러한 예측변수들을 제거해보기로 하자.</p>
+<p>아래에서는 원래 로지스틱 회귀 모델에서 그나마 예측력이 괜찮아 보이는 <code class="docutils literal notranslate"><span class="pre">Lag1</span></code>과 <code class="docutils literal notranslate"><span class="pre">Lag2</span></code>만 사용하여 로지스틱 회귀를 재구성했다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_fit</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="s1">&#39;DirCoded ~ Lag1 + Lag2&#39;</span><span class="p">,</span> <span class="n">train_df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">predicted_probs</span> <span class="o">=</span> <span class="n">train_fit</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimization terminated successfully.
+         Current function value: 0.692085
+         Iterations 3
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Up&#39;</span> <span class="k">if</span> <span class="n">p</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="k">else</span> <span class="s1">&#39;Down&#39;</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">predicted_probs</span><span class="p">]</span>
+<span class="n">test_df</span> <span class="o">=</span> <span class="n">test_df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">preds</span> <span class="o">=</span> <span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;이 모델은 테스트 세트에서 정확한 예측 비율이 </span><span class="si">%0.1f%%</span><span class="s1">이다&#39;</span> 
+      <span class="o">%</span> <span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">test_df</span><span class="o">.</span><span class="n">preds</span> <span class="o">==</span> <span class="n">test_df</span><span class="o">.</span><span class="n">Direction</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>이 모델은 테스트 세트에서 정확한 예측 비율이 56.0%이다
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">test_df</span><span class="o">.</span><span class="n">Direction</span><span class="p">,</span> <span class="n">test_df</span><span class="o">.</span><span class="n">preds</span><span class="p">)</span>
+<span class="n">cm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Down&#39;</span><span class="p">,</span><span class="s1">&#39;Up&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Down&#39;</span><span class="p">,</span><span class="s1">&#39;Up&#39;</span><span class="p">])</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Predicted&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">test_df</span><span class="o">.</span><span class="n">Direction</span><span class="p">,</span> <span class="n">test_df</span><span class="o">.</span><span class="n">preds</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>  <span class="c1"># 정밀도 등</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted  Down   Up
+True                
+Down         35   76
+Up           35  106
+
+              precision    recall  f1-score   support
+
+        Down      0.500     0.315     0.387       111
+          Up      0.582     0.752     0.656       141
+
+    accuracy                          0.560       252
+   macro avg      0.541     0.534     0.522       252
+weighted avg      0.546     0.560     0.538       252
+</pre></div>
+</div>
+</div>
+</div>
+<p>이제 결과가 조금 더 나아졌다. 전체 날짜 중 56.0%가 올바르게 예측되었다. 그런데 아래 계산에도 나오지만, 그냥 “시장이 항상 상승한다”고 예측해도 전체의 56%는 맞출 수 있다. 그런 의미에서 이런 식의 단순한 예측(시장이 항상 상승한다고 예측하는 것)에 비해 로지스틱 회귀 방법이 오류율 측면에서 더 낫다고 할 수 없다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_df</span><span class="o">.</span><span class="n">DirCoded</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.5595238095238095
+</pre></div>
+</div>
+</div>
+</div>
+<p>그런데 다른 한편으로 위의 혼동행렬에서 시장이 상승할 것으로 예측한 날만 본다면 로지스틱 회귀의 정확도(즉 정밀도)가 58.24%이다.(총 76+106=182번 상승할 것으로 예측했으며, 이중 106번 제대로 예측하였다.) 따라서 모델이 상승을 예측할 때는 매수하고 하락을 예측할 때는 거래를 피하는 전략을 생각해볼 수 있다. 물론 이 약간의 개선이 진짜인지 아니면 우연한 기회 때문인지는 좀 더 신중하게 판단해야 할 것이다.</p>
+</section>
+<section id="id14">
+<h3>캐러밴 보험 데이터<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<p>ISLP에서 제공하는 Caravan 데이터세트는 사람들의 캐러밴 보험(caravan insurance) 가입과 관련된 데이터이다. 조사대상은 총 5,822명이고, 이들에 대해 인구통계적(demographic) 특성과 관련된 85개의 예측변수가 들어있다. 반응변수는 <code class="docutils literal notranslate"><span class="pre">Purchase</span></code>로서 각 개인이 캐러밴 보험을 구매했는지 여부를 나타낸다. 데이터를 보면 조사대상 중 6%만이 캐러밴 보험에 가입했다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Caravan</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../Data/Caravan.csv&#39;</span><span class="p">)</span>
+<span class="n">Caravan</span><span class="o">.</span><span class="n">Purchase</span> <span class="o">=</span> <span class="n">Caravan</span><span class="o">.</span><span class="n">Purchase</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+<span class="n">Caravan</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MOSTYPE</th>
+      <th>MAANTHUI</th>
+      <th>MGEMOMV</th>
+      <th>MGEMLEEF</th>
+      <th>MOSHOOFD</th>
+      <th>MGODRK</th>
+      <th>MGODPR</th>
+      <th>MGODOV</th>
+      <th>MGODGE</th>
+      <th>MRELGE</th>
+      <th>...</th>
+      <th>APERSONG</th>
+      <th>AGEZONG</th>
+      <th>AWAOREG</th>
+      <th>ABRAND</th>
+      <th>AZEILPL</th>
+      <th>APLEZIER</th>
+      <th>AFIETS</th>
+      <th>AINBOED</th>
+      <th>ABYSTAND</th>
+      <th>Purchase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>33</td>
+      <td>1</td>
+      <td>3</td>
+      <td>2</td>
+      <td>8</td>
+      <td>0</td>
+      <td>5</td>
+      <td>1</td>
+      <td>3</td>
+      <td>7</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>37</td>
+      <td>1</td>
+      <td>2</td>
+      <td>2</td>
+      <td>8</td>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+      <td>4</td>
+      <td>6</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>37</td>
+      <td>1</td>
+      <td>2</td>
+      <td>2</td>
+      <td>8</td>
+      <td>0</td>
+      <td>4</td>
+      <td>2</td>
+      <td>4</td>
+      <td>3</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>9</td>
+      <td>1</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>2</td>
+      <td>3</td>
+      <td>2</td>
+      <td>4</td>
+      <td>5</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>40</td>
+      <td>1</td>
+      <td>4</td>
+      <td>2</td>
+      <td>10</td>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+      <td>4</td>
+      <td>7</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 86 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Caravan</span><span class="o">.</span><span class="n">Purchase</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Purchase
+No     5474
+Yes     348
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Caravan</span><span class="o">.</span><span class="n">Purchase</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()[</span><span class="s1">&#39;Yes&#39;</span><span class="p">]</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">Caravan</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.05977327378907592
+</pre></div>
+</div>
+</div>
+</div>
+<p>Caravan 데이터세트에서 처음 85개 변수를 예측변수(<code class="docutils literal notranslate"><span class="pre">X</span></code>)로 하고, <code class="docutils literal notranslate"><span class="pre">Purchase</span></code> 변수를 반응변수(<code class="docutils literal notranslate"><span class="pre">y</span></code>)로 설정한다. 이와 함께 전체 데이터세트에서 처음 1,000개의 관측을 테스트 세트로 하고 나머지 관측을 훈련 세트로 분할한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">Caravan</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">85</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">Caravan</span><span class="o">.</span><span class="n">Purchase</span>
+
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">1000</span><span class="p">:]</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="mi">1000</span><span class="p">:]</span>
+
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="mi">1000</span><span class="p">]</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="mi">1000</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>테스트 관측 1,000명 중 캐러밴 보험에 가입한 비율은 5.9%임을 확인할 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_test</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()[</span><span class="s1">&#39;Yes&#39;</span><span class="p">]</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.059
+</pre></div>
+</div>
+</div>
+</div>
+<p>훈련 세트에 로짓 모델을 피팅하고 테스트 데이터에 대해 추정 성과를 평가해보자. 그런데 여기서는 <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> 대신 사이킷런(<code class="docutils literal notranslate"><span class="pre">sklearn.linear_model</span></code>)의 <code class="docutils literal notranslate"><span class="pre">LogisticRegression</span></code> 모듈을 이용해보자.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+
+<span class="n">logit_model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="n">logit_fit</span> <span class="o">=</span> <span class="n">logit_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">logit_pred_50</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">logit_fit</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span> 
+                          <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="kc">False</span><span class="p">:</span> <span class="s1">&#39;No&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">:</span> <span class="s1">&#39;Yes&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">logit_pred_50</span><span class="p">)</span>  
+<span class="n">cm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;No&#39;</span><span class="p">,</span><span class="s1">&#39;Yes&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;No&#39;</span><span class="p">,</span><span class="s1">&#39;Yes&#39;</span><span class="p">])</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Predicted&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">logit_pred_50</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted   No  Yes
+True               
+No         939    2
+Yes         59    0
+
+              precision    recall  f1-score   support
+
+          No      0.941     0.998     0.969       941
+         Yes      0.000     0.000     0.000        59
+
+    accuracy                          0.939      1000
+   macro avg      0.470     0.499     0.484      1000
+weighted avg      0.885     0.939     0.911      1000
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>추정 결과 해석</strong></p>
+<p>1,000명의 테스트 관측에 대한 로지스틱 회귀의 오류율은 6.1% 수준이다. 언뜻보기에 이것은 상당히 좋은 것처럼 보일 수 있다. 그러나 테스트 세트 고객의 5.9%만이 보험을 구매했기 때문에 예측변수의 값에 상관없이 항상 <code class="docutils literal notranslate"><span class="pre">No</span></code>를 예측하면 오류율을 5.9%로 낮출 수 있어 이것은 좋은 성과라 할 수 없다.</p>
+<p>그런데 보험을 판매하는 데 어느 정도 비용이 든다고 생각해보자. 예를 들어, 영업 사원이 각 잠재 고객을 방문하는 데는 비용이 든다. 회사가 무작위로 고객에게 보험을 판매하려고 하면 우리 데이터의 경우 성공률은 5.9%에 불과하다. 관련 비용을 고려하면 이 정도의 성공률은 너무 낮은 편이다. 이러한 상황에서 <strong>보험을 구매할 가능성이 있는 고객에게만 보험을 판매하는 전략</strong>을 생각해보자. 이 경우 전체 오류율은 중요하지 않고, 보험을 구매할 것으로 예측된 사람들에 대한 오류율이 중요하다.</p>
+<p>그런데 위 결과에서 로지스틱 모델이 보험을 구매할 것으로 예상한 고객에 대해서만 살펴보더라도 결과는 아주 나쁜 편이다. 테스트 관측 중 단 2명만 보험을 구매할 것으로 예측되었으며, 더욱이 이 모든 예측이 틀렸기 때문이다.</p>
+<p>그런데 예측 성공 확률 분계점으로 위와 같이 0.5를 고집할 이유는 없다. 가령 예상 구매 확률이 0.25를 초과할 때 구매를 하는 것으로 해보자. 아래 결과를 보면, 이 경우 27명이 보험에 가입할 것으로 예측되고, 이 중 8명(29.6%)에 대해 정확하다. 이것은 (모델에 의존하지 않고 무작위로 사람을 골라 보험을 권유하는) 무작위 추측(random guessing)보다 5배 가량 우수한 성과이다.(무작위 추측의 성공 확률은 5.9%임.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">logit_pred_25</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">logit_fit</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span> 
+                          <span class="o">&gt;</span> <span class="mf">0.25</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="kc">False</span><span class="p">:</span> <span class="s1">&#39;No&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">:</span> <span class="s1">&#39;Yes&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">logit_pred_25</span><span class="p">)</span>  
+<span class="n">cm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;No&#39;</span><span class="p">,</span><span class="s1">&#39;Yes&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;No&#39;</span><span class="p">,</span><span class="s1">&#39;Yes&#39;</span><span class="p">])</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Predicted&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">logit_pred_25</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted   No  Yes
+True               
+No         923   18
+Yes         51    8
+
+              precision    recall  f1-score   support
+
+          No      0.948     0.981     0.964       941
+         Yes      0.308     0.136     0.188        59
+
+    accuracy                          0.931      1000
+   macro avg      0.628     0.558     0.576      1000
+weighted avg      0.910     0.931     0.918      1000
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id15">
+<h3>타이타닉 데이터<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
+<p>타이타닉호는 영국의 화이트 스타 라인이 운영한 북대서양 횡단 여객선으로서 1912년 4월 10일 영국의 사우샘프턴을 떠나 미국 뉴욕으로 향하던 첫 항해 중에 4월 15일 빙산과 충돌하여 침몰하였다. 침몰 당시 구명정이 충분하지 않아 2,224명의 승객 및 승무원 중 1,502명이 사망했다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Titanic</span></code> 데이터세트는 Kaggle에서 주최한 머신러닝 대회 “<a class="reference external" href="https://www.kaggle.com/competitions/titanic/overview">Titanic - Machine Learning from Disaster</a>”에서 제공한 것을 사용한다. 대회의 경쟁 내용은 간단하다. 타이타닉호에서 살아남은 승객을 예측하는 통계적 학습 모델을 만드는 것으로 어떤 통계 모델의 예측력이 우수한지를 겨루었다. 훈련 데이터세트는 891명의 승객에 대해 생존 여부를 포함해 총 12개의 변수가 들어있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Titanic</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;http://bit.ly/kaggletrain&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;PassengerId&#39;</span><span class="p">)</span>
+<span class="n">Titanic</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+    <tr>
+      <th>PassengerId</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>887</th>
+      <td>0</td>
+      <td>2</td>
+      <td>Montvila, Rev. Juozas</td>
+      <td>male</td>
+      <td>27.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>211536</td>
+      <td>13.00</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>888</th>
+      <td>1</td>
+      <td>1</td>
+      <td>Graham, Miss. Margaret Edith</td>
+      <td>female</td>
+      <td>19.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>112053</td>
+      <td>30.00</td>
+      <td>B42</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>889</th>
+      <td>0</td>
+      <td>3</td>
+      <td>Johnston, Miss. Catherine Helen "Carrie"</td>
+      <td>female</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>2</td>
+      <td>W./C. 6607</td>
+      <td>23.45</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>890</th>
+      <td>1</td>
+      <td>1</td>
+      <td>Behr, Mr. Karl Howell</td>
+      <td>male</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>111369</td>
+      <td>30.00</td>
+      <td>C148</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>891</th>
+      <td>0</td>
+      <td>3</td>
+      <td>Dooley, Mr. Patrick</td>
+      <td>male</td>
+      <td>32.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>370376</td>
+      <td>7.75</td>
+      <td>NaN</td>
+      <td>Q</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>변수</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Survived</span></code>: 생존 더미변수(0 = No, 1 = Yes)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pclass</span></code>: 티켓 등급(1 = 1st, 2 = 2nd, 3 = 3rd)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Sex</span></code>: 성별</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Age</span></code>: 나이(년)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SibSp</span></code>: 타이타닉에 함께 승선한 형제/배우자 숫자</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Parch</span></code>: 타이타닉에 함께 승선한 부모/자녀 숫자</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ticket</span></code>: 티켓 번호</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Fare</span></code>: 여객 운임</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Cabin</span></code>: 캐빈 번호</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Embarked</span></code>: 승선 항구(C = Cherbourg, Q = Queenstown, S = Southampton)</p></li>
+</ul>
+<p>로지스틱 회귀에 사용할 <code class="docutils literal notranslate"><span class="pre">Age</span></code> 변수에 데이터가 빠진 관측들을 제외시키면 관측이 714개로 줄어든다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Titanic</span> <span class="o">=</span> <span class="n">Titanic</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">])</span>
+<span class="n">Titanic</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(714, 11)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>단순 선형 회귀 모델 추정</strong></p>
+<p>예시적 목적으로 예측변수가 하나만 있는 단순 선형 회귀 모델을 피팅해보기로 하자. 반응변수는 생존 더미변수인 <code class="docutils literal notranslate"><span class="pre">Survived</span></code>이고, 예측변수는 <code class="docutils literal notranslate"><span class="pre">Age</span></code>이다. 이렇게 모델을 피팅한 다음, 각 <code class="docutils literal notranslate"><span class="pre">Age</span></code> 값에 대해서 적합값(생존 확률 추정값)을 구해 산점도 위에 그렸다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;Survived ~ Age&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">Titanic</span><span class="p">)</span>
+<span class="n">olsfit</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">olsfit</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Titanic</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Titanic</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">],</span> <span class="n">Titanic</span><span class="p">[</span><span class="s1">&#39;Survived&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Titanic</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Linear Regression&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Survived&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/7b0243579ae59a78d78488290c4249c49a46ed740aeb97ba1c68ed1707d2ae91.png" src="../_images/7b0243579ae59a78d78488290c4249c49a46ed740aeb97ba1c68ed1707d2ae91.png" />
+</div>
+</div>
+<p><strong>단순 로짓 모델 추정</strong></p>
+<p>이번에는 단순 로짓 모델을 피팅해보기로 하자. 앞에서와 마찬가지로 반응변수는 생존 더미변수인 <code class="docutils literal notranslate"><span class="pre">Survived</span></code>이고, 예측변수는 <code class="docutils literal notranslate"><span class="pre">Age</span></code>이다. 로짓 모델을 피팅한 다음, 각 <code class="docutils literal notranslate"><span class="pre">Age</span></code> 값에 대해서 적합값(확률 추정값)을 구해 산점도 위에 그렸다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="s1">&#39;Survived ~ Age&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">Titanic</span><span class="p">)</span>
+<span class="n">logitfit</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">logitfit</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Titanic</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimization terminated successfully.
+         Current function value: 0.672429
+         Iterations 4
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Titanic</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">],</span> <span class="n">Titanic</span><span class="p">[</span><span class="s1">&#39;Survived&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Titanic</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Logistic Regression&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Survived&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/e60d3f4358d7ca64ebe33d53f690da6a703dfa060c08b46a497367fa73efef22.png" src="../_images/e60d3f4358d7ca64ebe33d53f690da6a703dfa060c08b46a497367fa73efef22.png" />
+</div>
+</div>
+<p><strong>선형 회귀선 vs. 로지스틱 회귀선 비교</strong></p>
+<p>위 선형 모델과 로지스틱 모델은 둘 다 <code class="docutils literal notranslate"><span class="pre">Age</span></code>를 예측변수로 사용하여 생존 확률을 추정한 것이다. <code class="docutils literal notranslate"><span class="pre">Age</span></code>와 <code class="docutils literal notranslate"><span class="pre">Survived</span></code> 평면상의 산점도 위에 그려진 빨간색 선이 각 <code class="docutils literal notranslate"><span class="pre">Age</span></code> 값에 대해서 생존 확률을 추정한 적합값(fitted value)이다. 두 모델의 추정 회귀선을 비교해보면 거의 차이가 없는 것을 알 수 있다.</p>
+<p>우리는 앞에서 선형 모델의 경우 추정 확률이 0과 1 사이에서 벗어날 가능성이 있기 때문에 로지스틱 모델을 사용한다고 설명했는데, 사실 위 추정 결과를 보면 선형 모델 역시 추정된 생존 확률이 (<code class="docutils literal notranslate"><span class="pre">Age</span></code>의 가능한 범위 내에서) 0과 1 사이의 범위에서 벗어날 가능성은 전혀 없어 보인다. 이항(binary) 반응 데이터를 선형 회귀 모델로 추정하는 것이 완전히 엉뚱한 일은 아니라는 것을 보여준다.</p>
+<p><strong>다중 로짓 모델 추정</strong></p>
+<p>이번에는 <code class="docutils literal notranslate"><span class="pre">Age</span></code> 변수뿐만 아니라 <code class="docutils literal notranslate"><span class="pre">Pclass</span></code>(티켓 등급), <code class="docutils literal notranslate"><span class="pre">Sex</span></code>(성별), <code class="docutils literal notranslate"><span class="pre">Sibsp</span></code>(승선한 형제/배우자 숫자), <code class="docutils literal notranslate"><span class="pre">Parch</span></code>(승선한 부모/자녀 숫자), <code class="docutils literal notranslate"><span class="pre">Fare</span></code>(여객 운임), <code class="docutils literal notranslate"><span class="pre">Embarked</span></code>(승선 항구) 등을 포함시켜 로지스틱 모델로 추정해보자.</p>
+<p>그런데 <code class="docutils literal notranslate"><span class="pre">Pclass</span></code>, <code class="docutils literal notranslate"><span class="pre">Sex</span></code>, <code class="docutils literal notranslate"><span class="pre">Embarked</span></code>는 범주형 변수이다. 앞에서도 설명했듯이 이런 범주형 변수를 예측변수로 사용할 경우, 우리가 굳이 더미변수를 만들어 넣지 않아도 <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> 모듈이 알아서 더미변수를 만들어 추정한다. 그런데 이때 유의할 점이 하나 있는데, <code class="docutils literal notranslate"><span class="pre">Pclass</span></code>(티켓 등급) 변수의 경우에는 티켓 등급의 범주가 1, 2, 3의 숫자로 돼있다는 점이다. 즉, 등급 범주가 문자로 표시된 것이 아니라 숫자로 돼있다. 이 경우 <code class="docutils literal notranslate"><span class="pre">Pclass</span></code>를 예측변수로 그대로 사용하면, <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> 모듈은 이것을 범주형 변수가 아니라 정량적 변수로 인식하여 더미변수를 만들지 않고 <code class="docutils literal notranslate"><span class="pre">Age</span></code> 등 다른 정량적 변수와 동일하게 취급한다. 이를 막기 위해서는(즉, 더미변수를 만들어 추정하도록 만들기 위해서는), 아래 나와 있는 것처럼 <code class="docutils literal notranslate"><span class="pre">Pclass</span></code>가 아니라 <code class="docutils literal notranslate"><span class="pre">C(Pclass)</span></code>로 표시해야 한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;Survived ~ C(Pclass) + Sex + Age + SibSp + Parch + Fare + Embarked&#39;</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">Titanic</span><span class="p">)</span>
+<span class="n">logitfit</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">logitfit</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimization terminated successfully.
+         Current function value: 0.444060
+         Iterations 6
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:               Survived   No. Observations:                  712
+Model:                          Logit   Df Residuals:                      702
+Method:                           MLE   Df Model:                            9
+Date:                Fri, 17 Oct 2025   Pseudo R-squ.:                  0.3419
+Time:                        23:57:48   Log-Likelihood:                -316.17
+converged:                       True   LL-Null:                       -480.45
+Covariance Type:            nonrobust   LLR p-value:                 2.249e-65
+==================================================================================
+                     coef    std err          z      P&gt;|z|      [0.025      0.975]
+----------------------------------------------------------------------------------
+Intercept          4.4329      0.536      8.271      0.000       3.383       5.483
+C(Pclass)[T.2]    -1.1896      0.329     -3.614      0.000      -1.835      -0.544
+C(Pclass)[T.3]    -2.3952      0.343     -6.976      0.000      -3.068      -1.722
+Sex[T.male]       -2.6379      0.223    -11.829      0.000      -3.075      -2.201
+Embarked[T.Q]     -0.8234      0.600     -1.372      0.170      -2.000       0.353
+Embarked[T.S]     -0.4028      0.275     -1.467      0.142      -0.941       0.135
+Age               -0.0433      0.008     -5.204      0.000      -0.060      -0.027
+SibSp             -0.3629      0.129     -2.807      0.005      -0.616      -0.110
+Parch             -0.0604      0.124     -0.487      0.626      -0.303       0.183
+Fare               0.0015      0.003      0.559      0.576      -0.004       0.007
+==================================================================================
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>추정 결과 해석</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">Embarked</span></code>(승선 항구), <code class="docutils literal notranslate"><span class="pre">Parch</span></code>(승선한 부모/자녀 숫자), <code class="docutils literal notranslate"><span class="pre">Fare</span></code>(여객 운임) 변수들은 타이타닉 생존 여부와 관련하여 통계적으로 유의하지 않다. <code class="docutils literal notranslate"><span class="pre">Pclass</span></code>(티켓 등급)의 경우 2등석 그룹은 1등석에 비해 생존 가능성이 더 낮고, 3등석 그룹은 1등석은 물론이고 2등석보다 생존 가능성이 더 낮은 경향이 있는 것으로 나타났다(통계적으로 유의함). 그밖에 남성일수록, 나이가 많을수록, 함께 승선한 형제/배우자 숫자가 많을수록 생존 가능성이 낮은 경향이 있는 것으로 나타났다(통계적으로 유의함).</p>
+</section>
+<section id="id16">
+<h3>ChatGPT Q&amp;A<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p><strong>다음은 타이타닉호 생존(Survived) 여부를 로짓 모델로 추정한 결과이다. 여기에서 age(나이) 변수의 추정 계수와 표준오차, z값, p값의 의미에 대해 알기 쉽게 설명해줘.</strong></p>
+<p>coef    std err          z      P&gt;|z|      [0.025      0.975]</p>
+<p>Intercept          4.4329      0.536      8.271      0.000       3.383       5.483<br />
+C(Pclass)[T.2]    -1.1896      0.329     -3.614      0.000      -1.835      -0.544<br />
+C(Pclass)[T.3]    -2.3952      0.343     -6.976      0.000      -3.068      -1.722<br />
+Sex[T.male]       -2.6379      0.223    -11.829      0.000      -3.075      -2.201<br />
+Embarked[T.Q]     -0.8234      0.600     -1.372      0.170      -2.000       0.353<br />
+Embarked[T.S]     -0.4028      0.275     -1.467      0.142      -0.941       0.135<br />
+Age               -0.0433      0.008     -5.204      0.000      -0.060      -0.027<br />
+SibSp             -0.3629      0.129     -2.807      0.005      -0.616      -0.110<br />
+Parch             -0.0604      0.124     -0.487      0.626      -0.303       0.183<br />
+Fare               0.0015      0.003      0.559      0.576      -0.004       0.007</p>
+</div></blockquote>
+<hr class="docutils" />
+<blockquote>
+<div><p>이 로지스틱 회귀 모델에서 ‘age’ (나이) 변수의 추정 계수와 관련된 통계치들은 다음과 같은 의미를 가집니다:</p>
+<ol class="arabic simple">
+<li><p><strong>계수 (coef): -0.0433</strong></p>
+<ul class="simple">
+<li><p>이 값은 나이가 한 살 증가할 때마다 생존 확률의 로그 오즈(log odds)가 평균적으로 -0.0433만큼 변한다는 것을 의미합니다. 로그 오즈는 생존 확률과 사망 확률의 비율의 로그 값입니다. 여기서 계수가 음수이므로, 나이가 증가함에 따라 생존 확률이 감소한다는 것을 암시합니다.</p></li>
+</ul>
+</li>
+<li><p><strong>표준오차 (std err): 0.008</strong></p>
+<ul class="simple">
+<li><p>표준오차는 계수 추정치의 정확도를 나타냅니다. 낮은 표준오차는 더 정확한 추정치를 의미합니다. 여기서 표준오차가 0.008인 것은 이 계수 추정치가 일정한 정확도를 가지고 있음을 나타냅니다.</p></li>
+</ul>
+</li>
+<li><p><strong>z 값: -5.204</strong></p>
+<ul class="simple">
+<li><p>z 값은 계수 추정치가 0인지 아닌지를 판단하기 위한 통계적 검정치입니다. 계수가 표준오차의 몇 배인지 나타냅니다. 여기서 z 값이 -5.204인 것은 계수가 표준오차보다 약 5.204배 더 멀리 떨어져 있다는 것을 의미하며, 이는 통계적으로 유의한 결과입니다.</p></li>
+</ul>
+</li>
+<li><p><strong>p 값 (P&gt;|z|): 0.000</strong></p>
+<ul class="simple">
+<li><p>p 값은 계수의 통계적 유의성을 나타냅니다. 일반적으로 p 값이 0.05 미만이면 계수가 통계적으로 유의미하다고 간주됩니다. 이 경우 p 값이 0.000으로 나타나므로, ‘age’ 변수의 계수는 통계적으로 매우 유의미합니다. 이는 나이가 생존 여부에 중요한 영향을 미친다는 것을 의미합니다.</p></li>
+</ul>
+</li>
+</ol>
+<p>따라서 이 결과는 타이타닉호 데이터에서 나이가 증가함에 따라 생존 확률이 감소한다는 것을 통계적으로 유의미하게 보여줍니다.</p>
+</div></blockquote>
+<p><strong>피팅 성과</strong></p>
+<p>아래는 훈련 세트에 대해 혼동행렬을 구한 것이다. 생존 확률 분계점은 0.5를 사용했다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">logit_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">logitfit</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Titanic</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="kc">False</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">Titanic</span><span class="o">.</span><span class="n">Survived</span><span class="p">,</span> <span class="n">logit_pred</span><span class="p">)</span>  
+<span class="n">cm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span>
+<span class="n">cm_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Predicted&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">Titanic</span><span class="o">.</span><span class="n">Survived</span><span class="p">,</span> <span class="n">logit_pred</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted    0    1
+True               
+0          365   59
+1           85  205
+
+              precision    recall  f1-score   support
+
+           0      0.811     0.861     0.835       424
+           1      0.777     0.707     0.740       290
+
+    accuracy                          0.798       714
+   macro avg      0.794     0.784     0.788       714
+weighted avg      0.797     0.798     0.797       714
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id17">
+<h2>부록: 혼동행렬<a class="headerlink" href="#id17" title="Link to this heading">#</a></h2>
+<p><strong>혼동행렬</strong>(confusion matrix, 분류결과표)은 다음과 같이 모형이 예측한 범주가 실제 범주와 일치하는지를 표로 나타낸 것이다.</p>
+<p><img alt="혼동행렬" src="https://raw.githubusercontent.com/pilsunchoi/images/main/7-6.png" /></p>
+<section id="id18">
+<h3>사례<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
+<p><strong>(1) 금융 사기</strong></p>
+<ul class="simple">
+<li><p>True Positive: 사기를 사기라고 정확하게 예측</p></li>
+<li><p>True Negative: 정상을 정상이라고 정확하게 예측</p></li>
+<li><p>False Positive: 정상을 사기라고 잘못 예측</p></li>
+<li><p>False Negative: 사기를 정상이라고 잘못 예측</p></li>
+</ul>
+<p><strong>(2) 코로나19 감염 진단</strong></p>
+<ul class="simple">
+<li><p>True Positive: 양성을 양성으로 정확하게 진단</p></li>
+<li><p>True Negative: 음성을 음성으로 정확하게 진단</p></li>
+<li><p>False Positive: 음성을 양성으로 잘못 진단</p></li>
+<li><p>False Negative: 양성을 음성으로 잘못 진단</p></li>
+</ul>
+</section>
+<section id="id19">
+<h3>다양한 평가기준<a class="headerlink" href="#id19" title="Link to this heading">#</a></h3>
+<p>가령 100명 중 코로나19 바이러스 양성이 1명이고, 나머지 99명은 음성이라고 할 때, 진단 키트가 모든 사람을 무조건 음성이라고 판단할 경우, 정확도가 99%나 되지만 이 진단 키트가 우수하다고 말할 수는 없다. 정확도가 조금 떨어지더라도 양성을 제대로 포착해야 하기 때문이다. 그렇다고 너무 많은 false alarm이 있어서도 안 된다. 이는 우리가 어떤 진단(분류) 장비나 모델을 평가할 때, 정확도만으로 판단할 수는 없고 다양한 기준이 있어야 함을 의미한다.</p>
+<p><strong>정확도(accuracy)</strong></p>
+<p>전체 관측 중 올바르게 예측한 관측의 비율이다. 정확도가 높을수록 좋은 예측 모형이다.</p>
+<div class="math notranslate nohighlight">
+\[
+\rm accuracy= \frac {TP+TN}{TP+TN+FP+FN}
+\]</div>
+<p><strong>정밀도(precision)</strong></p>
+<p><strong>양성으로 예측된 관측 중</strong> 실제로 양성인 관측의 비율이다. 정밀도가 높을수록 좋은 예측 모형이다.</p>
+<div class="math notranslate nohighlight">
+\[
+\rm precision = \frac {TP}{TP+FP}
+\]</div>
+<p><strong>재현율(recall)</strong></p>
+<p><strong>실제 양성 관측 중</strong> 양성으로 예측된 관측의 비율이다. 재현율이 높을수록 좋은 예측 모형이다. 진양성률(TPR: true positive rate) 또는 <strong>민감도</strong>(sensitivity)라고도 한다.</p>
+<div class="math notranslate nohighlight">
+\[
+\rm sensitivity = \frac {TP}{TP+FN}
+\]</div>
+<p><strong>특이도(specificity)</strong></p>
+<p><strong>실제 음성 관측 중</strong> 음성으로 예측된 관측의 비율이다. 특이도가 높을수록 좋은 예측 모형이다. 진음성률(TNR: true negative rate)이라고도 한다.</p>
+<div class="math notranslate nohighlight">
+\[
+\rm specificity = \frac {TN}{TN+FP}
+\]</div>
+<p><strong>위양성률(FPR)</strong></p>
+<p>위양성률(FPR: false positive rate)은 실제 음성인데 양성으로 예측된 관측의 비율이다. fall-out이라고도 한다. 다른 평가점수와 달리 위양성률은 그 값이 낮을수록 좋다. 1에서 특이도를 빼면 위양성률이 나온다.</p>
+<div class="math notranslate nohighlight">
+\[
+\rm FPR = 1 - specificity = \frac {FP}{TN+FP}
+\]</div>
+</section>
+<section id="id20">
+<h3>사이킷런 혼동행렬 표 읽는 법<a class="headerlink" href="#id20" title="Link to this heading">#</a></h3>
+<p>사이킷런(<code class="docutils literal notranslate"><span class="pre">sklearn</span></code>)이 제공하는 <code class="docutils literal notranslate"><span class="pre">classification_report()</span></code> 함수를 실행했을 때 반환되는 표의 각 항목들이 어떻게 계산된 것인지 알아보자.</p>
+<p>다음은 타이타닉 데이터세트를 다중 로짓 모델 추정한 후 <code class="docutils literal notranslate"><span class="pre">confusion_matrix()</span></code> 및 <code class="docutils literal notranslate"><span class="pre">classification_report()</span></code>를 실행한 결과이다.(앞의 마지막 분석 결과를 그대로 다시 가져온 것이다.) 표에 빨간색으로 적힌 1번부터 5번까지 번호 별로 해당 비율이 어떻게 계산되었는지 아래 설명이 나와 있다.</p>
+<p><img alt="혼동행렬 표" src="https://raw.githubusercontent.com/pilsunchoi/images/main/7-7.png" /></p>
+<p><strong>(1) accuracy</strong></p>
+<p>전체 관측 중 올바르게 예측한 관측의 비율 =&gt; <span class="math notranslate nohighlight">\(\frac {365+205}{365+59+85+205}=0.798\)</span></p>
+<p><strong>(2) precision</strong></p>
+<p>원래 정의는 양성으로 예측된 관측 중 실제로 양성인 관측의 비율이다. 그런데 어떤 범주가 “양성(positive)”인지 모르기 때문에 0과 1 범주 각각에 대해 precision을 계산한다.</p>
+<ul class="simple">
+<li><p>0이 양성일 때의 precision =&gt; 0으로 예측된 관측 중 실제로 0인 관측의 비율 =&gt; <span class="math notranslate nohighlight">\(\frac{365}{365+85}=0.811\)</span></p></li>
+<li><p>1이 양성일 때의 precision =&gt; 1로 예측된 관측 중 실제로 1인 관측의 비율 =&gt; <span class="math notranslate nohighlight">\(\frac{205}{59+205}=0.777\)</span></p></li>
+</ul>
+<p><strong>(3) recall</strong></p>
+<p>원래 정의는 실제 양성 관측 중 양성으로 예측된 관측의 비율이다. 그런데 어떤 범주가 “양성(positive)”인지 모르기 때문에 0과 1 범주 각각에 대해 recall을 계산한다.</p>
+<ul class="simple">
+<li><p>0이 양성일 때의 recall =&gt; 실제로 0인 관측 중 0으로 예측된 관측의 비율 =&gt; <span class="math notranslate nohighlight">\(\frac{365}{365+59}=0.861\)</span></p></li>
+<li><p>1이 양성일 때의 recall =&gt; 실제로 1인 관측 중 1로 예측된 관측의 비율 =&gt; <span class="math notranslate nohighlight">\(\frac{205}{85+205}=0.707\)</span></p></li>
+</ul>
+<p><strong>(4) f1-score</strong></p>
+<p>precision과 recall의 조화평균(harmonic mean)을 f1-score라고 하며, 다음과 같이 계산된다.</p>
+<div class="math notranslate nohighlight">
+\[
+ \text{f1-score} \rm= \frac {2 \times precision \times recall}{precision + recall}
+\]</div>
+<ul class="simple">
+<li><p>0을 양성으로 간주할 때의 f1-score =&gt; <span class="math notranslate nohighlight">\(\frac{2\times0.811\times0.861}{0.811+0.861}=0.835\)</span></p></li>
+<li><p>1을 양성으로 간주할 때의 f1-score =&gt; <span class="math notranslate nohighlight">\(\frac{2\times0.777\times0.707}{0.777+0.707}=0.740\)</span></p></li>
+</ul>
+<p><strong>(5) 평가점수 평균</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">macro</span> <span class="pre">avg</span></code>는 단순평균이고, <code class="docutils literal notranslate"><span class="pre">weighted</span> <span class="pre">avg</span></code>는 각 범주에 속하는 표본의 개수를 가중치로 하여 가중평균한 것이다. precision에 대해서만 평균을 계산해보면 다음과 같다.</p>
+<ul class="simple">
+<li><p>precision의 <code class="docutils literal notranslate"><span class="pre">macro</span> <span class="pre">avg</span></code> =&gt; <span class="math notranslate nohighlight">\(\frac{0.811+0.777}{2}=0.794\)</span></p></li>
+<li><p>precision의 <code class="docutils literal notranslate"><span class="pre">weighted</span> <span class="pre">avg</span></code> =&gt; <span class="math notranslate nohighlight">\(\frac{424}{714}\times0.811+\frac{290}{714}\times0.777=0.797\)</span></p></li>
+</ul>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="06_%EC%84%A0%ED%98%95_%ED%9A%8C%EA%B7%80.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">6장 선형 회귀</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="08_KNN%EC%9D%84_%EC%9D%B4%EC%9A%A9%ED%95%9C_%EB%B6%84%EB%A5%98.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">8장 KNN 분류</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">7.1 개요</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">분류 문제 예</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#default">Default 데이터세트 사례</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">7.2 로지스틱 회귀</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">로지스틱 회귀</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">최대가능도 추정</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vs">선형 회귀 vs 로지스틱 회귀 예시</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Default 데이터세트 로지스틱 회귀</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">다중 로지스틱 회귀</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">교란요인</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">7.3 교란요인 추가 설명</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">교란 사례</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">7.4 로지스틱 회귀 예제</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">주식시장 데이터</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chatgpt-q-a">ChatGPT Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">캐러밴 보험 데이터</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">타이타닉 데이터</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">ChatGPT Q&amp;A</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">부록: 혼동행렬</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">사례</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">다양한 평가기준</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">사이킷런 혼동행렬 표 읽는 법</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 최필선 민인식
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

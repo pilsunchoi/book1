@@ -1,0 +1,3394 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>17장 생존분석 &#8212; 데이터과학의 첫걸음</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/17_생존분석';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="16장 비지도학습과 주성분 분석" href="16_%EB%B9%84%EC%A7%80%EB%8F%84%ED%95%99%EC%8A%B5%EA%B3%BC_%EC%A3%BC%EC%84%B1%EB%B6%84_%EB%B6%84%EC%84%9D.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="00_%EC%84%9C%EB%AC%B8.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="데이터과학의 첫걸음 - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="데이터과학의 첫걸음 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_%EC%84%9C%EB%AC%B8.html">
+                    데이터과학의 첫걸음: 시작하며
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_%ED%8C%8C%EC%9D%B4%EC%8D%AC_%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.html">1장 파이썬 시작하기</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_%ED%8C%8C%EC%9D%B4%EC%8D%AC_%EC%BD%94%EB%94%A9_%EA%B8%B0%EC%B4%88.html">2장 파이썬 코딩 기초</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_%EC%9D%80%ED%96%89_%ED%85%94%EB%A0%88%EB%A7%88%EC%BC%80%ED%8C%85_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%B6%84%EC%84%9D.html">3장 은행 텔레마케팅 데이터 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_%EC%A0%84%EC%9E%90%EC%83%81%EA%B1%B0%EB%9E%98_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%B6%84%EC%84%9D.html">4장 전자상거래 데이터 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_%ED%86%B5%EA%B3%84%EC%A0%81_%ED%95%99%EC%8A%B5.html">5장 통계적 학습</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_%EC%84%A0%ED%98%95_%ED%9A%8C%EA%B7%80.html">6장 선형 회귀</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_%EB%A1%9C%EC%A7%80%EC%8A%A4%ED%8B%B1_%ED%9A%8C%EA%B7%80%EB%A5%BC_%EC%9D%B4%EC%9A%A9%ED%95%9C_%EB%B6%84%EB%A5%98.html">7장 로지스틱 회귀를 이용한 분류</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_KNN%EC%9D%84_%EC%9D%B4%EC%9A%A9%ED%95%9C_%EB%B6%84%EB%A5%98.html">8장 KNN 분류</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_%EB%82%98%EC%9D%B4%EB%B8%8C_%EB%B2%A0%EC%9D%B4%EC%A6%88_%EB%B6%84%EB%A5%98.html">9장 나이브 베이즈 분류</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_%EB%B3%80%EC%88%98%EC%84%A0%ED%83%9D_%EB%B0%8F_%EC%A0%95%EA%B7%9C%ED%99%94.html">10장 변수선택 및 정규화</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_%EC%B6%94%EC%B2%9C_%EC%8B%9C%EC%8A%A4%ED%85%9C.html">11장 추천 시스템</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_%EA%B2%B0%EC%A0%95_%ED%8A%B8%EB%A6%AC_%EB%A7%8C%EB%93%A4%EA%B8%B0.html">12장 결정 트리 만들기</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_%ED%8A%B8%EB%A6%AC_%EA%B8%B0%EB%B0%98_%EB%AA%A8%ED%98%95.html">13장 트리 기반 모형</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_%EC%84%9C%ED%8F%AC%ED%8A%B8_%EB%B2%A1%ED%84%B0_%EB%A8%B8%EC%8B%A0.html">14장 서포트 벡터 머신</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_%EB%94%A5%EB%9F%AC%EB%8B%9D_%EC%9E%85%EB%AC%B8.html">15장 딥러닝 입문</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_%EB%B9%84%EC%A7%80%EB%8F%84%ED%95%99%EC%8A%B5%EA%B3%BC_%EC%A3%BC%EC%84%B1%EB%B6%84_%EB%B6%84%EC%84%9D.html">16장 비지도학습과 주성분 분석</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">17장 생존분석</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book1" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book1/issues/new?title=Issue%20on%20page%20%2Fnotebooks/17_생존분석.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/17_생존분석.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>17장 생존분석</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">17.1 소개</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chatgpt-q-a">ChatGPT Q&amp;A</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">17.2 생존시간 및 중도절단시간</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">ChatGPT Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">중도절단의 의미</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">17.3 중도절단에 대한 가정</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">17.4 카플란-마이어 생존곡선 추정</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">카플란-마이어 추정</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">ChatGPT Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">중도절단이 있는 경우</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">이론적 설명</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#braincancer">BrainCancer 데이터세트</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">ChatGPT Q&amp;A</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">17.5 로그순위 검정</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">이론적 설명</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">17.6 생존분석 회귀 모델</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">위험함수</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">비례위험</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cox">Cox 비례위험 모델</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">BrainCancer 데이터</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#publication">Publication 데이터</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">콜센터 데이터</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>17장 생존분석<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>자료 출처: <a class="reference external" href="https://www.statlearning.com/">ISLP (An Introduction to Statistical Learning with Applications in Python)</a></p>
+<section id="id2">
+<h2>17.1 소개<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>이 장에서는 <strong>생존분석</strong>(survival analysis)에 대해 다룬다. 생존분석은 환자의 사망이나 기계 시스템에서의 고장(failure)과 같은 특정 이벤트가 발생할 때까지의 소요 시간을 분석하는 통계학의 한 분야다. 분석하려는 목표변수가 특이한데, 그것은 다름 아닌 어떤 <strong>사건</strong>(event)이 발생할 때까지의 <strong>시간</strong>이다. 여기에서 ‘사건’이란 이루 다 열거할 수 없을 만큼 다양한 예가 가능한데, 가장 대표적 예가 ‘사망’이다. 가령 어떤 수술을 받은 환자가 사망에 이르기까지의 생존기간을 기록한 데이터를 생각해보자. 이때의 사건(event)은 ‘사망’이 된다. 사망에 이르기까지의 시간, 즉 <strong>생존시간</strong>(survival time)이 우리가 분석하려는 목표변수다.</p>
+<p>생존분석이라는 용어는 의학보건 분야 연구를 연상시키지만 생존분석의 적용 범위는 공학, 경제학, 경영학 등 매우 광범위하다. 공학에서는 신뢰도(reliability) 이론 또는 신뢰도 분석, 경제학에서는 듀레이션(duration) 분석 또는 듀레이션 모델링, 사회학에서는 이벤트 히스토리 분석이라고도 불린다.</p>
+<section id="chatgpt-q-a">
+<h3>ChatGPT Q&amp;A<a class="headerlink" href="#chatgpt-q-a" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p><strong>생존분석이 활용되는 분야나 주제를 가급적 많이 알려줘.</strong></p>
+</div></blockquote>
+<hr class="docutils" />
+<blockquote>
+<div><p>생존분석은 다양한 분야에서 활용되며 주요한 응용 분야 중 일부는 다음과 같습니다:</p>
+<ol class="arabic simple">
+<li><p><strong>의학 및 생물학:</strong> 생존분석은 암의 치료 효과, 신약 효능, 생물학적 생존 기간 등을 평가하는 데 사용됩니다.</p></li>
+<li><p><strong>공학 및 신뢰도 공학:</strong> 제품이나 장비의 수명을 예측하고 고장 예측에 활용됩니다.</p></li>
+<li><p><strong>경제학:</strong> 듀레이션(지속 시간) 분석은 소비자 구매력, 신제품 도입 시간 등을 이해하는 데 활용됩니다.</p></li>
+<li><p><strong>사회학:</strong> 생존분석은 이벤트의 발생이 시간에 따라 어떻게 변하는지를 연구하여 사회 현상을 이해하는 데 사용됩니다.</p></li>
+<li><p><strong>금융 및 보험:</strong> 금융 분야에서는 보험 청구, 금융 상품의 수명 주기 등을 분석하는 데 활용됩니다.</p></li>
+<li><p><strong>환경과 생태학:</strong> 생태학적 연구에서는 생물종의 생존 및 소멸 패턴을 이해하는 데 사용됩니다.</p></li>
+<li><p><strong>인구 통계학:</strong> 인구 조사 및 통계에서는 특정 집단의 생존 기간 및 사망률을 연구하는 데 활용됩니다.</p></li>
+<li><p><strong>소프트웨어 개발:</strong> 소프트웨어의 수명주기 및 버그 발생 패턴을 분석하여 소프트웨어 신뢰성을 평가하는 데 사용됩니다.</p></li>
+</ol>
+<p>이 외에도 다양한 분야에서 생존분석은 시간과 사건 간의 관계를 이해하고 예측하는 데 활용되어 광범위한 응용이 이루어지고 있습니다. 몇 가지 추가적인 예를 살펴보겠습니다:</p>
+<ol class="arabic simple" start="9">
+<li><p><strong>신약 개발:</strong> 의약품 산업에서는 새로운 약물이나 치료법의 효과를 평가하고 환자의 생존 기간을 예측하는 데에 활용됩니다.</p></li>
+<li><p><strong>고객 이탈 분석:</strong> 비즈니스 분야에서는 서비스 이용자들이 얼마 동안 이용하고 있는지, 언제 이탈하는지 등을 파악하여 이탈을 예측하고 개선점을 찾는 데 사용됩니다.</p></li>
+<li><p><strong>인간 행동 연구:</strong> 생존분석은 인간 행동, 특히 변화되는 행동 패턴이나 어떤 이벤트에 영향을 받는 특정 행동을 연구하는 데 활용됩니다.</p></li>
+<li><p><strong>프로젝트 관리:</strong> 프로젝트의 각 단계에서의 생존 확률을 추정하여 프로젝트 완료 예측 및 리스크 관리에 사용됩니다.</p></li>
+<li><p><strong>소비재 등의 제품 수명 주기 예측:</strong> 제품의 수명 주기를 예측하고 제품이 언제 고장나거나 더 이상 사용되지 않을지를 평가하는 데 사용됩니다.</p></li>
+<li><p><strong>시장 조사:</strong> 새로운 제품이나 서비스가 시장에서 얼마 동안 유지될 수 있는지, 어떤 인자가 시장에서의 생존에 영향을 미치는지 등을 연구하는 데 활용됩니다.</p></li>
+<li><p><strong>인터넷 서비스 및 소프트웨어 분석:</strong> 사용자가 웹 서비스나 소프트웨어를 얼마 동안 사용하는지를 추적하고 분석하여 개선점을 찾는 데 사용됩니다.</p></li>
+</ol>
+<p>이러한 다양한 응용 분야에서 생존분석은 데이터를 이해하고 예측하는 강력한 도구로 활용되고 있습니다.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="id3">
+<h2>17.2 생존시간 및 중도절단시간<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>생존분석은 사건의 종류에 따라 그것이 발생하는 데까지 걸린 시간을 여러가지 용어(사건시간, 고장시간, 구독시간, 재발시간 등)로 표현할 수 있는데, 우리는 이 모두를 통칭해서 <strong>생존시간</strong>이란 용어를 종종 사용할 것이고, 그것에 대한 분석을 생존분석이라고 표현할 것이다. 즉, 생존분석에서 말하는 생존시간이 반드시 환자가 사망에 이르기까지의 시간을 의미하는 것은 아니며, 그 포괄범위는 매우 넓다.</p>
+<p>암 치료 분석 데이터를 생각해보자. 암 치료를 받은 환자들을 5년간 관찰했다. 그 과정에서 환자별로 여러 특성(feature) 데이터가 모아졌으며, 그것으로 환자의 생존시간을 분석 예측하는 모델을 만들려고 한다.</p>
+<p>이 경우 생존시간을 반응변수로 놓고 여러 특성들을 이용해 앞에서 배운 회귀 모형으로 분석하면 되지 않을까 생각할 수도 있다. 그러나 생존시간 데이터는 지금까지 우리가 다룬 반응변수와는 뚜렷이 구별되는 중요한 차이점을 갖고 있다. 우선 시간이기 때문에 그 값이 항상 0보다 크다는 점을 들 수 있지만, 이 부분은 마이너한 것이다. 핵심적인 차이는 일부 관측값이 <strong>중도절단</strong>(censored)되었다는 점이다.(‘censored’는 검열, 삭제 등을 의미하며, 센서(sensor)와는 무관한 단어다.)</p>
+<p><strong>참고: 생존시간 용어</strong></p>
+<p>생존시간은 “사망에 이르기까지의 시간”이기 때문에 이를 줄여서 <strong>사망시간</strong>으로 표현할 수도 있다. 즉 “생존”시간과 “사망”시간이라는 정반대의 단어가 동일한 것을 지칭하는 데 사용되는 것이다. 또한 사망시간을 <strong>사망시점</strong>이라고도 할 수 있다. 즉, 생존시간, 사망시간, 사망시점은 모두 같은 것을 지칭한다.</p>
+<p>치매 발생 시기를 기록한 데이터가 있을 때, 거기 들어있는 숫자(가령 65세)는 (1) 치매가 아직 발생하지 않은 정상시간(즉 65년 동안 치매가 발생하지 않음)이면서, 동시에 (2) 치매 발생까지 걸린 시간, 또는 간단히 (3) 치매발생시간 등으로 표현할 수 있을 것이다.</p>
+<p>또 다른 예로 어떤 기계나 설비가 고장(failure)이 나는 사건을 생각해보자. 이때는 고장에 이르기까지의 시간, 즉 정상가동시간이 분석 대상 시간이 된다. 이 경우 역시 <strong>정상시간</strong>을 <strong>고장시간</strong> 또는 <strong>고장시점</strong>으로 표현할 수 있다.</p>
+<p>이밖에도 가령 구독취소를 분석한다면 구독취소가 관심사건이 되고, 분석의 목표변수는 <strong>구독기간</strong> 또는 (구독)<strong>취소시간</strong>이다.</p>
+<p>또 어떤 병이나 증상이 재발되는 것을 분석한다면 여기에서의 사건은 증상의 재발이고, 목표변수는 정상기간(또는 재발시간)이 된다.</p>
+<section id="id4">
+<h3>ChatGPT Q&amp;A<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p><strong>“생존시간”을 “사망시간”으로도 부를 수 있다고 생각하는데 너의 생각은 어때?</strong></p>
+</div></blockquote>
+<hr class="docutils" />
+<blockquote>
+<div><p>“생존시간”과 “사망시간”은 통계학이나 의학 연구에서 자주 사용되는 용어이며, 이 두 용어는 상황에 따라 다르게 해석될 수 있습니다.</p>
+<ul class="simple">
+<li><p><strong>생존시간(Survival Time)</strong>: 보통은 어떤 치료를 받거나 특정 시점(예: 질병 진단 시)부터 측정된 시간을 의미합니다. 이 용어는 대상이 살아있는 동안의 시간을 강조합니다. 생존 분석(Survival Analysis)에서 중요한 개념으로, 특정 시점까지 살아남은 비율을 추정하는 데 사용됩니다.</p></li>
+<li><p><strong>사망시간(Time until death)</strong>: 이 용어는 어떤 시작점(예: 질병 진단, 치료 시작)부터 사망에 이르기까지의 시간을 의미합니다. 이는 생존시간의 끝점을 특정하는 방식으로 사용되며, 생존 분석에서도 중요한 지표입니다.</p></li>
+</ul>
+<p>두 용어는 서로 관련이 있지만, 연구의 초점에 따라 선택되는 용어가 달라질 수 있습니다. <strong>생존시간</strong>은 보다 긍정적인 결과나 생존율의 향상을 강조할 때 사용되는 경향이 있으며, <strong>사망시간</strong>은 사망 위험 또는 위험 요소에 더 초점을 맞출 때 사용될 수 있습니다. 따라서, 연구의 목적과 맥락에 따라 적절한 용어를 선택하는 것이 중요합니다.</p>
+<p>각 용어의 선택은 데이터를 해석하고 결과를 전달하는 방식에 영향을 미칠 수 있으므로, 사용하는 용어가 연구의 목적과 어떻게 일치하는지 고려하는 것이 중요합니다.</p>
+</div></blockquote>
+</section>
+<section id="id5">
+<h3>중도절단의 의미<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>중도절단의 의미는 다음과 같다. 가령 암치료를 받은 환자가 3명만 있는 간단한 예를 생각해보자. 이들 중 첫 번째와 두 번째 환자는 각각 1년, 2년 후 사망한 반면, 마지막 세 번째 환자는 5년의 연구기간 동안 사망하지 않고 생존했다. 이때 우리는 세 명의 관측시간(년)을 [1, 2, 5]로 기록하게 되는데, 이 3개의 숫자 중 처음 2개는 생존시간이지만, 마지막(즉 5년)은 당연히 생존시간이 아니다. 왜냐하면 5년째에 사망하지 않고 여전히 생존해 있기 때문이다. 즉 관측시간 [1, 2, 5]의 3개 원소가 동일한 의미를 지닌 시간이 <strong>아니다</strong>. 우리는 처음 2개를 <strong>생존시간</strong>이라고 표현하고 마지막은 <strong>중도절단시간</strong>이라고 표현한다. 세 번째 환자의 경우에는 생존시간, 즉 언제까지 생존할지는 아직 관측되지 않았고, 단지 암치료 후 5년까지 생존해있다는 것만 관찰된 상황이다. 그런 의미에서 세 번째 환자의 생존시간은 “잘린”(censored) 것이다.</p>
+<p>위의 간단한 예에서 (세 번째 환자의 관측시간은 생존시간이 아니기 때문에) 세 번째 환자를 표본에서 제외시키고 생존시간을 분석하면 어떻게 될까? 이 경우 분석은 훨씬 간단해진다. 앞에서 배운 선형회귀나 다항(polynomial)회귀로도 분석할 수 있을 것이다.(단, 이 경우 생존시간 관측값이 항상 0보다 크다는 점을 감안할 수 없다는 문제는 안고 있다.)</p>
+<p>그러나 세 번째 환자를 분석에서 제외하는 것은 아주 귀중한 정보를 배제시키는 것이다. 관측된 시간이 비록 생존시간은 아니지만 생존시간을 분석하는 데 중요한 정보를 제공하기 때문이다. 왜냐하면 정확한 생존시간은 모르지만 “생존시간이 최소 5년 이상”이라는 의미있는 정보를 말해주기 때문이다. 따라서 3번 환자를 제외시켜서는 안된다. 3번 환자가 제공하는 정보를 포함시켜 분석하려다 보니까 생존분석이 선형회귀 분석보다는 복잡해진다. 한마디로 중도절단 관측의 존재가 분석을 좀 더 복잡하게 만드는 것이다.</p>
+<p>중도절단과 관련하여 생존분석의 기법을 “시간”과 관련이 없는 다른 분야에도 적용할 수 있다. 가령 사람들의 체중을 모델링하려는데, 가령 체중계가 200kg 이상의 체중은 측정할 수 없다고 해보자. 그런 경우 해당 숫자를 초과하는 모든 체중은 중도절단되는 셈이므로 이 장에 제시된 생존분석 기법을 그런 데이터세트 분석에도 사용할 수 있다.</p>
+<p><strong>중도절단 데이터 사례</strong></p>
+<p>아래 그림 17.1은 생존분석 데이터의 특징을 잘 보여준다. 실제 연구가 수행된 데이터로서 먼저 왼쪽 그림 (a)를 보면, 88명의 환자들이 언제 뇌종양 진단을 받았고, 언제 사망하거나 또는 연구에서 빠졌는지가 나와있다. 연구에 첫 번째로 포함된 환자가 그림에서 가장 왼쪽 첫 번째 빨간색 수직선으로 표시돼있다. 이 환자는 2004년 7월 30일 뇌종양 진단을 받았는데, 수직선 길이가 아주 짧은 것은 진단후 얼마 지나지 않아 사망한 것을 의미한다. 그림에서 빨간색은 사망을 의미하고, 파란색은 중도절단을 의미한다. 중도절단의 경우에는 일차적으로 연구가 종료된 시점까지 생존한 환자가 있고, 그밖에도 연구 종료 이전에 다양한 이유로 연구에서 배제된 환자들도 있다. 가령 환자가 증상이 심해져서 추가적인 조치를 받기 위해 연구에서 빠진다거나, 또는 중간에 스스로 퇴원을 한다거나, 또는 뇌종양과 전혀 관련되지 않은 이유(가령 교통사고)로 사망하는 등 다양한 경우가 있을 수 있다.</p>
+<p>아래 그림 (a)에서 세 번째 환자까지는 중도절단되지 않은 환자들이고, 네 번째 환자는 중도절단된 경우(파란색으로 표시)다. 이 네 번째 환자의 경우 연구가 종료된 2012년 5월 경까지 사망하지 않고 생존 상태였다는 것만 알 수 있을 뿐, 언제 사망했는지는 나와 있지 않다. 즉, 1-3번 환자까지는 뇌종양 진단 이후 생존시간(즉 사망까지의 시간)이 기록돼있는 데 반해, 4번 환자의 경우에는 사망까지의 시간이 기록돼있는 것이 아니라 뇌종양 진단 후 연구가 종료된 시점까지의 시간이 기록돼있는 것이다. 이런 점에서 1-3번 환자에 대해 기록된 시간(즉, 빨간색 선의 길이)과 4번 환자에 대해 기록된 시간(즉, 파란색 선의 길이)은 서로 성격이 다르다. 요컨대, 이 데이터세트에는 모든 환자들에 대해 <code class="docutils literal notranslate"><span class="pre">time</span></code>이 기록돼있는데, 사망 환자의 경우에는 그것이 생존시간을 의미하지만, 중도절단 환자의 경우에는 중도탈락 또는 연구종료까지의 시간을 의미한다.</p>
+<p>그림 17.1의 오른쪽 그림 (b)를 보면, <code class="docutils literal notranslate"><span class="pre">time</span></code> 변수를 히스토그램으로 그려놓은 것이다. <code class="docutils literal notranslate"><span class="pre">time</span></code>이 1년 이내인 경우가 20% 가량이고, 1년보다 크고 2년보다 작은 경우가 12% 가량인 것을 알 수 있다. 그런데 바로 위에서 설명했듯이, 이 그림을 보고 “뇌종양 진단후 1년 이내 사망 확률이 20%이고, 2년 이내 사망 확률이 32% 수준”이라고 해석하면, 그것은 크게 잘못된 것이다. 왜냐하면 <code class="docutils literal notranslate"><span class="pre">time</span></code> 변수가 사망시간뿐만 아니라 중도절단시간까지 포함하고 있기 때문이다. 요컨대, 생존분석에서는 중도절단과 관련된 부분을 잘 감안하여 생존확률을 추정해야 한다는 것을 의미한다.</p>
+<p><strong>그림 17.1.</strong> 생존분석 데이터</p>
+<p><img alt="생존분석 데이터" src="https://raw.githubusercontent.com/pilsunchoi/images/main/17-1.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: <a class="reference external" href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0148733#pone-0148733-g001">Selingerová et al. (2016)</a></p></li>
+</ul>
+<p><strong>생존분석 일반화</strong></p>
+<p>이상에서 설명한 것을 일반화시켜서 정리해보자. 우리는 각 개체별로(여기에서 개체는 환자를 생각하면 되지만 데이터에 따라서는 기계, 유저, 구독자 등이 될 수도 있음) 어떤 관측된 시간을 갖고 있는데, 어떤 개체의 경우에는 생존시간(survival time) <span class="math notranslate nohighlight">\(T\)</span>이지만, 또 다른 개체에 대해서는 생존시간이 아니라 중도절단시간(censoring time) <span class="math notranslate nohighlight">\(C\)</span>이다. 생존시간은 주어진 관심 사건이 발생하는 시간으로서 실패시간(failure time) 또는 사건시간(event time)이라고도 한다. 정확히 말하면 실패 또는 사건이 발생하는 데까지 걸린 시간이 될 것이다. 예를 들어 환자가 사망하거나 고객이 구독을 취소하는 데 걸린 시간이다. 이에 반해 중도절단시간은 중도절단이 발생하는 데까지 걸린 시간으로서 예를 들어 환자가 연구에서 탈락하거나 연구가 종료되는 데까지 걸린 시간이다.</p>
+<p>각 개체에 대해 관측된 시간 변수를 <span class="math notranslate nohighlight">\(Y\)</span>로 표기하면, 이것은 생존시간 <span class="math notranslate nohighlight">\(T\)</span>나 중도절단시간 <span class="math notranslate nohighlight">\(C\)</span> 중 하나다. <span class="math notranslate nohighlight">\(Y\)</span>와 <span class="math notranslate nohighlight">\((T, C)\)</span>의 관계를 식으로 표현할 수 있는데, 그것은 다음과 같다.</p>
+<p>먼저 중도절단시간(<span class="math notranslate nohighlight">\(C\)</span>)이 관측된 개체를 생각해보면, 해당 개체의 (관측되지 않은) 생존시간(<span class="math notranslate nohighlight">\(T\)</span>)은 반드시 <span class="math notranslate nohighlight">\(C\)</span>보다는 클 것이다. 중도절단이 관측됐다는 것 자체가 (사망) 사건이 발생하지 않았다는 것을 의미하기 때문이다. 즉, 중도절단시간이 관측된 개체의 경우, 관측된 시간 <span class="math notranslate nohighlight">\(Y\)</span>는 <span class="math notranslate nohighlight">\(T\)</span>와 <span class="math notranslate nohighlight">\(C\)</span> 중에서 값이 더 작은 <span class="math notranslate nohighlight">\(C\)</span>이다. 따라서 아래와 같이 표현할 수 있다.</p>
+<div class="math notranslate nohighlight">
+\[Y=\min(T,C) \tag{17.1}\]</div>
+<p>위의 관계는 생존시간(<span class="math notranslate nohighlight">\(T\)</span>)이 관측된 개체에 대해서도 성립한다. 왜냐하면 생존시간이 관측됐다는 것 자체가 중도절단이 발생하기 전에 (사망) 사건이 발생했다는 것을 의미하기 때문이다. 즉 생존 개체의 경우에도 <span class="math notranslate nohighlight">\(T\)</span>와 <span class="math notranslate nohighlight">\(C\)</span> 중에서 값이 더 작은 <span class="math notranslate nohighlight">\(T\)</span>가 관측된 것이다. 요컨대, 중도절단 전에 사건이 발생하면(즉, <span class="math notranslate nohighlight">\(T \le C\)</span>) 생존시간 <span class="math notranslate nohighlight">\(T\)</span>가 관측되고, 사건이 발생하기 전에 중도절단이 발생하면(즉, <span class="math notranslate nohighlight">\(T&gt;C\)</span>), 중도절단시간이 관측된다. 이와 관련된 상태 지표(status indicator) <span class="math notranslate nohighlight">\(\delta\)</span>를 다음과 같이 정의하기로 하자.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\delta=
+\begin{cases}
+1, &amp; \text{if }T \le C \\[2ex]
+0, &amp; \text{if }T \gt C \\
+\end{cases}
+\end{split}\]</div>
+<p>식으로 표현하다보니 약간 복잡해 보이지만, <span class="math notranslate nohighlight">\(\delta\)</span>의 의미는 아주 간단하다. 즉, <span class="math notranslate nohighlight">\(\delta = 1\)</span>이면 (사망) 사건이 발생한 것(즉, 생존시간이 관측된 것)을 의미하고, <span class="math notranslate nohighlight">\(\delta = 0\)</span>이면 사건이 발생하지 않은 것(즉, 중도절단시간이 관측된 것)을 의미한다. 즉, <span class="math notranslate nohighlight">\(\delta\)</span>는 사건 발생 여부를 구분하는 더미변수다.</p>
+<p>이제 <span class="math notranslate nohighlight">\(n\)</span>개의 <span class="math notranslate nohighlight">\((Y, \delta)\)</span>, 즉 <span class="math notranslate nohighlight">\((y_1, \delta_1), . . . , (y_n, \delta_n)\)</span>을 관측했다고 가정하자. 아래 그림 17.2는 <span class="math notranslate nohighlight">\(n = 4\)</span>명의 환자를 1년 동안 관측한 가상의 예를 보여준다. 환자 1과 3의 경우 사건(예: 사망 또는 질병재발)이 발생했다(즉 <span class="math notranslate nohighlight">\(\delta_1=\delta_3=1\)</span>). 따라서 관측된 시간은 생존시간 <span class="math notranslate nohighlight">\(T\)</span>에 해당한다. 이것을 <span class="math notranslate nohighlight">\(y_1=t_1\)</span>, <span class="math notranslate nohighlight">\(y_3=t_3\)</span>로 표현할 수 있다.(생존시간 변수 <span class="math notranslate nohighlight">\(T\)</span>의 다양한 값 중의 하나라는 것을 표현하기 위해 소문자 <span class="math notranslate nohighlight">\(t\)</span>를 사용했다.) 환자 2는 연구가 끝났을 때까지 생존했고, 환자 4는 연구에서 중도이탈했다 (즉 <span class="math notranslate nohighlight">\(\delta_2=\delta_4=0\)</span>). 이들 환자 2와 4에 대해서는 중도절단시간 <span class="math notranslate nohighlight">\(C = c_i\)</span>가 관측된 것이다. 즉, <span class="math notranslate nohighlight">\(y_2=c_2\)</span>, <span class="math notranslate nohighlight">\(y_4=c_4\)</span>로 표현할 수 있다.</p>
+<p><strong>그림 17.2.</strong> 중도절단된 생존 데이터 그림. 환자 1과 3은 사건이 관측됐고, 환자 2와 4는 사건이 관측되지 않았다. 환자 2는 연구가 끝났을 때까지 생존했고, 환자 4는 연구에서 이탈했다.</p>
+<p><img alt="중도절단된 생존 데이터" src="https://raw.githubusercontent.com/pilsunchoi/images/main/17-2.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: ISLP, FIGURE 11.1</p></li>
+</ul>
+</section>
+</section>
+<section id="id6">
+<h2>17.3 중도절단에 대한 가정<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>우리는 <strong>중도절단 메커니즘이 독립적</strong>(independent)이라고 가정한다. 즉 생존시간 <span class="math notranslate nohighlight">\(T\)</span>는 중도절단시간 <span class="math notranslate nohighlight">\(C\)</span>와 무관하다고 가정하는 것이다. 생존시간이 중도절단시간과 무관하지 않은 예를 들면 다음과 같다. 예를 들어, 어떤 암에 대해 연구하는 과정에서 많은 환자들이 중도이탈했는데 그 이유가 병세가 심해졌기 때문(그래서 가령 추가적인 치료를 받아야 했기 때문)이라고 해보자. 즉 중도절단이 많은 이유가 사실상 높은 사망 가능성을 의미하는 것이다. 이 경우 환자가 중도이탈한 이유를 전혀 감안하지 않고 분석을 할 경우, 실제의 생존시간을 과대평가할 가능성이 있다. 반대로 많은 환자들이 병세가 아주 호전돼 연구 중간에 퇴원함으로써 중도이탈이 많아진 경우에는 앞의 예와 반대를 의미한다. 즉, 중도이탈한 이유를 감안하지 않고 분석을 할 경우 이번에는 실제의 생존시간을 과소평가할 가능성이 있다. 또 다른 예로 가령 증상이 심해졌을 때, 남성이 여성보다 연구에서 이탈할 가능성이 더 높다고 가정해보자. 그런 상황에서 남녀의 성향 차이를 전혀 고려하지 않고 분석할 경우 남성의 생존시간을 여성보다 과대평가할 가능성이 있다.</p>
+<p>이런 예들은 독립적 중도절단의 가정을 위배하는 것들이다. 일반적으로 중도절단 메커니즘이 독립적인지 여부는 데이터 자체만으로는 확인할 수 없다. 대신 독립적 중도절단 가정이 합리적인지 여부를 판단하기 위해 데이터 수집 프로세스를 신중하게 살펴봐야 한다. 여기서는 중도이탈의 예를 들었지만, 중도절단에는 중도이탈뿐만 아니라 연구가 끝날 때까지 생존한(즉, 사건이 발생하지 않은) 경우도 포함된다. 어쨌든 우리는 이 장의 나머지 부분에서는 중도절단 메커니즘이 독립적이라고 가정한다.</p>
+<p>이 장에서는 <span class="math notranslate nohighlight">\(T \ge Y\)</span>일 때 발생하는 <strong>오른쪽 중도절단</strong>(right censoring)에 초점을 맞춘다.(이것은 식 17.1에서 보듯이 <span class="math notranslate nohighlight">\(T \ge C\)</span>를 의미함.) 그러나 다른 유형의 중도절단도 가능하다. 예를 들어 <strong>왼쪽 중도절단</strong>(left censoring)도 있을 수 있는데, 이것은 실제 사건시간 <span class="math notranslate nohighlight">\(T\)</span>가 관측시간 <span class="math notranslate nohighlight">\(Y\)</span>보다 작거나 같은 경우이다. 예를 들어, 산모들의 임신 기간에 대한 연구를 생각해보자. 이 연구에서 만약 임신 250일이 지난 산모들에 대해서만 정확한 출산 시점을 기록했다고 해보자. 이 경우 임신 250일 이전에 출산을 한 산모는 임신 기간은 250일 미만이지만 정확한 시점은 조사되지 않았기 때문에 왼쪽 중도절단에 해당한다.</p>
+<p><strong>구간 중도절단</strong>(interval censoring)은 사건의 정확한 발생시간을 알지는 못하지만 특정 구간에 속하는 것은 알고 있는 상황을 말한다. 예를 들어, 환자들에게 특정 사건이 발생했는지를 일주일에 한 번씩 조사하는 경우가 여기에 해당한다.</p>
+<p>이 장에서는 오른쪽 중도절단에 초점을 맞추기로 한다. 왼쪽 중도절단 및 구간 중도절단은 이 장에 제시된 방법을 약간 변형시켜 분석할 수 있다.</p>
+</section>
+<section id="id7">
+<h2>17.4 카플란-마이어 생존곡선 추정<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p>생존분석의 핵심 요소는 생존시간이다. 다양한 방식으로 생존시간을 분석하지만, 가장 기초적인 분석은 <strong>생존시간의 분포</strong>를 알아보는 것이다. 가령 어떤 암 치료를 받은 환자들의 생존시간 데이터가 주어진 경우, 암 치료를 받고 1년 이상 생존할 확률, 2년 이상 생존할 확률, 이런 것들을 추정하는 것이다. 마치 소득 데이터가 있을 때, 사람들의 소득 분포를 그려보는 것과 마찬가지다. 소득분포의 경우 대개 히스토그램(histogram)을 그린다. 월 소득이 50만 원 이하인 그룹이 몇 퍼센트고, 50만 원에서 100만 원 그룹이 몇 퍼센트고, 이런 식으로 소위 경험적 분포함수(empirical distribution function)를 그리는 것이다. 마찬가지로 생존분석에서도 생존시간의 분포를 추정할 수 있다. 그것을 <strong>생존곡선</strong>(survival curve) 또는 <strong>생존함수</strong>(survival function)라고 한다.</p>
+<section id="id8">
+<h3>카플란-마이어 추정<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<p>생존곡선을 구하는 대표적 기법이 <strong>카플란-마이어</strong>(Kaplan-Meier) 추정이다. 간단한 예시로 어떤 암 치료를 받은 5명 환자의 생존시간을 100주 동안 관찰했는데, 관측된 시간이 (오름차순으로 정렬했을 때) 50, 60, 70, 80, 90주라고 해보자.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>환자</p></th>
+<th class="head text-center"><p>생존시간(주)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>1</p></td>
+<td class="text-center"><p>50</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>2</p></td>
+<td class="text-center"><p>60</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>3</p></td>
+<td class="text-center"><p>70</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>4</p></td>
+<td class="text-center"><p>80</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>5</p></td>
+<td class="text-center"><p>90</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>이해를 돕기 위해 먼저 중도절단이 없는 경우를 생각해보자. 즉 5개의 관측시간이 모두 다 생존시간이라 해보자. 이런 경우라면, 생존확률 계산은 매우 간단하다.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(S(50)\)</span>: 50주 시점에 5명 중 총 1명이 사망하고 4명이 생존했기 때문에 50주 이상 생존확률은 4/5(80%).</p></li>
+<li><p><span class="math notranslate nohighlight">\(S(60)\)</span>: 60주 시점에 5명 중 총 2명이 사망하고 3명이 생존했기 때문에 60주 이상 생존확률은 3/5(60%).</p></li>
+<li><p><span class="math notranslate nohighlight">\(S(70)\)</span>: 70주 시점에 5명 중 총 3명이 사망하고 2명이 생존했기 때문에 70주 이상 생존확률은 2/5(40%).</p></li>
+<li><p><span class="math notranslate nohighlight">\(S(80)\)</span>: 80주 시점에 5명 중 총 4명이 사망하고 1명이 생존했기 때문에 80주 이상 생존확률은 1/5(20%).</p></li>
+<li><p><span class="math notranslate nohighlight">\(S(90)\)</span>: 90주 시점에 5명 중 총 5명이 사망하고 0명이 생존했기 때문에 90주 이상 생존확률은 0/5(0%).</p></li>
+</ul>
+<p>이처럼 중도절단 관측이 없는 경우에는 카플란-마이어 추정에 대해 새롭게 배울 필요도 없이 상식만으로도 생존확률과 생존곡선을 구할 수 있다. 다음은 5명 환자의 각 사망시점에서 계산한 생존확률을 식으로 표현한 것이다.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(S(50) = \frac{4}{5} = 0.8\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(S(60) = \frac{4}{5} \times \frac{3}{4} = 0.6\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(S(70) = \frac{4}{5} \times \frac{3}{4} \times \frac{2}{3} = 0.4\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(S(80) = \frac{4}{5} \times \frac{3}{4} \times \frac{2}{3} \times \frac{1}{2} = 0.2\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(S(90) = \frac{4}{5} \times \frac{3}{4} \times \frac{2}{3} \times \frac{1}{2} \times \frac{0}{1} = 0\)</span></p></li>
+</ul>
+<p>가령 <span class="math notranslate nohighlight">\(S(60)\)</span>, 즉 60주 이상 생존확률은 앞에서도 설명했듯이 50주와 60주에 각 1명씩 사망하여 5명 중 3명만 남았기 때문에 이 확률은 <span class="math notranslate nohighlight">\(3/5=0.6\)</span>이다. 이것을 위에서 분수를 사용해 <span class="math notranslate nohighlight">\(4/5 \times 3/4\)</span>와 같은 식으로 좀 더 복잡하게 적어놓은 이유는 카플란-마이어 추정을 일반화하기 위한 것이다. <span class="math notranslate nohighlight">\(S(60)\)</span> 계산에 나와있는 <span class="math notranslate nohighlight">\(4/5 \times 3/4\)</span>의 의미는 대략적으로 이렇다. 즉, “60주 이상 생존”한다는 것은 “60주 직전까지 생존한 환자 중에서 60주 이상도 생존”한 경우다. 따라서 그 확률은 60주 직전까지 생존할 확률(이것은 50주 이상 생존할 확률과 동일한 것으로 <span class="math notranslate nohighlight">\(4/5\)</span>임), 그것에다 60주 직전까지 생존한 환자(50주에 1명이 사망했기 때문에 대상 환자가 이제는 5명이 아니라 4명으로 바뀜) 중에서 60주 이상 생존할 확률(즉 <span class="math notranslate nohighlight">\(3/4\)</span>)을 곱한 것이다. <span class="math notranslate nohighlight">\(S(70)\)</span>, <span class="math notranslate nohighlight">\(S(80)\)</span>, <span class="math notranslate nohighlight">\(S(90)\)</span>도 마찬가지 방식으로 표현한 것이다.</p>
+<p>다음은 위의 간단한 예에 대해 파이썬 <code class="docutils literal notranslate"><span class="pre">lifelines</span></code> 모듈을 사용하여 카플란-마이어 생존곡선을 추정한 것이다. ChatGPT에게 예제 코드를 받아서 위의 숫자들을 집어넣은 것이다. 아래 예에서 <code class="docutils literal notranslate"><span class="pre">event</span></code>라는 이름의 변수가 앞에서 설명한 상태 지표 <span class="math notranslate nohighlight">\(\delta\)</span>에 해당하는 것으로서 사망 더미변수이다.</p>
+</section>
+<section id="id9">
+<h3>ChatGPT Q&amp;A<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p><strong>Survival model에서 Kaplan-Meier 생존함수 추정 예제 코드를 만들어줘. 관측이 5개인 경우.</strong></p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 처음 한 번 설치해야 함</span>
+<span class="c1"># %pip install lifelines  </span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">lifelines</span> <span class="kn">import</span> <span class="n">KaplanMeierFitter</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">90</span><span class="p">],</span>  <span class="c1"># 생존 시간</span>
+    <span class="s1">&#39;event&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>       <span class="c1"># 사건 여부 (1: 사건 발생, 0: 사건 미발생)</span>
+<span class="p">})</span>
+
+<span class="c1"># Kaplan-Meier 생존 함수 추정</span>
+<span class="n">kmf</span> <span class="o">=</span> <span class="n">KaplanMeierFitter</span><span class="p">()</span>
+<span class="n">kmf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">durations</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span> <span class="n">event_observed</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;event&#39;</span><span class="p">])</span>
+
+<span class="c1"># 생존 확률 표 출력</span>
+<span class="n">survival_table</span> <span class="o">=</span> <span class="n">kmf</span><span class="o">.</span><span class="n">survival_function_</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">survival_table</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="s1">&#39;S(t)&#39;</span><span class="p">]</span>
+
+<span class="c1"># time을 기준으로 data와 survival_table 합치기</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">survival_table</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+
+<span class="c1"># 불필요한 열 제거</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># 결과 출력</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="c1"># 새로운 그림 생성 및 크기 지정</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="c1"># 생존 함수 그래프 출력 (신뢰구간 표시 안 함)</span>
+<span class="n">kmf</span><span class="o">.</span><span class="n">plot_survival_function</span><span class="p">(</span><span class="n">ci_show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Kaplan-Meier Survival Function&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Survival Probability&#39;</span><span class="p">)</span>
+
+<span class="c1"># x-축 범위 설정</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   time  event  S(t)
+0    50      1   0.8
+1    60      1   0.6
+2    70      1   0.4
+3    80      1   0.2
+4    90      1   0.0
+</pre></div>
+</div>
+<img alt="../_images/4bcf9e99deab53feae381b591d8add4aa9e295fad1fea4a3c0ca14904a486ba6.png" src="../_images/4bcf9e99deab53feae381b591d8add4aa9e295fad1fea4a3c0ca14904a486ba6.png" />
+</div>
+</div>
+</section>
+<section id="id10">
+<h3>중도절단이 있는 경우<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<p>관측시간에 중도절단시간이 포함된 경우 생존확률을 구할 때 좀 더 생각을 해야 한다. 앞에서와 비슷한 예시로 어떤 암 치료를 받은 5명의 환자를 100주 동안 관찰을 했는데, 관측된 시간이 (오름차순으로 정렬했을 때) 50, 60, 75, 80, 100주라고 해보자. 단, 이 중 75주와 100주는 중도절단시간이라고 해보자.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>환자</p></th>
+<th class="head text-center"><p>관측시간(주)</p></th>
+<th class="head text-center"><p>상태</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>1</p></td>
+<td class="text-center"><p>50</p></td>
+<td class="text-center"><p>사망</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>2</p></td>
+<td class="text-center"><p>60</p></td>
+<td class="text-center"><p>사망</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>3</p></td>
+<td class="text-center"><p>75</p></td>
+<td class="text-center"><p>중도절단</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>4</p></td>
+<td class="text-center"><p>80</p></td>
+<td class="text-center"><p>사망</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>5</p></td>
+<td class="text-center"><p>100</p></td>
+<td class="text-center"><p>중도절단</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>즉, 세 번째 환자(75주)는 연구 대상에서 중도이탈했으며, 다섯 번째 환자(100주)는 연구가 끝나는 시점까지 사망사건이 발생하지 않은 경우다. 이 예에 대해 카플란-마이어 방식으로 생존확률을 계산하면 다음과 같다.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(S(50) = \frac{4}{5} = 0.8\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(S(60) = \frac{4}{5} \times \frac{3}{4} = 0.6\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(S(80) = \frac{4}{5} \times \frac{3}{4} \times \frac{1}{2}= 0.3\)</span></p></li>
+</ul>
+<p>일단 <span class="math notranslate nohighlight">\(S(50)\)</span>과 <span class="math notranslate nohighlight">\(S(60)\)</span>은 앞의 중도절단이 전혀 없는 경우와 동일하다. 이는 50주와 60주가 모두 생존시간(즉, 사망시간)을 의미하기 때문에 생존확률 계산이 앞의 중도절단이 없는 경우와 달라질 이유가 없다.</p>
+<p>다음으로 <span class="math notranslate nohighlight">\(S(75)\)</span>와 <span class="math notranslate nohighlight">\(S(100)\)</span>은 생존확률을 계산하지 않았다. 정확히 말하면 70주와 100주 시점에서는 사망사건이 발생하지 않았기 때문에 생존확률이 바뀔 이유가 없다. 즉, <span class="math notranslate nohighlight">\(S(70)\)</span>은 60주 이후 사망사건이 발생하지 않았기 때문에 <span class="math notranslate nohighlight">\(S(60)\)</span>과 동일하고, <span class="math notranslate nohighlight">\(S(100)\)</span>은 80주 이후 사망사건이 발생하지 않았기 때문에 <span class="math notranslate nohighlight">\(S(80)\)</span>과 동일하다.</p>
+<p>결국 <span class="math notranslate nohighlight">\(S(80)\)</span>만 따져보면 되는데, 만약 앞의 중도이탈 환자가 전혀 없는 경우와 동일한 방식으로 생각한다면, 전체 5명 중 80주 이상 생존한 환자가 1명이기 때문에 <span class="math notranslate nohighlight">\(S(80)\)</span>을 0.2(즉 20%)로 생각할 수 있다. 그러나 이것은 타당하지 않다. 왜냐하면 1명만이 80주 이상 생존한 것은 맞는데, 그렇다고 나머지 4명 모두가 80주 이전에 사망한 것은 아니기 때문이다. 즉 75주에 1명이 중도이탈했고, 이 환자가 80주 시점에서 이미 사망했는지(아니면 아직 생존하고 있는지) 모르는 상태에서 80주 이상 생존확률을 20%로 보는 것은 생존 가능성을 과소평가하는 것이기 때문이다. 결국 중도이탈 환자의 존재가 생존확률 계산을 간단하지 않게 만드는 것이다.</p>
+<p>카플란-마이어는 생존확률을 다음과 같이 추정하는 것이 타당하다고 본다. 즉, 위에 나와 있는 곱셈 <span class="math notranslate nohighlight">\(S(80) = 4/5 \times 3/4 \times 1/2\)</span>은 다음을 의미한다. “80주 이상 생존”은 “80주 직전까지 생존한 환자 중에서 80주 이상까지도 생존”한 경우이다. 따라서 그 확률은 80주 직전까지 생존할 확률(이것은 직전 사망사건이 발생한 60주를 넘어 생존할 확률이기 때문에 <span class="math notranslate nohighlight">\(S(60) = 4/5 \times 3/4 \)</span>에 해당함), 그것에다 80주 직전까지 생존한 환자(75주에 1명이 이탈했기 때문에 대상 환자가 3명이 아니라 2명임) 중에서 80주 이상 생존할 확률(즉 <span class="math notranslate nohighlight">\(1/2\)</span>)을 곱한 것이다. 이렇게 계산하면 30%가 나오는데, 이것은 앞에서 중도이탈 환자를 고려하지 않고 계산했던 20%보다 높다.</p>
+<p>만약 이 연구에서 중도이탈 환자들 2명(즉 75주와 100주 관측)을 빼버리고, 나머지 3명만 가지고 생존확률을 구할 경우, 80주 이상 생존 환자가 한 명도 없기 때문에 생존확률이 0이 되고, 이것 역시 카플란-마이어 추정과 비교하면 생존확률을 매우 편향되게 추정한 것임을 알 수 있다.</p>
+<p><strong>위의 숫자 예를 코딩으로 추정</strong></p>
+<p>이상의 예에 대해 파이썬 코딩으로 카플란-마이어 생존곡선을 추정한 것이 아래 나와 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">lifelines</span> <span class="kn">import</span> <span class="n">KaplanMeierFitter</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>  <span class="c1"># 생존 시간</span>
+    <span class="s1">&#39;event&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>       <span class="c1"># 사건 여부 (1: 사건 발생, 0: 사건 미발생)</span>
+<span class="p">})</span>
+
+<span class="c1"># Kaplan-Meier 생존 함수 추정</span>
+<span class="n">kmf</span> <span class="o">=</span> <span class="n">KaplanMeierFitter</span><span class="p">()</span>
+<span class="n">kmf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">durations</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span> <span class="n">event_observed</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;event&#39;</span><span class="p">])</span>
+
+<span class="c1"># 생존 확률 표 출력</span>
+<span class="n">survival_table</span> <span class="o">=</span> <span class="n">kmf</span><span class="o">.</span><span class="n">survival_function_</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">survival_table</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="s1">&#39;S(t)&#39;</span><span class="p">]</span>
+
+<span class="c1"># time을 기준으로 data와 survival_table 합치기</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">survival_table</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+
+<span class="c1"># 불필요한 열 제거</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># 결과 출력</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="c1"># 새로운 그림 생성 및 크기 지정</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="c1"># 생존 함수 그래프 출력 (신뢰구간 표시 안 함)</span>
+<span class="n">kmf</span><span class="o">.</span><span class="n">plot_survival_function</span><span class="p">(</span><span class="n">ci_show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Kaplan-Meier Survival Function&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Survival Probability&#39;</span><span class="p">)</span>
+
+<span class="c1"># x-축 범위 설정</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   time  event  S(t)
+0    50      1   0.8
+1    60      1   0.6
+2    75      0   0.6
+3    80      1   0.3
+4   100      0   0.3
+</pre></div>
+</div>
+<img alt="../_images/1b31547480f998f397faf0a67aa43955717c45ec8b06f3700eedbc8f5d0d797f.png" src="../_images/1b31547480f998f397faf0a67aa43955717c45ec8b06f3700eedbc8f5d0d797f.png" />
+</div>
+</div>
+</section>
+<section id="id11">
+<h3>이론적 설명<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<p>생존곡선(survival curve) 또는 생존함수(survival function)는 다음과 같이 정의된다.</p>
+<div class="math notranslate nohighlight">
+\[S(t)=\Pr(T&gt;t) \tag{17.2}\]</div>
+<p>즉, 생존함수 <span class="math notranslate nohighlight">\(S(t)\)</span>는 생존시간(<span class="math notranslate nohighlight">\(T\)</span>)이 어떤 주어진 <span class="math notranslate nohighlight">\(t\)</span>보다 더 클 확률이다. 1년 이상 생존확률보다 2년 이상 생존확률이 당연히 작을 것이기 때문에 생존함수는 감소함수(decreasing function)다.</p>
+<p>어떤 관측시간이 있을 때, 카플란-마이어 <span class="math notranslate nohighlight">\(S(t)\)</span> 추정은 다음과 같다. 관측시간에 생존시간과 중도절단시간이 섞여 있는데, 그 중에서 생존시간만 골라내 그것을 오름차순으로 정렬한 것을 <span class="math notranslate nohighlight">\(d_1 &lt; d_2 &lt; · · · &lt; d_K\)</span>라고 하자. 이들 각각의 <span class="math notranslate nohighlight">\(d_k\)</span>를 사망 시점이라 부를 수도 있다.</p>
+<p>한편 <span class="math notranslate nohighlight">\(q_k\)</span>는 사망시점이 <span class="math notranslate nohighlight">\(d_k\)</span>인 환자의 수, 즉 <span class="math notranslate nohighlight">\(d_k\)</span>에 몇 명이 사망했는지를 나타낸다고 하자. 그리고 <span class="math notranslate nohighlight">\(r_k\)</span>는 <span class="math notranslate nohighlight">\(d_k\)</span>까지는 살아있고 연구에도 들어있는 환자의 숫자를 나타낸다고 하자. 따라서 <span class="math notranslate nohighlight">\(r_k\)</span>는 생존시간(또는 사망시점)이 <span class="math notranslate nohighlight">\(d_k\)</span>보다 클 확률을 구할 때 분모의 크기가 될 것이다. 우리는 이 <span class="math notranslate nohighlight">\(r_k\)</span>에 속하는 환자를 <strong>위기(at risk)</strong> 환자라고 부르기로 한다. 아직 살아있고 연구에도 들어있는 환자는 언제든, 또는 언젠가는 사망사건이 발생할 수 있기 때문이다. 어떤 주어진 시점에 전체 위기 환자의 집합을 <strong>위기집합</strong>(risk set)이라고 부르기로 한다.</p>
+<p>전체확률의 법칙(law of total probability)을 생각해보자. 두 사건 <span class="math notranslate nohighlight">\(A\)</span> 및 <span class="math notranslate nohighlight">\(B\)</span>가 있고, <span class="math notranslate nohighlight">\(B^c\)</span>는 사건 <span class="math notranslate nohighlight">\(B\)</span>의 여집합, 즉 <span class="math notranslate nohighlight">\(B\)</span>가 성립하지 않는 사건이라 할 때, 전체확률의 법칙에 따르면 <span class="math notranslate nohighlight">\(\Pr(A) = \Pr(A\mid B) \Pr(B) + \Pr(A\mid B^c) \Pr(B^c)\)</span>이다. 이를 생존함수 <span class="math notranslate nohighlight">\(\Pr(T &gt; d_{k})\)</span>에 적용하면 다음과 같다.</p>
+<div class="math notranslate nohighlight">
+\[\Pr(T &gt; d_{k}) =\Pr(T &gt; d_{k} \mid T &gt; d_{k−1}) \Pr(T &gt; d_{k−1}) + \Pr(T &gt; d_{k} \mid T \le d_{k−1}) \Pr(T \le d_{k−1})\]</div>
+<p>여기서 <span class="math notranslate nohighlight">\(d_{k−1} &lt; d_{k}\)</span>이기 때문에 <span class="math notranslate nohighlight">\(\Pr(T &gt; d_{k} \mid T ≤ d_{k−1}) = 0\)</span>이 된다.즉, 환자가 <span class="math notranslate nohighlight">\(d_{k−1}\)</span>까지 생존하지 못한 경우 <span class="math notranslate nohighlight">\(d_k\)</span> 이후에 생존하는 것은 불가능하다. 그러므로 위 식은 다음과 같이 된다.</p>
+<div class="math notranslate nohighlight">
+\[S(d_k) = \Pr(T &gt; d_k) = \Pr(T &gt; d_k \mid T &gt; d_{k−1}) \Pr(T &gt; d_{k−1})\]</div>
+<p>여기서 맨 오른쪽 끝의 <span class="math notranslate nohighlight">\(\Pr(T &gt; d_{k−1})\)</span>은 <span class="math notranslate nohighlight">\(S(d_{k−1})\)</span>이므로 위 식은 다음과 같이 된다.</p>
+<div class="math notranslate nohighlight">
+\[S(d_{k}) = \Pr(T &gt; d_{k} \mid T &gt; d_{k−1})S(d_{k−1})\]</div>
+<p>결국 이것은 다음을 의미한다.</p>
+<div class="math notranslate nohighlight">
+\[S(d_{k}) = \Pr(T &gt; d_{k} \mid T &gt; d_{k−1})\times···\times\Pr(T &gt; d_{2} \mid T &gt; d_{1} ) \Pr(T &gt; d_{1})\]</div>
+<p>여기서 우변에 있는 각 항에 추정치를 집어넣으려고 하는데, 다음 추정치를 사용하는 것이 타당하다.</p>
+<div class="math notranslate nohighlight">
+\[\widehat{\Pr}(T &gt; d_j \mid T &gt; d_{j −1}) = \left( \frac{r_j − q_j}{r_j} \right)\]</div>
+<p>여기서 <span class="math notranslate nohighlight">\(T &gt; d_{j−1}\)</span>의 조건은 환자가 (<span class="math notranslate nohighlight">\(d_{j-1}\)</span>부터) <span class="math notranslate nohighlight">\(d_{j}\)</span>까지 생존해있고 연구에도 들어있는 것을 의미하기 때문에 <span class="math notranslate nohighlight">\(d_{j}\)</span>에 위기집합에 속해있는 것을 의미한다. 따라서 <span class="math notranslate nohighlight">\({\Pr}(T &gt; d_j \mid T &gt; d_{j −1})\)</span> 확률은 <span class="math notranslate nohighlight">\(d_{j}\)</span>에 위기집합에 속한 환자 중 생존시간이 <span class="math notranslate nohighlight">\(d_j\)</span>보다 클 확률이기 때문에 <span class="math notranslate nohighlight">\(r_j\)</span>를 분모로 하고 <span class="math notranslate nohighlight">\(d_j\)</span>에 살아있는 환자, 즉 <span class="math notranslate nohighlight">\(r_j − q_j\)</span>를 분자로 하는 비율로 추정하는 것이 타당하다. 이렇게 해서 구한 다음의 생존곡선이 카플란-마이어 추정이다.</p>
+<div class="math notranslate nohighlight">
+\[\hat{S}(d_k) = \prod_{j=1}^k \left( \frac{r_j − q_j}{r_j} \right)  \tag{17.3}\]</div>
+<p>우리는 <span class="math notranslate nohighlight">\(d_k\)</span>와 <span class="math notranslate nohighlight">\(d_{k+1}\)</span> 사이의 시간 <span class="math notranslate nohighlight">\(t\)</span>에 대해서는 수평, 즉 <span class="math notranslate nohighlight">\(\hat{S}(t) = \hat{S}(d_k)\)</span>로 설정한다. 결과적으로 카플란-마이어 생존곡선은 계단 모양을 갖는다. 식 17.3에서 보는 것처럼 카플란-마이어 추정은 곱하기를 연속적으로 해나가는 방식이라서 곱(의)극한추정량(product-limit estimator)이라고 부른다.
+이렇게 카플란-마이어 추정처럼 최초 시점에서 시작하여 시간의 흐름에 따라 <strong>순차적</strong>(sequential)인 방식으로 추정해나가는 것은 중도절단 관측이 지닌 정보를 포함시키려는 것으로서 카플란-마이어 생존함수 추정뿐만 아니라 생존분석 분야의 다른 분석(가령 아래에서 다루는 로그순위 검정)에서도 사용되는 기법이다.</p>
+</section>
+<section id="braincancer">
+<h3>BrainCancer 데이터세트<a class="headerlink" href="#braincancer" title="Link to this heading">#</a></h3>
+<p>사용할 데이터세트는 정위 방사선(stereotactic radiation) 방법으로 치료를 받은 원발성 뇌종양(primary brain tumors) 환자의 생존시간과 관련된 것이다.(이 데이터세트는 다음 논문에 나온다. <a class="reference external" href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0148733">Selingerová et al. (2016) Survival of patients with primary brain tumors: Comparison of two statistical approaches. PLoS One, 11(2):e0148733.</a>) 88명의 환자 중 연구가 끝날 때까지 생존한 환자는 53명이다.</p>
+<p><strong>관측 환자</strong></p>
+<p>원발성 뇌종양을 가진 환자들은 브루노(Brno)의 Masaryk Memorial Cancer Institute에서 치료를 받았다. 정위 방사선 치료를 받은 환자들은 방사선종양학 클리닉과 신경과 정신과에서 모니터링되었으며 정기적으로 자기공명 이미징 검사를 받았다.</p>
+<p>연구는 2004년 7월 30일 첫 번째 환자부터 시작되었으며, 2011년 6월 27일에 마지막 환자가 포함되었고, 2012년 5월 5일에 연구가 완료됐다. 총 100명의 의료 기록 중 88명의 환자가 선정됐다. 11세 미만의 환자, 두뇌방사선치료, 총종양 부피가 80<span class="math notranslate nohighlight">\(\text{cm}^3\)</span> 이상인 환자는 제외됐다.</p>
+<p><strong>환자들의 특성</strong></p>
+<p>예측변수는 <code class="docutils literal notranslate"><span class="pre">gtv</span></code>(총종양 부피, 단위: <span class="math notranslate nohighlight">\(\text{cm}^3\)</span>), <code class="docutils literal notranslate"><span class="pre">sex</span></code>(female, male), <code class="docutils literal notranslate"><span class="pre">diagnosis</span></code>(진단명: 뇌막종, LG 뇌종양, HG 뇌종양, 기타), <code class="docutils literal notranslate"><span class="pre">loc</span></code>(종양 위치: 두뇌하, 두뇌상), <code class="docutils literal notranslate"><span class="pre">ki</span></code>(Karnofsky 지수), <code class="docutils literal notranslate"><span class="pre">stereo</span></code>(정위적 방법: 정위 방사선 수술(SRS), 분할 정위 방사선 요법(SRT)) 등이다.</p>
+<p>뇌막종, LG 뇌종양, HG 뇌종양은 뇌세포 방사선치료를 받은 환자들의 가장 일반적인 진단이며, 그밖의 다른 진단은 비중이 낮아 하나의 그룹으로 합쳐졌다. 종양 위치는 종양의 유형을 결정하는 데 유용할 수 있다. 이 연구에서 환자들은 성인이었기 때문에 소뇌천막위(두뇌상)의 종양 위치가 우세했다. 소뇌천막 아래(두뇌하)의 위치는 어린이 환자에서 더 자주 나타난다. 환자의 전반적인 상태를 특성화하는 Karnofsky 지수는 100%에서 0%까지 범위가 있으며, 100%는 완전한 건강을 나타내고 0%는 사망을 나타낸다. Karnofsky 지수가 80% 이상이면 일상 활동이나 작업을 수행할 수 있는 환자를 의미한다. 이상값(outlier)으로 인해 gtv는 96번째 백분위수에서 윈저화(winsorized)되었다(3명의 환자). SRS를 받은 23명 환자의 중위값 용량은 18 Gy(범위 14-40 Gy)였으며, SRT를 받은 65명의 환자는 중위값 용량이 28 Gy(범위 12-58 Gy)의 방사선 치료를 받았다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">import</span> <span class="n">subplots</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">lifelines</span> <span class="kn">import</span> <span class="n">KaplanMeierFitter</span><span class="p">,</span> <span class="n">CoxPHFitter</span>
+<span class="kn">from</span> <span class="nn">lifelines.statistics</span> <span class="kn">import</span> <span class="n">logrank_test</span><span class="p">,</span> <span class="n">multivariate_logrank_test</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>데이터 로딩</strong></p>
+<p>ISLP에서 제공하는 <code class="docutils literal notranslate"><span class="pre">BrainCancer.csv</span></code> 데이터를 불러들인다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../Data/BrainCancer.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sex</th>
+      <th>diagnosis</th>
+      <th>loc</th>
+      <th>ki</th>
+      <th>gtv</th>
+      <th>stereo</th>
+      <th>status</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Female</td>
+      <td>Meningioma</td>
+      <td>Infratentorial</td>
+      <td>90</td>
+      <td>6.11</td>
+      <td>SRS</td>
+      <td>0</td>
+      <td>57.64</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Male</td>
+      <td>HG glioma</td>
+      <td>Supratentorial</td>
+      <td>90</td>
+      <td>19.35</td>
+      <td>SRT</td>
+      <td>1</td>
+      <td>8.98</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Female</td>
+      <td>Meningioma</td>
+      <td>Infratentorial</td>
+      <td>70</td>
+      <td>7.95</td>
+      <td>SRS</td>
+      <td>0</td>
+      <td>26.46</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Female</td>
+      <td>LG glioma</td>
+      <td>Supratentorial</td>
+      <td>80</td>
+      <td>7.61</td>
+      <td>SRT</td>
+      <td>1</td>
+      <td>47.80</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Male</td>
+      <td>HG glioma</td>
+      <td>Supratentorial</td>
+      <td>90</td>
+      <td>5.06</td>
+      <td>SRT</td>
+      <td>1</td>
+      <td>6.30</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>ISLP 모듈</strong></p>
+<p><a class="reference external" href="https://www.statlearning.com/">ISLP</a>에서 제공하는 <a class="reference external" href="https://islp.readthedocs.io/en/latest/installation.html#">ISLP 모듈</a>과 함수를 이용하면 ISLP의 여러 데이터세트를 좀 더 간단히 불러들일 수 있다.</p>
+<ul class="simple">
+<li><p><strong>참고:</strong> 이 책의 앞 장에서도 아래와 같은 방식으로 ISLP의 여러 데이터세트를 (사실상 인터넷을 통해) 좀 더 간단히 로딩할 수 있는데, 우리는 의도적으로 그와 같은 방식을 사용하지 않았다. 그 대신 <a class="reference external" href="https://www.statlearning.com/resources-python">ISLP 데이터 사이트</a>에서 예제 데이터세트를 직접 다운로드 받아 자신의 컴퓨터에 저장한 다음, 그것을 불러들이는 방식을 연습했다. 이런 방식에 익숙해져야만 ISLP 제공 데이터가 아닌 다른 데이터세트도 잘 로딩시킬 수 있기 때문이다.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 처음 한 번 설치</span>
+<span class="c1"># %pip install ISLP</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ISLP</span> <span class="kn">import</span> <span class="n">load_data</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">BrainCancer</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s1">&#39;BrainCancer&#39;</span><span class="p">)</span>
+<span class="n">BrainCancer</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sex</th>
+      <th>diagnosis</th>
+      <th>loc</th>
+      <th>ki</th>
+      <th>gtv</th>
+      <th>stereo</th>
+      <th>status</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Female</td>
+      <td>Meningioma</td>
+      <td>Infratentorial</td>
+      <td>90</td>
+      <td>6.11</td>
+      <td>SRS</td>
+      <td>0</td>
+      <td>57.64</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Male</td>
+      <td>HG glioma</td>
+      <td>Supratentorial</td>
+      <td>90</td>
+      <td>19.35</td>
+      <td>SRT</td>
+      <td>1</td>
+      <td>8.98</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Female</td>
+      <td>Meningioma</td>
+      <td>Infratentorial</td>
+      <td>70</td>
+      <td>7.95</td>
+      <td>SRS</td>
+      <td>0</td>
+      <td>26.46</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Female</td>
+      <td>LG glioma</td>
+      <td>Supratentorial</td>
+      <td>80</td>
+      <td>7.61</td>
+      <td>SRT</td>
+      <td>1</td>
+      <td>47.80</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Male</td>
+      <td>HG glioma</td>
+      <td>Supratentorial</td>
+      <td>90</td>
+      <td>5.06</td>
+      <td>SRT</td>
+      <td>1</td>
+      <td>6.30</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">BrainCancer</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;sex&#39;, &#39;diagnosis&#39;, &#39;loc&#39;, &#39;ki&#39;, &#39;gtv&#39;, &#39;stereo&#39;, &#39;status&#39;, &#39;time&#39;], dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>BrainCancer 데이터세트 변수</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sex</span></code> : 성별(Female, Male)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">diagnosis</span></code> : 진단명(Meningioma, LG glioma, HG glioma, Other)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loc</span></code> : 종양 위치(Infratentorial, Supratentorial)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ki</span></code> : Karnofsky index</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gtv</span></code> : 총 종양 부피(단위: 세제곱 센티미터)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stereo</span></code> : 정위적 방법(SRS, SRT)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span></code> : 지표변수(1: 사건발생, 0: 중도절단)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> : 관측시간</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">BrainCancer</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sex          category
+diagnosis    category
+loc          category
+ki              int64
+gtv           float64
+stereo       category
+status          int64
+time          float64
+dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">BrainCancer</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sex
+Female    45
+Male      43
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">BrainCancer</span><span class="p">[</span><span class="s1">&#39;diagnosis&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>diagnosis
+Meningioma    42
+HG glioma     22
+Other         14
+LG glioma      9
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">BrainCancer</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>status
+0    53
+1    35
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>카플란-마이어 생존곡선</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lifelines</span> <span class="kn">import</span> <span class="n">KaplanMeierFitter</span>
+
+<span class="c1"># fit data into Kaplan Meier estimator</span>
+<span class="n">kmf</span> <span class="o">=</span> <span class="n">KaplanMeierFitter</span><span class="p">()</span>
+<span class="n">kmf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">durations</span><span class="o">=</span><span class="n">BrainCancer</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span> <span class="n">event_observed</span><span class="o">=</span><span class="n">BrainCancer</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">])</span>
+
+<span class="c1"># plot survival curve</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="n">kmf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ci_show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Estimated Probability of Survival&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Months&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Kaplan-Meier Survival Curve&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/67a02944c89392c2498331a610e8f8c127c690cb5d67ce166614cfd227ac616b.png" src="../_images/67a02944c89392c2498331a610e8f8c127c690cb5d67ce166614cfd227ac616b.png" />
+</div>
+</div>
+</section>
+<section id="id12">
+<h3>ChatGPT Q&amp;A<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p><strong><code class="docutils literal notranslate"><span class="pre">kmf.survival_function_at_times</span></code> 함수를 이용해 생존시간이 10, 20,…,70일 확률을 구해줘.</strong></p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Survival times of interest</span>
+<span class="n">times_of_interest</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">70</span><span class="p">]</span>
+
+<span class="c1"># Calculate survival probabilities at specified times</span>
+<span class="n">survival_probabilities</span> <span class="o">=</span> <span class="n">kmf</span><span class="o">.</span><span class="n">survival_function_at_times</span><span class="p">(</span><span class="n">times_of_interest</span><span class="p">)</span>
+
+<span class="c1"># Display the results</span>
+<span class="n">result_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Time&#39;</span><span class="p">:</span> <span class="n">times_of_interest</span><span class="p">,</span>
+    <span class="s1">&#39;Survival Probability&#39;</span><span class="p">:</span> <span class="n">survival_probabilities</span><span class="o">.</span><span class="n">values</span>
+<span class="p">})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">result_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   Time  Survival Probability
+0    10              0.820558
+1    20              0.713191
+2    30              0.650288
+3    40              0.552476
+4    50              0.489171
+5    60              0.451543
+6    70              0.451543
+</pre></div>
+</div>
+</div>
+</div>
+<p>위 결과에서 보듯이 20개월 이상 카플란-마이어 생존확률 추정치는 71.3%이다. 가령 중도절단 관측을 고려하지 않고 전체 환자 88명 중 20개월 이상 생존자(48명)의 비율(54.5%; 아래 계산 참조)로 생존확률을 삼을 경우 제대로 된 추정이 아니다. 왜냐하면 20개월 이상 생존자에서 빠진 40명 중 사망자는 23명뿐이고 나머지 17명은 중도이탈 환자들이기 때문이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;전체&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">BrainCancer</span><span class="p">),</span> <span class="s2">&quot;명의 환자중, 20개월 넘게 생존한 환자는&quot;</span><span class="p">,</span> 
+      <span class="nb">sum</span><span class="p">(</span><span class="n">BrainCancer</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">20</span><span class="p">),</span> <span class="s2">&quot;명으로서, 비율은&quot;</span><span class="p">,</span> 
+      <span class="nb">round</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">BrainCancer</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">20</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">BrainCancer</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;%이다.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>전체 88 명의 환자중, 20개월 넘게 생존한 환자는 48 명으로서, 비율은 54.5 %이다.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;20개월 전에 중도절단된 환자는&quot;</span><span class="p">,</span> 
+      <span class="nb">round</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">BrainCancer</span><span class="p">[(</span><span class="n">BrainCancer</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> 
+                            <span class="o">&amp;</span> <span class="p">(</span><span class="n">BrainCancer</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">20</span><span class="p">)])),</span> <span class="s2">&quot;명이다.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>20개월 전에 중도절단된 환자는 17 명이다.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id13">
+<h2>17.5 로그순위 검정<a class="headerlink" href="#id13" title="Link to this heading">#</a></h2>
+<p>앞 절에서 <code class="docutils literal notranslate"><span class="pre">BrainCancer</span></code> 데이터의 생존곡선을 추정했다. 이번에는 남성과 여성의 생존곡선에 차이가 있는지를 검토한다.</p>
+<p>우선 각 그룹별로 카플란-마이어 추정 생존곡선을 그린 것이 아래 나와 있다. 그림을 보면, 대략 50개월까지는 여성의 생존확률이  남성보다 조금 높지만 그 다음에는 두 곡선 모두 약 50% 수준으로 동일해지는 것을 알 수 있다. 이 결과에 대해 두 생존곡선이 동일한지 검정을 수행하려고 하는데, 그 대표적인 방법이 <strong>로그순위 검정</strong>(log-rank test)이다. 로그순위 검정은 Mantel-Haenszel 검정 또는 Cochran-Mantel-Haenszel 검정이라고도 한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">by_sex</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">sex</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">BrainCancer</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;sex&#39;</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">by_sex</span><span class="p">[</span><span class="n">sex</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span>
+    <span class="n">kmf_sex</span> <span class="o">=</span> <span class="n">kmf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">])</span>
+    <span class="n">kmf_sex</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Sex=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">sex</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">ci_show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Estimated Probability of Survival&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Months&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Kaplan-Meier Survival Curve&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/9bfc40da079555a91917249ee1d9c58ff0dfd3e0891888972278a9411459c30d.png" src="../_images/9bfc40da079555a91917249ee1d9c58ff0dfd3e0891888972278a9411459c30d.png" />
+</div>
+</div>
+<section id="id14">
+<h3>이론적 설명<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<p>우선 다음과 같이 정의한다.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(d_1 &lt; d_2 &lt; · · · &lt; d_K\)</span>: 중도절단되지 않은 사망 환자의 각 사망시간(또는 사망시점)</p></li>
+<li><p><span class="math notranslate nohighlight">\(r_k\)</span>: <span class="math notranslate nohighlight">\(d_k\)</span> 시점의 위기 환자 수</p></li>
+<li><p><span class="math notranslate nohighlight">\(q_k\)</span>: <span class="math notranslate nohighlight">\(d_k\)</span> 시점의 사망 환자 수</p></li>
+<li><p><span class="math notranslate nohighlight">\(r_{1k}\)</span>: <span class="math notranslate nohighlight">\(d_k\)</span> 시점 그룹 1의 위기 환자 수</p></li>
+<li><p><span class="math notranslate nohighlight">\(r_{2k}\)</span>: <span class="math notranslate nohighlight">\(d_k\)</span> 시점 그룹 2의 위기 환자 수</p></li>
+<li><p><span class="math notranslate nohighlight">\(q_{1k}\)</span>: <span class="math notranslate nohighlight">\(d_k\)</span> 시점 그룹 1의 사망 환자 수</p></li>
+<li><p><span class="math notranslate nohighlight">\(q_{2k}\)</span>: <span class="math notranslate nohighlight">\(d_k\)</span> 시점 그룹 2의 사망 환자 수</p></li>
+</ul>
+<p>위와 같이 정의하면, <span class="math notranslate nohighlight">\(r_{1k} + r_{2k} = r_k\)</span>와 <span class="math notranslate nohighlight">\(q_{1k} + q_{2k} = q_k\)</span>이 성립한다. 이제 각 사망 시점 <span class="math notranslate nohighlight">\(d_k\)</span>에 대해 표 17.1과 같은 표를 만든다. 사망시간이 겹치는 경우가 없다면(즉, 두 사람 이상이 동시에 사망하지 않는다면) <span class="math notranslate nohighlight">\(q_{1k}\)</span>와 <span class="math notranslate nohighlight">\(q_{2k}\)</span> 중 어느 하나는 1이고 다른 하나는 0이 될 것이다.</p>
+<p><strong>표 17.1.</strong> 그룹 1과 2의 사망 시점 <span class="math notranslate nohighlight">\(d_k\)</span> 위기 환자 및 사망 환자 수</p>
+<p><img alt="위기 환자 및 사망 환자 수" src="https://raw.githubusercontent.com/pilsunchoi/images/main/17-3.png" /></p>
+<ul class="simple">
+<li><p>표 출처: ISLP, TABLE 11.1</p></li>
+</ul>
+<p>로그순위 검정통계량은 다음의 형태이다.</p>
+<div class="math notranslate nohighlight">
+\[ W = \frac {X− \text{E}(X)}{\text{Var}(X)} \tag{17.4}\]</div>
+<p>여기에서 <span class="math notranslate nohighlight">\(X = \sum^K_{k=1} q_{1k}\)</span>로서 사망 시점별 그룹 1의 사망 환자 수를 모두 합친 것이다. 각 사망 시점별로 두 그룹의 생존에 차이가 없다는 귀무가설 하에서 <span class="math notranslate nohighlight">\(q_{1k}\)</span>의 기대값은 다음과 같다.</p>
+<div class="math notranslate nohighlight">
+\[ \text{E}(q_{1k}) = \frac{q_{k}}{r_{k}}r_{1k} \tag{17.5}\]</div>
+<p>중도절단 관측의 존재 때문에 기대값이 <span class="math notranslate nohighlight">\(q_{k}\)</span>가 아니라 위 식과 같이 되었다. 또한 <span class="math notranslate nohighlight">\(q_{1k}\)</span>의 분산은 다음과 같이 된다.</p>
+<div class="math notranslate nohighlight">
+\[ \text{Var}(q_{1k}) = \frac{q_k(r_{1k}\,/r_k)(1 − r_{1k}\,/r_k)(r_k − q_k)}{r_k − 1}  \tag{17.6}\]</div>
+<p><span class="math notranslate nohighlight">\(X = \sum^K_{k=1} q_{1k}\)</span>의 분산을 계산함에 있어서 <span class="math notranslate nohighlight">\(q_{11},..., q_{1k}\)</span> 간에 상관성이 없다고 가정하면 다음과 같다.</p>
+<div class="math notranslate nohighlight">
+\[ \text{Var} \left( \sum_{k=1}^{K} q_{1k} \right) \approx \sum_{k=1}^{K} \text{Var}(q_{1k}) = \sum_{k=1}^{K} \frac{q_k(r_{1k}\,/r_k)(1 − r_{1k}\,/r_k)(r_k − q_k)}{r_k − 1} \tag{17.7}\]</div>
+<p>이상의 결과를 다 합치면, 식 17.4의 로그순위 검정통계량은 다음과 같이 된다.</p>
+<div class="math notranslate nohighlight">
+\[ W = \frac{\sum^K_{k=1} \left( q_{1k} - \text{E}(q_{1k})\right)}{\sqrt{\sum_{k=1}^{K} \text{Var}(q_{1k})}} = \frac{\sum^K_{k=1} \left( q_{1k} - \frac{q_{k}}{r_{k}}r_{1k}\right)}{\sqrt{\sum_{k=1}^{K} \frac{q_k(r_{1k}\,/r_k)(1 − r_{1k}\,/r_k)(r_k − q_k)}{r_k − 1}}} \tag{17.8}\]</div>
+<p>표본 크기가 크면 로그순위 검정통계량 <span class="math notranslate nohighlight">\(W\)</span>는 대략 표준정규 분포를 갖는다. 이것은 두 그룹의 생존곡선 간에 차이가 없다는 귀무가설에 대한 <span class="math notranslate nohighlight">\(p\)</span>-값을 계산하는 데 사용할 수 있다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">BrainCancer</span></code> 데이터에서 여성과 남성의 생존시간을 비교하면 <span class="math notranslate nohighlight">\(W = 1.44\)</span>의 로그순위 검정통계량이 나온다. <span class="math notranslate nohighlight">\(p\)</span>-값이 0.23으로서 여성과 남성 사이의 생존곡선에 차이가 없다는 귀무가설을 기각할 수 없다. 즉 남녀의 생존에 차이가 있다는 증거가 없다는 것이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lifelines.statistics</span> <span class="kn">import</span> <span class="n">logrank_test</span>
+
+<span class="n">logrank_test</span><span class="p">(</span><span class="n">by_sex</span><span class="p">[</span><span class="s1">&#39;Male&#39;</span><span class="p">][</span><span class="s1">&#39;time&#39;</span><span class="p">],</span>
+             <span class="n">by_sex</span><span class="p">[</span><span class="s1">&#39;Female&#39;</span><span class="p">][</span><span class="s1">&#39;time&#39;</span><span class="p">],</span>
+             <span class="n">by_sex</span><span class="p">[</span><span class="s1">&#39;Male&#39;</span><span class="p">][</span><span class="s1">&#39;status&#39;</span><span class="p">],</span>
+             <span class="n">by_sex</span><span class="p">[</span><span class="s1">&#39;Female&#39;</span><span class="p">][</span><span class="s1">&#39;status&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <tbody>
+    <tr>
+      <th>t_0</th>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <th>null_distribution</th>
+      <td>chi squared</td>
+    </tr>
+    <tr>
+      <th>degrees_of_freedom</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>test_name</th>
+      <td>logrank_test</td>
+    </tr>
+  </tbody>
+</table>
+</div><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>test_statistic</th>
+      <th>p</th>
+      <th>-log2(p)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.44</td>
+      <td>0.23</td>
+      <td>2.12</td>
+    </tr>
+  </tbody>
+</table></div></div>
+</div>
+</section>
+</section>
+<section id="id15">
+<h2>17.6 생존분석 회귀 모델<a class="headerlink" href="#id15" title="Link to this heading">#</a></h2>
+<p>이제 생존 데이터를 회귀 모델로 분석하는 작업을 생각해보자. 생존분석에서는 반응변수 관측값이 <span class="math notranslate nohighlight">\((Y, \delta)\)</span> 형식이다. 여기서 <span class="math notranslate nohighlight">\(Y = \min(T,C)\)</span>는 관측시간으로서 생존시간이나 중도절단시간으로 구성돼있고, <span class="math notranslate nohighlight">\(\delta\)</span>는 <span class="math notranslate nohighlight">\(T ≤ C\)</span>인 경우 1의 값을 갖는 지표변수(또는 사건발생 더미변수)이다. 생존시간을 설명하는 변수 <span class="math notranslate nohighlight">\(X\)</span>는 <span class="math notranslate nohighlight">\(p\)</span>개의 특성(feature)으로 구성돼있다고 하자. 이들 특성을 공변량(covariate)이라고도 부른다. 우리의 목표는 <span class="math notranslate nohighlight">\(X\)</span>를 이용해 생존시간 <span class="math notranslate nohighlight">\(T\)</span>를 예측(또는 분석)하는 것이다.</p>
+<p>여기에서도 앞에서와 마찬가지로 중도절단 관측이 문제를 어렵게 만든다. 우리는 생존분석 회귀분석에 있어서도 Kaplan-Meier 생존곡선이나 로그순위 검정과 비슷하게 순차적 방식을 사용한다. 그에 앞서 분석에 필요한 헤저드 함수를 설명한다.</p>
+<section id="id16">
+<h3>위험함수<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
+<p><strong>위험함수</strong>(hazard function)는 다음과 같이 정의된다.</p>
+<div class="math notranslate nohighlight">
+\[ h(t) = \lim_{\Delta t \to 0} \frac{\Pr (t &lt; T \le t+\Delta t \mid T &gt; t)}{\Delta t} \tag{17.9}\]</div>
+<p>여기서 <span class="math notranslate nohighlight">\(T\)</span>는 생존시간이다. 위험함수는 시점 <span class="math notranslate nohighlight">\(t\)</span>까지 생존했다는 조건 하에서 그 직후의 사망률이다.(위 식의 분모에 있는 <span class="math notranslate nohighlight">\(\Delta t\)</span>로 인해 위험함수 값은 사망확률 자체는 아니고 “단위시간 당 사망률”이라 표현할 수 있다. 그러나 일반적인 확률밀도함수에서도 그 값이 높을수록 확률변수의 발생 가능도가 높은 것과 마찬가지로 <span class="math notranslate nohighlight">\(h(t)\)</span> 값이 높을수록 사망확률이 높아진다. <span class="math notranslate nohighlight">\(h(t)\)</span>는 사실 <span class="math notranslate nohighlight">\(T \gt t\)</span> 조건 하에서 <span class="math notranslate nohighlight">\(T\)</span>에 대한 확률밀도함수이다.)</p>
+<p>식 17.9에서 <span class="math notranslate nohighlight">\(\Delta t\)</span>가 0에 가까워지는 극한을 취하므로 <span class="math notranslate nohighlight">\(\Delta t\)</span>를 극히 작은 숫자로 생각할 수 있다. 따라서 식 17.9를 좀 더 직관적으로 표현하면, 임의의 작은 <span class="math notranslate nohighlight">\(\Delta t\)</span>에 대해 다음을 의미한다.</p>
+<div class="math notranslate nohighlight">
+\[h(t) \approx \frac{\Pr (t &lt; T \le t+\Delta t \mid T &gt; t)}{\Delta t} \]</div>
+<p>우리가 위험함수라는 개념을 도입하는 이유는 무엇일까? 우선, 아래에서 보게 되겠지만 위험함수는 생존곡선인 식 17.2와 서로 밀접한 관련이 있다. 둘째, 생존 데이터를 공변량의 함수로 모델링하는 핵심 접근 방식(즉 Cox의 비례위험 모델)이 위험함수에 크게 의존한다. 아래에서 이 접근법을 소개한다.</p>
+<p>이제 위험함수 <span class="math notranslate nohighlight">\(h(t)\)</span>를 좀 더 자세히 살펴보자. 두 사건 <span class="math notranslate nohighlight">\(A\)</span>와 <span class="math notranslate nohighlight">\(B\)</span>가 있을때, <span class="math notranslate nohighlight">\(B\)</span> 조건부 <span class="math notranslate nohighlight">\(A\)</span>의 확률, 즉 <span class="math notranslate nohighlight">\(\Pr(A \mid B)\)</span>은 그 정의가 <span class="math notranslate nohighlight">\(\Pr(A ∩ B)/ \Pr(B)\)</span>이다. 즉, <span class="math notranslate nohighlight">\(A\)</span>와 <span class="math notranslate nohighlight">\(B\)</span>가 모두 발생할 확률을 <span class="math notranslate nohighlight">\(B\)</span>가 발생할 확률로 나눈 것이다. 그리고 식 17.2에서 <span class="math notranslate nohighlight">\(S(t) = \Pr(T &gt; t)\)</span>로 정의했기 때문에 다음이 성립한다.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation} \tag{17.10}
+\begin{aligned}
+h(t) &amp;= \lim_{\Delta t \to 0} \frac{\Pr \{(t &lt; T \le t+\Delta t) \cap (T &gt; t)\}/\Delta t}{\Pr (T &gt; t) }  \\
+&amp; = \lim_{\Delta t \to 0} \frac{\Pr (t &lt; T \le t+\Delta t)/\Delta t}{\Pr (T &gt; t) } \\
+&amp; = \frac{f(t)}{S(t)}
+\end{aligned}
+\end{equation}
+\end{split}\]</div>
+<p>여기서 <span class="math notranslate nohighlight">\(f(t)\)</span>는 다음과 같으며, <span class="math notranslate nohighlight">\(T\)</span>에 대한 확률밀도함수(PDF: probability density function)이다.</p>
+<div class="math notranslate nohighlight">
+\[ f(t) = \lim_{\Delta t \to 0} \frac{\Pr (t &lt; T \le t+\Delta t)}{\Delta t} \tag {17.11}\]</div>
+<p>또한 위 식 17.10의 두 번째 등호는 <span class="math notranslate nohighlight">\(t &lt; T \le t+\Delta t\)</span>인 경우 당연히 <span class="math notranslate nohighlight">\(T &gt; t\)</span>이어야 한다는 사실을 이용했다.</p>
+<p>식 17.10은 위험함수 <span class="math notranslate nohighlight">\(h(t)\)</span>, 생존함수 <span class="math notranslate nohighlight">\(S(t)\)</span>, 확률밀도함수 <span class="math notranslate nohighlight">\(f(t)\)</span> 사이의 관계를 보여주고 있다. 사실, 이들 세 가지 함수는 <span class="math notranslate nohighlight">\(T\)</span>의 분포를 설명하는 세 가지 동등한 방법이다.</p>
+<p><span class="math notranslate nohighlight">\(i\)</span>번째 관측과 관련된 가능도(likelihood)는 다음과 같다.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation} \tag{17.12}
+\begin{aligned}
+L_i &amp;= 
+\begin{cases}
+f(y_i), &amp; \text{if the }i\text{th observation is not censored} \\[2ex]
+S(y_i), &amp; \text{if the }i\text{th observation is censored} \\
+\end{cases} \\
+&amp;= f(y_i)^{\delta_i}S(y_i)^{1-\delta_i}
+\end{aligned}
+\end{equation}
+\end{split}\]</div>
+<p>식 17.12에 대한 직관적 설명은 다음과 같다.  <span class="math notranslate nohighlight">\(i\)</span>번째 관측치가 <span class="math notranslate nohighlight">\(Y = y_i\)</span>이고 이 관측이 중도절단되지 않은 경우, 그것의 가능도는 시간 <span class="math notranslate nohighlight">\(y_i\)</span> 주변의 극히 짧은 기간에 사망할 확률이다. 반면, <span class="math notranslate nohighlight">\(i\)</span>번째 관측치가 중도절단되면 가능도는 적어도 <span class="math notranslate nohighlight">\(y_i\)</span> 시간까지 생존할 확률이다. <span class="math notranslate nohighlight">\(n\)</span>개의 관측치가 독립적이라고 가정하면 데이터의 가능도는 다음과 같다.</p>
+<div class="math notranslate nohighlight">
+\[ L = \prod_{i=1}^{n}f(y_i)^{\delta_i}S(y_i)^{1-\delta_i} = \prod_{i=1}^{n}h(y_i)^{\delta_i}S(y_i) \tag {17.13} \]</div>
+<p>여기서 두 번째 등호는 식 17.10, 즉 <span class="math notranslate nohighlight">\(f(t)=h(t)S(t)\)</span>이 성립하기 때문이다.</p>
+<p>이제 생존시간을 모델링하는 작업을 생각해보자. 가장 간단한 예로 생존시간 <span class="math notranslate nohighlight">\(T\)</span>가 지수(exponential) 분포를 따른다고 해보자. 지수 분포의 확률밀도함수는 <span class="math notranslate nohighlight">\(f(t) = \lambda \exp(-\lambda t)\)</span>이고 생존함수는 <span class="math notranslate nohighlight">\(S(t)=\exp(-\lambda t)\)</span>이다. 따라서 식 17.13에서 가능도의 로그값, 즉 로그 가능도를 최대화하는 파라미터 <span class="math notranslate nohighlight">\(\lambda\)</span>를 추정하는 것은 간단하다. <span class="math notranslate nohighlight">\(\lambda\)</span>값만 추정하면 그에 따른 생존함수, 즉 <span class="math notranslate nohighlight">\(\hat{S}(t)=\exp(-\hat\lambda t)\)</span>를 바로 얻게 된다. 지수 분포뿐 아니라 좀 더 유연한 분포인 와이블(Weibull) 분포를 사용할 수도 있다. 또 다른 가능성은 우리가 이미 앞 절에서 살펴본 것처럼 카플란-마이어 접근과 같은 비파라미터형(non-parametrical) 방식으로 생존함수를 추정하는 것이다.</p>
+<p>그러나 우리가 이 절에서 살펴보고자 하는 것은 생존시간을 <span class="math notranslate nohighlight">\(X\)</span>의 함수로 모델링하는 것이다. 이를 위해서는 확률밀도함수가 아닌 위험함수로 직접 작업하는 것이 편리하다. 한 가지 가능한 접근 방식은 위험함수 <span class="math notranslate nohighlight">\(h(t \mid x_i)\)</span>에 대한 함수 형식을 가정하는 것이다. 가령 <span class="math notranslate nohighlight">\(h(t \mid x_i) = \exp \left( \beta_0 + \sum^p_{j=1} \beta_j x_{ij} \right)\)</span>로 설정하는 것이다. 이렇게 하면  위험함수 값이 항상 양수가 된다. 위험함수 값은 사망률이기 때문에 음수가 될 수 없는데, 지수 함수 <span class="math notranslate nohighlight">\(\exp()\)</span>가 그것을 보장하는 것이다.</p>
+<p><span class="math notranslate nohighlight">\(h(t \mid x_i)\)</span>를 위와 같이 설정할 경우 <span class="math notranslate nohighlight">\(S(t \mid x_i)\)</span>를 계산할 수 있다. 따라서 이것들을 식 17.13에 대입하여 가능도를 최대화하는 파라미터 <span class="math notranslate nohighlight">\(\beta = (\beta_0,\beta_1,...,\beta_p)^T\)</span>를 추정할 수 있다. 그러나 이 접근 방식은 위험함수 <span class="math notranslate nohighlight">\(h(t \mid x_i)\)</span>의 형태에 대해 매우 엄격한 가정을 해야 한다는 점에서 상당히 제한적이다. 다음 절에서는 훨씬 더 유연한 접근 방식을 살펴본다.</p>
+</section>
+<section id="id17">
+<h3>비례위험<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
+<p><strong>비례위험</strong>(proportional hazard) 가정은 다음을 의미한다.</p>
+<div class="math notranslate nohighlight">
+\[h(t \mid x_i) = h_0(t) \exp \left( \sum^p_{j=1} \beta_j x_{ij} \right) \tag{17.14}\]</div>
+<p>여기서 <span class="math notranslate nohighlight">\(h_0(t) \ge 0\)</span>은 기준위험(baseline hazard)으로서 모든 특성의 값이 0일 때(즉 <span class="math notranslate nohighlight">\(x_{i1}=...=x_{ip} = 0\)</span>)의 위험함수이다. 비례위험 모형에서는 <span class="math notranslate nohighlight">\(h_0(t)\)</span>에 대해 함수 형태를 지정하지 않는다. “비례”위험이라는 이름은 위험함수가 <span class="math notranslate nohighlight">\(h_0(t)\)</span>에다 <span class="math notranslate nohighlight">\(\exp \left( \sum^p_{j=1} \beta_j x_{ij} \right)\)</span>을 곱한 것이라는 사실에서 유래했다. 여기에서 <span class="math notranslate nohighlight">\(h_0(t)\)</span>는 특성 <span class="math notranslate nohighlight">\(x_i = (0, . . . , 0)\)</span>에 대한 위험함수이고, <span class="math notranslate nohighlight">\(\exp \left( \sum^p_{j=1} \beta_j x_{ij} \right)\)</span>는 특성 <span class="math notranslate nohighlight">\(x_i = (x_{i1},...,x_{ip})\)</span>일 때의 <strong>상대적 위험</strong>(relative risk)을 의미한다. 즉 특성이 <span class="math notranslate nohighlight">\((x_{i1},...,x_{ip})\)</span>일 때 특성이 <span class="math notranslate nohighlight">\(x_i = (0, . . . , 0)\)</span>인 것에 비해 <span class="math notranslate nohighlight">\(\exp \left( \sum^p_{j=1} \beta_j x_{ij} \right)\)</span> <strong>배수만큼</strong> 위험이 커진다는 의미이다. 만약 여러 특성 중 <span class="math notranslate nohighlight">\(x_j\)</span>가 1만큼 증가하는 경우 위험함수 값은 <span class="math notranslate nohighlight">\(\exp(\beta_j)\)</span> 배만큼 증가한다. 왜냐하면 <span class="math notranslate nohighlight">\(x_j\)</span>가 1만큼 증가하는 경우 위험함수 값은 다음과 같이 되기 때문이다.(아래 식을 식 17.14와 비교하면 위험함수 값이 <span class="math notranslate nohighlight">\(\exp(\beta_j)\)</span> 배만큼 크다는 것을 알 수 있다.)</p>
+<div class="math notranslate nohighlight">
+\[h_0(t) \exp \left( \sum^p_{j=1} \beta_j x_{ij} + \beta_j \right) = h_0(t) \exp \left( \sum^p_{j=1} \beta_j x_{ij} \right) \times \exp \left(\beta_j \right)\]</div>
+<p>식 17.14에서 기준위험함수 <span class="math notranslate nohighlight">\(h_0(t)\)</span>의 형태를 지정하지 않는다는 것은 기본적으로 위험함수 <span class="math notranslate nohighlight">\(h(t)\)</span>의 구체적 형태에 대해 특별히 가정을 하지 않는다는 것을 의미한다. <span class="math notranslate nohighlight">\(t\)</span> 시점까지 생존한 사람이 <span class="math notranslate nohighlight">\(t\)</span> 시점에 순간 사망할 확률은 어떤 형태를 취해도 된다. 이는 위험함수가 매우 유연하고 공변량과 생존시간 간의 광범위한 관계를 모델링할 수 있음을 의미한다. 우리의 유일한 가정은 <span class="math notranslate nohighlight">\(x_{j}\)</span>가 1단위 증가할 때, <span class="math notranslate nohighlight">\(h(t\mid x)\)</span>이 <span class="math notranslate nohighlight">\(\exp(\beta_j)\)</span> 배만큼 증가한다는 것이다.</p>
+<p>비례위험 가정(식 17.14)의 예시가 그림 17.3에 나와 있다. 단순화를 위해 생존시간을 설명하는 변수, 즉 공변량(<span class="math notranslate nohighlight">\(x\)</span>)이 하나만 있고, 더구나 연속형 변수가 아니라 0과 1의 값만을 갖는 이항 변수라고 해보자. 앞에서 예를 든 남성과 여성 그룹을 구분하는 더미변수가 그 예이다. 그림 17.3에서 위쪽 두 개 그림은 비례위험 가정을 부과한 경우이고, 아래쪽 두 개는 비례위험 가정이 성립하지 않는 경우이다. 그리고 각 가정 하에서 왼쪽은 (로그를 취한)위험함수를 그린 것이고, 오른쪽은 생존함수를 그린 것이다. 4개의 그림 모두 <span class="math notranslate nohighlight">\(x=0\)</span>인 그룹과 <span class="math notranslate nohighlight">\(x=1\)</span>인 그룹의 위험함수와 생존함수를 따로 그려 검정과 녹색으로 구분해놓았다. 먼저 비례위험 가정이 부과된 로그 위험함수(즉 왼쪽 위 그림)를 보면, 비례위험 가정 하에서는 두 그룹의 위험함수는 서로 배수의 관계가 있으므로 로그 척도에서 두 그룹 사이의 간격은 일정하며, 그림에 그것이 표현돼있다. 이럴 경우 두 그룹의 생존곡선은 절대 교차하지 않으며, 생존곡선 사이의 간격은 시간이 지남에 따라 커지게 된다. 반면, 비례위험 가정을 부과하지 않은 아래쪽 두 개 그림에서는 두 그룹의 로그 위험함수와 생존곡선이 모두 교차할 수 있다.</p>
+<p><strong>그림 17.3.</strong> 공변량(<span class="math notranslate nohighlight">\(x\)</span>)이 하나만 있고 0과 1의 값만을 갖는 이항 변수라는 가정 하에서 비례위험을 부과한 경우(위쪽 2개 그림)와 그렇지 않은 경우(아래쪽 2개 그림)로 구분해 각각 위험함수(왼쪽 그림)와 생존함수(오른쪽 그림)를 그려놓은 것이다.</p>
+<p><img alt="위험함수와 생존함수" src="https://raw.githubusercontent.com/pilsunchoi/images/main/17-4.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: ISLP, FIGURE 11.4</p></li>
+</ul>
+</section>
+<section id="cox">
+<h3>Cox 비례위험 모델<a class="headerlink" href="#cox" title="Link to this heading">#</a></h3>
+<p>비례위험 가정(식 17.14)에서 <span class="math notranslate nohighlight">\(h_0(t)\)</span>의 형태를 규정하지 않기 때문에 우리는 <span class="math notranslate nohighlight">\(h(t\mid x_i)\)</span>를 가능도(식 17.13)에 집어넣어 최대가능도 방법으로 <span class="math notranslate nohighlight">\(\beta = (\beta_1, . . . ,\beta_p)\)</span>를 추정할 수 없다. Cox 비례위험 모델의 마법은 <span class="math notranslate nohighlight">\(h_0(t)\)</span>의 형식을 지정하지 않고도 <span class="math notranslate nohighlight">\(\beta\)</span>를 추정할 수 있다는 사실에 있다.</p>
+<p>이를 위해 우리는 카플란-마이어 생존곡선과 로그순위 검정에서 사용한 것과 동일한 “시간 순차(sequential in time)” 기법을 사용한다. 단순화를 위해 실패(또는 사망) 시간들 사이에 상관성이 없다고 가정한다. 즉, 각 실패는 독립적으로 발생한다.</p>
+<p>일단 <span class="math notranslate nohighlight">\(\delta_i = 1\)</span>인 경우를 생각해보자. 즉 <span class="math notranslate nohighlight">\(i\)</span>번째 관측은 중도절단되지 않았고, 따라서 <span class="math notranslate nohighlight">\(y_i\)</span>는 생존시간이다. 그러면 <span class="math notranslate nohighlight">\(y_i\)</span> 시점에 <span class="math notranslate nohighlight">\(i\)</span>번째 관측에 대한 위험함수는 <span class="math notranslate nohighlight">\(h(y_i\mid x_i) = h_0(y_i) \exp \left( \sum^p_{j=1} \beta_j x_{ij} \right)\)</span>이다. 또한 <span class="math notranslate nohighlight">\(y_i\)</span> 시점 위기관측(at risk)들의 위험을 모두 합친 총위험(total hazard)은 다음과 같다.(<span class="math notranslate nohighlight">\(y_i\)</span> 시점의 위기관측은 해당 시점에서 여전히 실패 위험에 처해있는 관측, 즉 <span class="math notranslate nohighlight">\(y_i\)</span> 시점에 아직 실패하지 않았거나 중도절단되지 않은 관측이다.)</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i^\prime :~y_{i^\prime} \ge y_i} h_0(y_i) \exp \left( \sum^p_{j=1} \beta_j x_{i^\prime j} \right)\]</div>
+<p>여기에서 <span class="math notranslate nohighlight">\(i^\prime\)</span>은 위기관측을 의미한다. 결국 <span class="math notranslate nohighlight">\(i\)</span>번째 관측이 <span class="math notranslate nohighlight">\(y_i\)</span> 시점에 실패할 확률은 다음과 같다.</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{h_0(y_i) \exp \left( \sum^p_{j=1} \beta_j x_{ij} \right)}{\sum_{i^\prime :~y_{i^\prime} \ge y_i} h_0(y_i) \exp \left( \sum^p_{j=1} \beta_j x_{i^\prime j} \right)}
+=\frac{ \exp \left( \sum^p_{j=1} \beta_j x_{ij} \right)}{\sum_{i^\prime :~y_{i^\prime} \ge y_i} \exp \left( \sum^p_{j=1} \beta_j x_{i^\prime j} \right)} \tag{17.15}
+\]</div>
+<p>바로 여기에서 기준위험함수 <span class="math notranslate nohighlight">\(h_0(y_i)\)</span>가 분자와 분모에서 상쇄되는 것이다!</p>
+<p>부분가능도(partial likelihood)는 중도절단되지 않은 모든 관측에 대해 이러한 확률을 곱한 것이다.</p>
+<div class="math notranslate nohighlight">
+\[
+PL(\beta) = \prod_{i:~\delta_i=1}\frac{ \exp \left( \sum^p_{j=1} \beta_j x_{ij} \right)}{\sum_{i^\prime :~y_{i^\prime} \ge y_i} \exp \left( \sum^p_{j=1} \beta_j x_{i^\prime j} \right)} \tag{17.16}
+\]</div>
+<p>결국 <span class="math notranslate nohighlight">\(h_0(t)\)</span>의 형태와 값에 관계없이 부분가능도를 사용할 수 있기 때문에 모델이 매우 유연하고(fexible) 강건하다(robust).(일반적으로 부분가능도는 모든 파라미터에 대한 전체가능도를 계산하기 어려운 상황에서 사용된다. 주요 관심 파라미터에 대해서만 가능도를 계산하며, 이 경우에는 <span class="math notranslate nohighlight">\(\beta_1,...,\beta_p\)</span>이다. 식 17.16을 최대화하면 이들 파라미터에 대한 추정치를 구할 수 있다.)</p>
+<p><span class="math notranslate nohighlight">\(\beta\)</span>에 대한 부분가능도인 식 17.16을 최대화하는 방식으로 <span class="math notranslate nohighlight">\(\beta\)</span>를 추정한다. 폐쇄형 해(solution)가 없으므로 반복적 알고리즘(iterative algorithm)을 사용한다.</p>
+<p><strong>Cox 비례위험 모델 부연 설명</strong></p>
+<ul class="simple">
+<li><p>식 17.14를 보면 절편항이 없다. 기준위험 <span class="math notranslate nohighlight">\(h_0(t)\)</span>이 절편 역할을 하기 때문이다.</p></li>
+<li><p>실패시간이 겹치지 않는다고 가정했다. 겹치는 관측이 있는 경우 부분가능도(식 17.16)가 좀 더 복잡해지며 여러 근사적 계산을 사용해야 한다.</p></li>
+<li><p>식 17.16은 정확한 가능도는 아니다. 즉 식 17.14 가정 하에서 계산한 데이터의 확률과 정확히 일치하지는 않는다. 이 때문에 부분가능도라고 부르며, 정확한 가능도의 매우 좋은 근사치이다.</p></li>
+<li><p>우리는 계수 <span class="math notranslate nohighlight">\(\beta = (\beta_1,...,\beta_p)\)</span>의 추정에만 초점을 맞췄다. 그러나 때때로 우리는 예를 들어 특정 <span class="math notranslate nohighlight">\(x\)</span> 특성을 지닌 환자의 생존곡선 <span class="math notranslate nohighlight">\(S(t\mid x)\)</span>를 추정할 필요가 있다. 이럴 때는 기준위험 <span class="math notranslate nohighlight">\(h_0(t)\)</span>를 추정해야 한다. 이것 역시 가능한데, <span class="math notranslate nohighlight">\(h_0(t)\)</span>의 추정은 R의 <code class="docutils literal notranslate"><span class="pre">survival</span></code>이나 파이썬 <code class="docutils literal notranslate"><span class="pre">lifelines</span></code> 모듈을 사용한다.</p></li>
+</ul>
+</section>
+<section id="id18">
+<h3>BrainCancer 데이터<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
+<p>이제 <code class="docutils literal notranslate"><span class="pre">lifelines</span></code>에서 제공하는 <code class="docutils literal notranslate"><span class="pre">CoxPHFitter()</span></code> 함수를 사용하여 <code class="docutils literal notranslate"><span class="pre">BrainCancer</span></code> 데이터세트에 대해 Cox 비례위험 모형을 피팅시켜보자. 먼저, <code class="docutils literal notranslate"><span class="pre">sex</span></code> 변수 하나만을 예측변수로 사용하는 모델을 추정해보자.</p>
+<p>아래에서 보겠지만, <code class="docutils literal notranslate"><span class="pre">CoxPHFitter()</span></code> 함수로 피팅하기 위해서는 설명변수(<code class="docutils literal notranslate"><span class="pre">sex</span></code>)와 관측시간 변수(<code class="docutils literal notranslate"><span class="pre">time</span></code>), 지표변수(<code class="docutils literal notranslate"><span class="pre">status</span></code>) 등이 들어있는 데이터프레임을 만들어 <code class="docutils literal notranslate"><span class="pre">fit()</span></code> 메서드에 입력해야 한다. 이 작업을 쉽게 해주는 것이 아래 나와 있는 <code class="docutils literal notranslate"><span class="pre">ModelSpec</span></code> 즉, <code class="docutils literal notranslate"><span class="pre">MS</span></code> 함수이다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ModelSpec</span></code>은 ISLP 모듈에 들어있는 함수 중의 하나로, 주어진 데이터 프레임을 이용해 회귀 및 분류 작업을 위한 설계행렬(design matrix), 즉 설명변수 행렬을 구축하는 <a class="reference external" href="https://islp.readthedocs.io/en/latest/models/spec.html">기능</a>을 제공한다. 설명변수 중 범주형 변수가 들어있을 때나 상호작용항을 만들 때 유용하게 사용할 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ISLP.models</span> <span class="kn">import</span> <span class="n">ModelSpec</span> <span class="k">as</span> <span class="n">MS</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sex_df</span> <span class="o">=</span> <span class="n">BrainCancer</span><span class="p">[[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;sex&#39;</span><span class="p">]]</span>
+<span class="n">model_df</span> <span class="o">=</span> <span class="n">MS</span><span class="p">([</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;sex&#39;</span><span class="p">],</span>
+              <span class="n">intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">sex_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>아래 결과를 보면, 원래의 설명변수 행렬인 <code class="docutils literal notranslate"><span class="pre">sex_df</span></code>에서는 <code class="docutils literal notranslate"><span class="pre">sex</span></code> 변수가 Male/Female의 범주형 변수인데, <code class="docutils literal notranslate"><span class="pre">MS</span></code> 함수를 사용해 만들어진 <code class="docutils literal notranslate"><span class="pre">model_df</span></code> 설명변수 행렬에서는 <code class="docutils literal notranslate"><span class="pre">sex[Male]</span></code> 이름의 0/1의 값을 가진 더미변수로 바뀐 것을 알 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display_html</span>
+
+<span class="k">def</span> <span class="nf">display_side_by_side</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">html_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+        <span class="n">html_str</span> <span class="o">+=</span> <span class="n">df</span><span class="o">.</span><span class="n">to_html</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+            <span class="s1">&#39;table&#39;</span><span class="p">,</span><span class="s1">&#39;table style=&quot;display:inline;margin-right:</span><span class="si">{}</span><span class="s1">px&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">space</span><span class="p">))</span>
+    <span class="n">display_html</span><span class="p">(</span><span class="n">html_str</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">display_side_by_side</span><span class="p">(</span><span class="n">sex_df</span><span class="o">.</span><span class="n">head</span><span class="p">(),</span> <span class="n">model_df</span><span class="o">.</span><span class="n">head</span><span class="p">(),</span> <span class="n">space</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table style="display:inline;margin-right:50px" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>time</th>
+      <th>status</th>
+      <th>sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>57.64</td>
+      <td>0</td>
+      <td>Female</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>8.98</td>
+      <td>1</td>
+      <td>Male</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>26.46</td>
+      <td>0</td>
+      <td>Female</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>47.80</td>
+      <td>1</td>
+      <td>Female</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6.30</td>
+      <td>1</td>
+      <td>Male</td>
+    </tr>
+  </tbody>
+</table style="display:inline;margin-right:50px"><table style="display:inline;margin-right:50px" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>time</th>
+      <th>status</th>
+      <th>sex[Male]</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>57.64</td>
+      <td>0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>8.98</td>
+      <td>1</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>26.46</td>
+      <td>0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>47.80</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6.30</td>
+      <td>1</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table style="display:inline;margin-right:50px"></div></div>
+</div>
+<p><strong>Cox 비례위험 모형 피팅</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">coxph</span> <span class="o">=</span> <span class="n">CoxPHFitter</span> <span class="c1"># shorthand</span>
+<span class="n">cox_fit</span> <span class="o">=</span> <span class="n">coxph</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model_df</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">)</span>
+<span class="n">cox_fit</span><span class="o">.</span><span class="n">summary</span><span class="p">[[</span><span class="s1">&#39;coef&#39;</span><span class="p">,</span> <span class="s1">&#39;exp(coef)&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>coef</th>
+      <th>exp(coef)</th>
+      <th>p</th>
+    </tr>
+    <tr>
+      <th>covariate</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>sex[Male]</th>
+      <td>0.407668</td>
+      <td>1.503309</td>
+      <td>0.233262</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">fit</span></code> 함수에서 첫 번째 인자(<code class="docutils literal notranslate"><span class="pre">model_df</span></code>)는 설명변수(<code class="docutils literal notranslate"><span class="pre">sex[Male]</span></code>), 사건시간 변수(<code class="docutils literal notranslate"><span class="pre">time</span></code>), 지표변수(<code class="docutils literal notranslate"><span class="pre">status</span></code>)가 들어있는 데이터프레임이다. Cox 모델은 상수항을 포함하지 않기 때문에 앞의 <code class="docutils literal notranslate"><span class="pre">ModelSpec</span></code>에서 <code class="docutils literal notranslate"><span class="pre">intercept=False</span></code> 옵션을 사용했다. <code class="docutils literal notranslate"><span class="pre">summary()</span></code> 메서드는 많은 열을 제공하는데, 여기서는 일부 출력만을 요구했다.</p>
+<p>아래와 같이 이 모델을 특성(feature)이 들어있지 않은 모델과 비교하는 가능도 비율 검정(likelihood ratio test)을 얻는 것도 가능하다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cox_fit</span><span class="o">.</span><span class="n">log_likelihood_ratio_test</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <tbody>
+    <tr>
+      <th>null_distribution</th>
+      <td>chi squared</td>
+    </tr>
+    <tr>
+      <th>degrees_freedom</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>test_name</th>
+      <td>log-likelihood ratio test</td>
+    </tr>
+  </tbody>
+</table>
+</div><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>test_statistic</th>
+      <th>p</th>
+      <th>-log2(p)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.44</td>
+      <td>0.23</td>
+      <td>2.12</td>
+    </tr>
+  </tbody>
+</table></div></div>
+</div>
+<p>위 결과를 보면, 남성과 여성의 생존에 차이가 있다고 볼 명백한 증거는 없는 것으로 나왔다. Cox 모델의 점수검정(score test)은 앞의 로그순위 검정 결과와 정확히 같다!</p>
+<p><strong>모든 예측변수 사용</strong></p>
+<p>이제 주어진 예측변수를 모두 사용하여 모델을 피팅시켜보자. 먼저 <code class="docutils literal notranslate"><span class="pre">diagnosis</span></code> 값 중 하나가 누락되었기 때문에 해당 관측값을 삭제한 후 피팅을 수행한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cleaned</span> <span class="o">=</span> <span class="n">BrainCancer</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">all_MS</span> <span class="o">=</span> <span class="n">MS</span><span class="p">(</span><span class="n">cleaned</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">all_df</span> <span class="o">=</span> <span class="n">all_MS</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">cleaned</span><span class="p">)</span>
+<span class="n">fit_all</span> <span class="o">=</span> <span class="n">coxph</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">all_df</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">)</span>
+<span class="n">fit_all</span><span class="o">.</span><span class="n">summary</span><span class="p">[[</span><span class="s1">&#39;coef&#39;</span><span class="p">,</span> <span class="s1">&#39;exp(coef)&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>coef</th>
+      <th>exp(coef)</th>
+      <th>p</th>
+    </tr>
+    <tr>
+      <th>covariate</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>sex[Male]</th>
+      <td>0.183748</td>
+      <td>1.201712</td>
+      <td>0.610119</td>
+    </tr>
+    <tr>
+      <th>diagnosis[LG glioma]</th>
+      <td>-1.239530</td>
+      <td>0.289520</td>
+      <td>0.032455</td>
+    </tr>
+    <tr>
+      <th>diagnosis[Meningioma]</th>
+      <td>-2.154566</td>
+      <td>0.115954</td>
+      <td>0.000002</td>
+    </tr>
+    <tr>
+      <th>diagnosis[Other]</th>
+      <td>-1.268870</td>
+      <td>0.281149</td>
+      <td>0.039949</td>
+    </tr>
+    <tr>
+      <th>loc[Supratentorial]</th>
+      <td>0.441195</td>
+      <td>1.554563</td>
+      <td>0.530665</td>
+    </tr>
+    <tr>
+      <th>ki</th>
+      <td>-0.054955</td>
+      <td>0.946527</td>
+      <td>0.002693</td>
+    </tr>
+    <tr>
+      <th>gtv</th>
+      <td>0.034293</td>
+      <td>1.034887</td>
+      <td>0.124661</td>
+    </tr>
+    <tr>
+      <th>stereo[SRT]</th>
+      <td>0.177778</td>
+      <td>1.194560</td>
+      <td>0.767597</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>위 결과를 보면, 가령 남성 환자의 추정 위험이 여성 환자보다 <span class="math notranslate nohighlight">\(e^{0.18} = 1.20\)</span>배(즉 20%) 더 크다. 이는 다른 모든 특성이 고정된 상태에서 남성은 어느 시점에서든 여성보다 사망확률이 1.2배 더 높은 것을 의미한다. 그러나 해당 변수의 <span class="math notranslate nohighlight">\(p\)</span>-값이 0.61로 남성과 여성의 차이가 통계적으로 유의하지 않다.</p>
+<p>다음으로 <code class="docutils literal notranslate"><span class="pre">diagnosis</span></code> 변수는 HG glioma가 기준범주로 처리됐다. 결과적으로 HG glioma 환자의 추정 위험이 가장 높은데, 다른 예측변수를 통제한 상태에서 Meningioma 환자의 위험이 기준범주인 HG glioma 환자의 0.12배(즉, <span class="math notranslate nohighlight">\(e^{-2.15}=0.12\)</span>)이다. 거꾸로 말하면, HG glioma 환자의 위험이 Meningioma 환자보다 8.58배(즉, <span class="math notranslate nohighlight">\(e^{2.15}=8.58\)</span>) 더 크다는 것을 의미한다.</p>
+<p>또 다른 예로 Karnofsky 지수가 1단위 증가할 때, 순간 사망확률이 <span class="math notranslate nohighlight">\(e^{-0.05} = 0.95\)</span>배가 된다는 것을 알 수 있다. 즉 Karnofsky 지수가 높을수록 어느 시점에서든 사망확률이 5% 낮아진다. 이 효과는 <span class="math notranslate nohighlight">\(p\)</span>-값이 0.0027로 통계적으로 매우 유의하다.</p>
+<p>다른 예측변수를 통제한 상태에서 각 <code class="docutils literal notranslate"><span class="pre">diagnosis</span></code> 범주에 대한 추정 생존곡선을 그려보자. 이를 위해 다른 예측변수 중 정량적 변수들은 평균값을 취하고, 범주형 변수는 최빈값을 취하는 것으로 설정한다. 이를 위해 <code class="docutils literal notranslate"><span class="pre">apply()</span></code> 메서드를 사용하여 행을 따라(즉, <code class="docutils literal notranslate"><span class="pre">axis=0</span></code>) <code class="docutils literal notranslate"><span class="pre">representative</span></code> 함수를 사용하여 열이 범주형인지 확인한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">levels</span> <span class="o">=</span> <span class="n">cleaned</span><span class="p">[</span><span class="s1">&#39;diagnosis&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">representative</span><span class="p">(</span><span class="n">series</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">series</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="s1">&#39;categories&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">series</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">series</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">modal_data</span> <span class="o">=</span> <span class="n">cleaned</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">representative</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>그런 다음, 열의 평균(또는 최빈값) 결과를 4개 행으로 복사하고 <code class="docutils literal notranslate"><span class="pre">diagnosis</span></code>에 대해서만은 (최빈값이 아니라) 주어진 네 가지 다른 범주를 집어넣는다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modal_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">modal_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">levels</span><span class="p">))])</span>
+<span class="n">modal_df</span><span class="p">[</span><span class="s1">&#39;diagnosis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">levels</span>
+<span class="n">modal_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sex</th>
+      <th>diagnosis</th>
+      <th>loc</th>
+      <th>ki</th>
+      <th>gtv</th>
+      <th>stereo</th>
+      <th>status</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Female</td>
+      <td>Meningioma</td>
+      <td>Supratentorial</td>
+      <td>80.91954</td>
+      <td>8.687011</td>
+      <td>SRT</td>
+      <td>0.402299</td>
+      <td>27.188621</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Female</td>
+      <td>HG glioma</td>
+      <td>Supratentorial</td>
+      <td>80.91954</td>
+      <td>8.687011</td>
+      <td>SRT</td>
+      <td>0.402299</td>
+      <td>27.188621</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Female</td>
+      <td>LG glioma</td>
+      <td>Supratentorial</td>
+      <td>80.91954</td>
+      <td>8.687011</td>
+      <td>SRT</td>
+      <td>0.402299</td>
+      <td>27.188621</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Female</td>
+      <td>Other</td>
+      <td>Supratentorial</td>
+      <td>80.91954</td>
+      <td>8.687011</td>
+      <td>SRT</td>
+      <td>0.402299</td>
+      <td>27.188621</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>그런 다음, 모델 피팅에 사용된 <code class="docutils literal notranslate"><span class="pre">all_MS</span></code> 모델 설정을 기반으로 모델 행렬을 만들고, 행의 이름(즉 인덱스)을 <code class="docutils literal notranslate"><span class="pre">diagnosis</span></code>의 4개 범주로 지정한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modal_X</span> <span class="o">=</span> <span class="n">all_MS</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">modal_df</span><span class="p">)</span>
+<span class="n">modal_X</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">levels</span>
+<span class="n">modal_X</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sex[Male]</th>
+      <th>diagnosis[LG glioma]</th>
+      <th>diagnosis[Meningioma]</th>
+      <th>diagnosis[Other]</th>
+      <th>loc[Supratentorial]</th>
+      <th>ki</th>
+      <th>gtv</th>
+      <th>stereo[SRT]</th>
+      <th>status</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Meningioma</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>80.91954</td>
+      <td>8.687011</td>
+      <td>1.0</td>
+      <td>0.402299</td>
+      <td>27.188621</td>
+    </tr>
+    <tr>
+      <th>HG glioma</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>80.91954</td>
+      <td>8.687011</td>
+      <td>1.0</td>
+      <td>0.402299</td>
+      <td>27.188621</td>
+    </tr>
+    <tr>
+      <th>LG glioma</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>80.91954</td>
+      <td>8.687011</td>
+      <td>1.0</td>
+      <td>0.402299</td>
+      <td>27.188621</td>
+    </tr>
+    <tr>
+      <th>Other</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>80.91954</td>
+      <td>8.687011</td>
+      <td>1.0</td>
+      <td>0.402299</td>
+      <td>27.188621</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">predict_survival_function()</span></code> 메서드를 사용하여 추정된 생존함수를 얻을 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predicted_survival</span> <span class="o">=</span> <span class="n">fit_all</span><span class="o">.</span><span class="n">predict_survival_function</span><span class="p">(</span><span class="n">modal_X</span><span class="p">)</span>
+<span class="n">predicted_survival</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Meningioma</th>
+      <th>HG glioma</th>
+      <th>LG glioma</th>
+      <th>Other</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0.07</th>
+      <td>0.997947</td>
+      <td>0.982430</td>
+      <td>0.994881</td>
+      <td>0.995029</td>
+    </tr>
+    <tr>
+      <th>1.18</th>
+      <td>0.997947</td>
+      <td>0.982430</td>
+      <td>0.994881</td>
+      <td>0.995029</td>
+    </tr>
+    <tr>
+      <th>1.41</th>
+      <td>0.995679</td>
+      <td>0.963342</td>
+      <td>0.989245</td>
+      <td>0.989555</td>
+    </tr>
+    <tr>
+      <th>1.54</th>
+      <td>0.995679</td>
+      <td>0.963342</td>
+      <td>0.989245</td>
+      <td>0.989555</td>
+    </tr>
+    <tr>
+      <th>2.03</th>
+      <td>0.995679</td>
+      <td>0.963342</td>
+      <td>0.989245</td>
+      <td>0.989555</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>65.02</th>
+      <td>0.688772</td>
+      <td>0.040136</td>
+      <td>0.394181</td>
+      <td>0.404936</td>
+    </tr>
+    <tr>
+      <th>67.38</th>
+      <td>0.688772</td>
+      <td>0.040136</td>
+      <td>0.394181</td>
+      <td>0.404936</td>
+    </tr>
+    <tr>
+      <th>73.74</th>
+      <td>0.688772</td>
+      <td>0.040136</td>
+      <td>0.394181</td>
+      <td>0.404936</td>
+    </tr>
+    <tr>
+      <th>78.75</th>
+      <td>0.688772</td>
+      <td>0.040136</td>
+      <td>0.394181</td>
+      <td>0.404936</td>
+    </tr>
+    <tr>
+      <th>82.56</th>
+      <td>0.688772</td>
+      <td>0.040136</td>
+      <td>0.394181</td>
+      <td>0.404936</td>
+    </tr>
+  </tbody>
+</table>
+<p>85 rows × 4 columns</p>
+</div></div></div>
+</div>
+<p>반환된 데이터프레임을 <code class="docutils literal notranslate"><span class="pre">plot</span></code> 메서드를 사용해 그림으로 그린다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">predicted_survival</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/8f69f8296be5def53cc225c1de2e5f193b3d5c6e0bc4644b6c75e57c84d3c2f1.png" src="../_images/8f69f8296be5def53cc225c1de2e5f193b3d5c6e0bc4644b6c75e57c84d3c2f1.png" />
+</div>
+</div>
+</section>
+<section id="publication">
+<h3>Publication 데이터<a class="headerlink" href="#publication" title="Link to this heading">#</a></h3>
+<p>이제 ISLP에서 제공하는 <code class="docutils literal notranslate"><span class="pre">Publication</span></code> 데이터세트를 분석해보자. 이 데이터세트는 미국 국립심폐혈연구소(NHLBI: National Heart, Lung, and Blood Institute)의 자금지원을 받고 수행된 임상시험 결과가 학술지 논문으로 출판되기까지 걸린 시간을 다룬다.(이 데이터세트는 다음 논문에 설명돼있다: Gordon et al. (2013), “<a class="reference external" href="https://www.nejm.org/doi/full/10.1056/NEJMsa1300237">Publication of trials funded by the National Heart, Lung, and Blood Institute</a>,” <em>New England Journal of Medicine</em>, 369(20):1926–1934.)</p>
+<p>데이터세트에는 총 244건의 논문 투고에 대해 출판(성공)까지 걸린 시간(개월)이 기록돼있다. 분석 기간 내에 244건 중 156건만 출판이 확인됐고, 나머지 연구는 출판(까지 걸린) 시간이 중도절단됐다.</p>
+<p><strong>공변량 설명</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">clinend</span></code>: 임상시험이 임상적 결과변수(clinical endpoint)에 초점을 맞춘 것인지 여부</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">multi</span></code>: 임상시험이 복수의 센터에서 진행되었는지 여부</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mech</span></code>: 미국 국립보건원(NIH) 펀딩 메커니즘</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sampsize</span></code>: 임상시험 표본 크기</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">budget</span></code>: 예산</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">impact</span></code>: 학술지의 권위</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">posres</span></code>: 임상시험 결과가 긍정적(positive)인지 여부</p></li>
+</ul>
+<p>마지막 공변량은 특히 흥미롭다. 왜냐하면 몇몇 선행 연구에서 결과가 긍정적인 임상시험인 경우 논문의 출판 성공률이 더 높다고 주장한 바 있기 때문이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Publication</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s1">&#39;Publication&#39;</span><span class="p">)</span>
+<span class="n">Publication</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>posres</th>
+      <th>multi</th>
+      <th>clinend</th>
+      <th>mech</th>
+      <th>sampsize</th>
+      <th>budget</th>
+      <th>impact</th>
+      <th>time</th>
+      <th>status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>R01</td>
+      <td>39876</td>
+      <td>8.016941</td>
+      <td>44.016</td>
+      <td>11.203285</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>R01</td>
+      <td>39876</td>
+      <td>8.016941</td>
+      <td>23.494</td>
+      <td>15.178645</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>R01</td>
+      <td>8171</td>
+      <td>7.612606</td>
+      <td>8.391</td>
+      <td>24.410678</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Contract</td>
+      <td>24335</td>
+      <td>11.771928</td>
+      <td>15.402</td>
+      <td>2.595483</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Contract</td>
+      <td>33357</td>
+      <td>76.517537</td>
+      <td>16.783</td>
+      <td>8.607803</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>239</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>R01</td>
+      <td>4105</td>
+      <td>2.703653</td>
+      <td>5.355</td>
+      <td>65.018480</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>240</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>R44</td>
+      <td>181</td>
+      <td>1.117084</td>
+      <td>0.000</td>
+      <td>66.989733</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>241</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>K23</td>
+      <td>104</td>
+      <td>0.472321</td>
+      <td>0.000</td>
+      <td>9.987680</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>242</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>R21</td>
+      <td>69</td>
+      <td>0.404710</td>
+      <td>0.000</td>
+      <td>21.979466</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>243</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>R01</td>
+      <td>1699</td>
+      <td>2.957751</td>
+      <td>0.000</td>
+      <td>4.632444</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>244 rows × 9 columns</p>
+</div></div></div>
+</div>
+<p>우선, <code class="docutils literal notranslate"><span class="pre">posres</span></code> 변수를 기준으로 Kaplan-Meier 곡선을 그려보자. 이 변수는 임상시험이 긍정적(<code class="docutils literal notranslate"><span class="pre">posres</span></code><span class="math notranslate nohighlight">\(=1\)</span>) 결과를 보였는지 부정적(<code class="docutils literal notranslate"><span class="pre">posres</span></code><span class="math notranslate nohighlight">\(=0\)</span>) 결과를 보였는지를 분류한 것이다. 아래 결과를 보면, 긍정적 결과를 얻은 연구의 경우 출판까지의 시간이 약간 더 짧은 경향이 있다고도 볼 수 있지만, 로그순위 검정의 <span class="math notranslate nohighlight">\(p\)</span>-값은 0.36으로서 그 증거가 아주 미약하다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">by_result</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">result</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">Publication</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;posres&#39;</span><span class="p">):</span>
+    <span class="n">by_result</span><span class="p">[</span><span class="n">result</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span>
+    <span class="n">kmf_result</span> <span class="o">=</span> <span class="n">kmf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">])</span>
+    <span class="n">kmf_result</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Result=</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">result</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">ci_show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/9be789eb9c6c51c3c5d8dd01114be686a8146de0dcbb6035d7777da476ae6b51.png" src="../_images/9be789eb9c6c51c3c5d8dd01114be686a8146de0dcbb6035d7777da476ae6b51.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lifelines.statistics</span> <span class="kn">import</span> <span class="n">logrank_test</span>
+
+<span class="n">logrank_test</span><span class="p">(</span><span class="n">by_result</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;time&#39;</span><span class="p">],</span>
+             <span class="n">by_result</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;time&#39;</span><span class="p">],</span>
+             <span class="n">by_result</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;status&#39;</span><span class="p">],</span>
+             <span class="n">by_result</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;status&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <tbody>
+    <tr>
+      <th>t_0</th>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <th>null_distribution</th>
+      <td>chi squared</td>
+    </tr>
+    <tr>
+      <th>degrees_of_freedom</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>test_name</th>
+      <td>logrank_test</td>
+    </tr>
+  </tbody>
+</table>
+</div><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>test_statistic</th>
+      <th>p</th>
+      <th>-log2(p)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.84</td>
+      <td>0.36</td>
+      <td>1.48</td>
+    </tr>
+  </tbody>
+</table></div></div>
+</div>
+<p>로그순위 검정과 동일한 결과를 다음과 같이 Cox 비례위험 모형 추정으로도 얻을 수 있다. <code class="docutils literal notranslate"><span class="pre">posres</span></code> 변수를 사용해 Cox 모형을 피팅한 결과 <span class="math notranslate nohighlight">\(p\)</span>-값이 0.36이 나와 연구결과가 긍정적이든 부정적이든 출판까지의 시간에 통계적으로 유의한 차이가 없음을 시사한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">posres_df</span> <span class="o">=</span> <span class="n">MS</span><span class="p">([</span><span class="s1">&#39;posres&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">],</span> <span class="n">intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">Publication</span><span class="p">)</span>
+<span class="n">posres_fit</span> <span class="o">=</span> <span class="n">coxph</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">posres_df</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">)</span>
+<span class="n">posres_fit</span><span class="o">.</span><span class="n">summary</span><span class="p">[[</span><span class="s1">&#39;coef&#39;</span><span class="p">,</span> <span class="s1">&#39;se(coef)&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>coef</th>
+      <th>se(coef)</th>
+      <th>p</th>
+    </tr>
+    <tr>
+      <th>covariate</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>posres</th>
+      <td>0.148076</td>
+      <td>0.161625</td>
+      <td>0.359579</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Publication</span></code> 데이터세트의 모든 가능한 예측변수를 사용하여 Cox의 비례위험 모델을 피팅한 결과가 아래 나와 있다. 특성 중 <code class="docutils literal notranslate"><span class="pre">posres</span></code>, <code class="docutils literal notranslate"><span class="pre">multi</span></code>, <code class="docutils literal notranslate"><span class="pre">clinend</span></code>는 이항형이다. <code class="docutils literal notranslate"><span class="pre">mech</span></code>는 14개 범주를 가진 정성적 변수로서 <code class="docutils literal notranslate"><span class="pre">Contract</span></code>가 기준범주로 코드화되었다.</p>
+<p>아래 결과에서 <code class="docutils literal notranslate"><span class="pre">posres</span></code> 변수를 보면, 다른 모든 공변량이 동일하다고 했을 때, 긍정적 결과를 얻은 연구의 출판성공 확률이 부정적 결과를 지닌 연구보다 어느 시점에서나 <span class="math notranslate nohighlight">\(e^{0.55} = 1.74\)</span>배 높은 것으로 나타났다. 또한 <code class="docutils literal notranslate"><span class="pre">posres</span></code>의 <span class="math notranslate nohighlight">\(p\)</span>-값이 0.0025로서 통계적으로  매우 유의하다. 이는 앞의 로그순위 검정 결과와 크게 다르다. 이 차이를 어떻게 이해할 수 있을까? 답은 로그순위 검정은 다른 공변량을 고려하지 않았다는 사실에서 비롯된다. 반면 아래 결과는 모든 가능한 공변량을 사용하여 Cox 모형을 추정한 것이다. 다시 말해 모든 다른 공변량을 통제한 후에 연구의 긍정적 결과 여부가 출판까지의 시간에 영향을 미치는지를 분석한 것이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">MS</span><span class="p">(</span><span class="n">Publication</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">coxph</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">Publication</span><span class="p">),</span> 
+            <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">[[</span><span class="s1">&#39;coef&#39;</span><span class="p">,</span> <span class="s1">&#39;se(coef)&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>coef</th>
+      <th>se(coef)</th>
+      <th>p</th>
+    </tr>
+    <tr>
+      <th>covariate</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>posres</th>
+      <td>0.551640</td>
+      <td>0.182717</td>
+      <td>2.535382e-03</td>
+    </tr>
+    <tr>
+      <th>multi</th>
+      <td>0.145992</td>
+      <td>0.308381</td>
+      <td>6.359175e-01</td>
+    </tr>
+    <tr>
+      <th>clinend</th>
+      <td>0.511395</td>
+      <td>0.270431</td>
+      <td>5.861968e-02</td>
+    </tr>
+    <tr>
+      <th>mech[K01]</th>
+      <td>1.052064</td>
+      <td>1.056043</td>
+      <td>3.191371e-01</td>
+    </tr>
+    <tr>
+      <th>mech[K23]</th>
+      <td>-0.476995</td>
+      <td>1.052992</td>
+      <td>6.505557e-01</td>
+    </tr>
+    <tr>
+      <th>mech[P01]</th>
+      <td>-0.308363</td>
+      <td>0.777526</td>
+      <td>6.916659e-01</td>
+    </tr>
+    <tr>
+      <th>mech[P50]</th>
+      <td>0.599473</td>
+      <td>1.055111</td>
+      <td>5.699254e-01</td>
+    </tr>
+    <tr>
+      <th>mech[R01]</th>
+      <td>0.095584</td>
+      <td>0.318222</td>
+      <td>7.638953e-01</td>
+    </tr>
+    <tr>
+      <th>mech[R18]</th>
+      <td>1.045022</td>
+      <td>1.054980</td>
+      <td>3.219001e-01</td>
+    </tr>
+    <tr>
+      <th>mech[R21]</th>
+      <td>-0.045080</td>
+      <td>1.056565</td>
+      <td>9.659673e-01</td>
+    </tr>
+    <tr>
+      <th>mech[R24, K24]</th>
+      <td>0.807824</td>
+      <td>1.053419</td>
+      <td>4.431653e-01</td>
+    </tr>
+    <tr>
+      <th>mech[R42]</th>
+      <td>-15.335014</td>
+      <td>4516.579075</td>
+      <td>9.972910e-01</td>
+    </tr>
+    <tr>
+      <th>mech[R44]</th>
+      <td>-0.566349</td>
+      <td>0.773507</td>
+      <td>4.640565e-01</td>
+    </tr>
+    <tr>
+      <th>mech[RC2]</th>
+      <td>-15.594607</td>
+      <td>3144.460755</td>
+      <td>9.960430e-01</td>
+    </tr>
+    <tr>
+      <th>mech[U01]</th>
+      <td>-0.223964</td>
+      <td>0.319267</td>
+      <td>4.829949e-01</td>
+    </tr>
+    <tr>
+      <th>mech[U54]</th>
+      <td>0.468824</td>
+      <td>1.068121</td>
+      <td>6.607167e-01</td>
+    </tr>
+    <tr>
+      <th>sampsize</th>
+      <td>0.000003</td>
+      <td>0.000015</td>
+      <td>8.483310e-01</td>
+    </tr>
+    <tr>
+      <th>budget</th>
+      <td>0.004195</td>
+      <td>0.002508</td>
+      <td>9.434070e-02</td>
+    </tr>
+    <tr>
+      <th>impact</th>
+      <td>0.060104</td>
+      <td>0.007301</td>
+      <td>1.841051e-16</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>앞에서 <code class="docutils literal notranslate"><span class="pre">BrainCancer</span></code> 데이터세트에서 (<code class="docutils literal notranslate"><span class="pre">diagnosis</span></code> 범주에 대해) 행했던 것처럼 다른 예측변수를 통제한 상태에서 <code class="docutils literal notranslate"><span class="pre">posres</span></code>의 두 가지 범주에 대한 생존곡선을 그려보자. 이를 위해서는 기준위험 <span class="math notranslate nohighlight">\(h_0(t)\)</span>를 추정하고, <code class="docutils literal notranslate"><span class="pre">posres</span></code> 이외의 다른 예측변수에 대한 대표값을 선택해야 하는데, <code class="docutils literal notranslate"><span class="pre">mech</span></code>를 제외한 다른 변수들에 대해서는 평균값을 사용했으며, 범주형 변수인 <code class="docutils literal notranslate"><span class="pre">mech</span></code>에 대해서는 빈도수가 가장 많은 범주(<code class="docutils literal notranslate"><span class="pre">R01</span></code>)를 사용했다. 아래 결과를 보면, 이제 긍정적 결과를 지닌 연구와 부정적 결과를 지닌 연구의 생존곡선에 명확한 차이가 있는 것을 볼 수 있다.</p>
+<p><strong>그림 17.3.</strong> <code class="docutils literal notranslate"><span class="pre">Publication</span></code> 데이터에 대해 모든 다른 공변량을 통제한 후, 연구가 긍정적인 결과를 도출했는지 여부에 따라 출판(성공)까지 걸리는 시간에 대한 생존곡선을 그린 것이다.</p>
+<p><img alt="Publication 데이터 생존곡선" src="https://raw.githubusercontent.com/pilsunchoi/images/main/17-5.png" /></p>
+<ul class="simple">
+<li><p>그림 출처: ISLP, FIGURE 11.6</p></li>
+</ul>
+<p>한편, 앞의 Cox 비례위험 모형 추정 결과를 보면 또 다른 흥미로운 통찰력을 얻을 수 있는데, 예를 들어, 임상적 결과변수(<code class="docutils literal notranslate"><span class="pre">clinend</span></code>)가 있는 연구는 출판될 가능성이 더 높은 반면, 펀딩 메커니즘은 전체적으로 출판까지의 시간과 유의한 관련성이 없는 것으로 나타났다.</p>
+</section>
+<section id="id19">
+<h3>콜센터 데이터<a class="headerlink" href="#id19" title="Link to this heading">#</a></h3>
+<p>이번에는 누적위험(cumulative hazard) 함수와 생존함수 간의 관계를 활용하여 생존 데이터를 가상으로 생성한다. 생성된 가상 데이터는 콜센터에 전화를 건 2,000명 고객의 관측된 대기시간(초)을 나타낸다. 이 상황에서 중도절단은 대기하던 고객이 통화가 성사되기 전에 전화를 끊는 경우다.</p>
+<p>다음 세 가지 공변량이 있다.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Operators</span></code>: 통화 시점에 서비스가 가능한 콜센터 상담원 수(5명~15명)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Center</span></code>: A, B, C</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Time</span></code>: 통화 시점(아침, 오후, 저녁)</p></li>
+</ul>
+<p><strong>시뮬레이션 데이터 생성</strong></p>
+<p>이러한 공변량을 가진 데이터를 생성하는데, 모든 가능성이 동일한 것으로 설정하자. 즉, 아침/오후/저녁 통화가 동일한 확률로 발생하고, <span class="math notranslate nohighlight">\(5\)</span>명에서 <span class="math notranslate nohighlight">\(15\)</span>명까지의 상담원 수가 모두 동일한 확률로 발생한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="n">Operators</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="n">N</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">Center</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="n">N</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">Time</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s1">&#39;Morn.&#39;</span><span class="p">,</span> <span class="s1">&#39;After.&#39;</span><span class="p">,</span> <span class="s1">&#39;Even.&#39;</span><span class="p">],</span> <span class="n">N</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Operators&#39;</span><span class="p">:</span> <span class="n">Operators</span><span class="p">,</span>
+                  <span class="s1">&#39;Center&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">Center</span><span class="p">),</span>
+                  <span class="s1">&#39;Time&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">Time</span><span class="p">)})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>먼저 모델을 설정한다.(절편은 없음)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">MS</span><span class="p">([</span><span class="s1">&#39;Operators&#39;</span><span class="p">,</span> <span class="s1">&#39;Center&#39;</span><span class="p">,</span> <span class="s1">&#39;Time&#39;</span><span class="p">],</span> <span class="n">intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>X를 확인해보자. <code class="docutils literal notranslate"><span class="pre">Center</span></code>와 <code class="docutils literal notranslate"><span class="pre">Time</span></code> 변수의 경우 각각 기준범주를 제거했다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Operators</th>
+      <th>Center[B]</th>
+      <th>Center[C]</th>
+      <th>Time[Even.]</th>
+      <th>Time[Morn.]</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>13</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>15</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>13</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>다음으로 계수를 정하고 위험함수를 규정한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">true_beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.04</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">])</span>
+<span class="n">true_linpred</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">true_beta</span><span class="p">)</span>
+<span class="n">hazard</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="mf">1e-5</span> <span class="o">*</span> <span class="n">t</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>여기서는 <code class="docutils literal notranslate"><span class="pre">Operators</span></code>와 관련된 계수를 <span class="math notranslate nohighlight">\(0.04\)</span>로 설정했다. 다시 말해, 각 추가적인 상담사는 <code class="docutils literal notranslate"><span class="pre">Center</span></code> 및 <code class="docutils literal notranslate"><span class="pre">Time</span></code> 공변량이 주어진 상황에서 통화가 응답될 “위험”을 <span class="math notranslate nohighlight">\(e^{0.04}=1.041\)</span>배 증가시킨다. 이는 상담사 숫자가 많을수록 대기시간이 짧아진다는 의미이다! <code class="docutils literal notranslate"><span class="pre">Center</span> <span class="pre">==</span> <span class="pre">B</span></code>와 관련된 계수는 <span class="math notranslate nohighlight">\(-0.3\)</span>이며, <code class="docutils literal notranslate"><span class="pre">Center</span> <span class="pre">==</span> <span class="pre">A</span></code>는 기준범주로 간주된다. Center B에서 통화가 응답될 위험이 Center A에서 응답될 위험의 0.74배이다. 다시 말해 Center B에서 대기시간이 조금 더 길다는 것을 의미한다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">lambda</span></code>를 사용하여 간단한 함수를 만들 수 있는데, <code class="docutils literal notranslate"><span class="pre">ISLP.survival</span></code> 패키지의 <code class="docutils literal notranslate"><span class="pre">sim_time()</span></code> 함수를 이용한다. 이 함수는 생존함수와 누적위험함수 간의 관계, 즉 <span class="math notranslate nohighlight">\(S(t) = \exp(-H(t))\)</span>와 Cox 모델에서 누적위험함수의 구체적 형태를 사용한다. 그렇게 해서 예측변수인 <code class="docutils literal notranslate"><span class="pre">true_linpred</span></code>와 누적위험의 값에 기반해 시뮬레이션 데이터를  생성한다. 이를 위해 누적위험함수를 제공해야 하는데, 다음과 같이 규정했다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cum_hazard</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="mf">1e-5</span> <span class="o">*</span> <span class="n">t</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>이제 Cox 비례위험 모델에서 데이터를 생성할 준비가 되었다. 시뮬레이션 대기시간을 합리적으로 만들기 위해 최대 시간을 1000초에서 절단했다. <code class="docutils literal notranslate"><span class="pre">sim_time()</span></code> 함수는 선형 예측값, 누적위험함수, 그리고 난수 생성기를 사용한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ISLP.survival</span> <span class="kn">import</span> <span class="n">sim_time</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">sim_time</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">cum_hazard</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">true_linpred</span><span class="p">])</span>
+<span class="n">D</span><span class="p">[</span><span class="s1">&#39;Wait time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>이제 중도절단 변수를 시뮬레이션하는데, 90%의 통화가 고객이 전화를 끊기(<code class="docutils literal notranslate"><span class="pre">Failed==0</span></code>) 전에 응답(<code class="docutils literal notranslate"><span class="pre">Failed==1</span></code>)이 이루어졌다고 가정한다 .</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">[</span><span class="s1">&#39;Failed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">N</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>
+<span class="n">D</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Operators</th>
+      <th>Center</th>
+      <th>Time</th>
+      <th>Wait time</th>
+      <th>Failed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>13</td>
+      <td>C</td>
+      <td>After.</td>
+      <td>525.064979</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>15</td>
+      <td>A</td>
+      <td>Even.</td>
+      <td>254.677835</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7</td>
+      <td>B</td>
+      <td>Morn.</td>
+      <td>487.739224</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7</td>
+      <td>C</td>
+      <td>Morn.</td>
+      <td>308.580292</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>13</td>
+      <td>C</td>
+      <td>Even.</td>
+      <td>154.174608</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1995</th>
+      <td>9</td>
+      <td>A</td>
+      <td>Morn.</td>
+      <td>219.225691</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1996</th>
+      <td>12</td>
+      <td>C</td>
+      <td>After.</td>
+      <td>300.182766</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1997</th>
+      <td>7</td>
+      <td>C</td>
+      <td>Morn.</td>
+      <td>253.019911</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1998</th>
+      <td>12</td>
+      <td>A</td>
+      <td>Even.</td>
+      <td>485.481804</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1999</th>
+      <td>7</td>
+      <td>B</td>
+      <td>Even.</td>
+      <td>258.815204</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>2000 rows × 5 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">[</span><span class="s1">&#39;Failed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9075
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>센터별 Kaplan-Meier 생존곡선</strong></p>
+<p>먼저 <code class="docutils literal notranslate"><span class="pre">Center</span></code>의 각 범주별로 Kaplan-Meier 생존곡선을 그린다. 그래프에서 한글이 깨지는 것을 막기 위해서는 아래 명령문을 실행해야 한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">font_manager</span><span class="p">,</span> <span class="n">rc</span>
+<span class="n">font_path</span> <span class="o">=</span> <span class="s2">&quot;/Windows/Fonts/malgun.ttf&quot;</span>
+<span class="n">font</span> <span class="o">=</span> <span class="n">font_manager</span><span class="o">.</span><span class="n">FontProperties</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="n">font_path</span><span class="p">)</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span>
+<span class="n">rc</span><span class="p">(</span><span class="s1">&#39;font&#39;</span><span class="p">,</span> <span class="n">family</span><span class="o">=</span><span class="n">font</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>위 코드는 Windows에 해당하는 것이고, MacBook의 경우에는 위 명령문 세 번째 줄을 다음과 같이 바꿔야 한다.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">font_path</span> <span class="o">=</span> <span class="s2">&quot;/System/Library/Fonts/AppleSDGothicNeo.ttc&quot;</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">by_center</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">center</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">D</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Center&#39;</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">by_center</span><span class="p">[</span><span class="n">center</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span>
+    <span class="n">kmf_center</span> <span class="o">=</span> <span class="n">kmf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Wait time&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Failed&#39;</span><span class="p">])</span>
+    <span class="n">kmf_center</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Center=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">center</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">ci_show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;전화를 들고 있을 확률&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;대기시간(초)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b85535a079ca242fa0398a68b650ff5ae77b7652b9cdecc58030414a7b677e06.png" src="../_images/b85535a079ca242fa0398a68b650ff5ae77b7652b9cdecc58030414a7b677e06.png" />
+</div>
+</div>
+<p>위 그림을 보면, Call Center B의 전화 응답 대기시간이 A 및 C 센터의 전화에 비해 더 오래 걸리는 것으로 보인다.</p>
+<p><strong>나절별 Kaplan-Meier 생존곡선</strong></p>
+<p>하루 중 전화를 건 나절(<code class="docutils literal notranslate"><span class="pre">Time</span></code>)에 따라 계층화한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">by_time</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">time</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">D</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">by_time</span><span class="p">[</span><span class="n">time</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span>
+    <span class="n">kmf_time</span> <span class="o">=</span> <span class="n">kmf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Wait time&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Failed&#39;</span><span class="p">])</span>
+    <span class="n">kmf_time</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Time=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">time</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">ci_show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;전화를 들고 있을 확률&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;대기시간(초)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/4ece77193f44423ce5c8a5607a97a52c5c2a20ede995d58fbb65efa12f4107b6.png" src="../_images/4ece77193f44423ce5c8a5607a97a52c5c2a20ede995d58fbb65efa12f4107b6.png" />
+</div>
+</div>
+<p>위 그림에서 보듯이 하루 나절별 대기시간은 아침이 가장 길고 저녁에 가장 짧은 것으로 나타났다.</p>
+<p><strong>통계적 유의성</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">multivariate_logrank_test()</span></code> 함수를 사용해 센터별 및 나절별 차이가 통계적으로 유의한지 여부를 로그순위 검정으로 따져볼 수 있다. 아래 결과를 보면 센터별 차이가 통계적으로 유의하다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">multivariate_logrank_test</span><span class="p">(</span><span class="n">D</span><span class="p">[</span><span class="s1">&#39;Wait time&#39;</span><span class="p">],</span> <span class="n">D</span><span class="p">[</span><span class="s1">&#39;Center&#39;</span><span class="p">],</span> <span class="n">D</span><span class="p">[</span><span class="s1">&#39;Failed&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <tbody>
+    <tr>
+      <th>t_0</th>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <th>null_distribution</th>
+      <td>chi squared</td>
+    </tr>
+    <tr>
+      <th>degrees_of_freedom</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>test_name</th>
+      <td>multivariate_logrank_test</td>
+    </tr>
+  </tbody>
+</table>
+</div><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>test_statistic</th>
+      <th>p</th>
+      <th>-log2(p)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>20.30</td>
+      <td>&lt;0.005</td>
+      <td>14.65</td>
+    </tr>
+  </tbody>
+</table></div></div>
+</div>
+<p>나절별(<code class="docutils literal notranslate"><span class="pre">Time</span></code>) 차이 역시 아래 결과에서 보듯이 통계적으로 유의하다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">multivariate_logrank_test</span><span class="p">(</span><span class="n">D</span><span class="p">[</span><span class="s1">&#39;Wait time&#39;</span><span class="p">],</span> <span class="n">D</span><span class="p">[</span><span class="s1">&#39;Time&#39;</span><span class="p">],</span> <span class="n">D</span><span class="p">[</span><span class="s1">&#39;Failed&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <tbody>
+    <tr>
+      <th>t_0</th>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <th>null_distribution</th>
+      <td>chi squared</td>
+    </tr>
+    <tr>
+      <th>degrees_of_freedom</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>test_name</th>
+      <td>multivariate_logrank_test</td>
+    </tr>
+  </tbody>
+</table>
+</div><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>test_statistic</th>
+      <th>p</th>
+      <th>-log2(p)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>49.90</td>
+      <td>&lt;0.005</td>
+      <td>35.99</td>
+    </tr>
+  </tbody>
+</table></div></div>
+</div>
+<p>범주가 2개만 있는 변수와 마찬가지로 위의 로그순위 검정 결과는 Cox 비례위험 모델에서의 가능도비율 검정과 유사하다. 아래에서 보듯이 (로그순위 검정과 마찬가지로) 센터 간의 차이가 매우 유의하며, 또한 나절별 차이도 유의한 것으로 나타났다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">MS</span><span class="p">([</span><span class="s1">&#39;Wait time&#39;</span><span class="p">,</span> <span class="s1">&#39;Failed&#39;</span><span class="p">,</span> <span class="s1">&#39;Center&#39;</span><span class="p">],</span> <span class="n">intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">coxph</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="s1">&#39;Wait time&#39;</span><span class="p">,</span> <span class="s1">&#39;Failed&#39;</span><span class="p">)</span>
+<span class="n">F</span><span class="o">.</span><span class="n">log_likelihood_ratio_test</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <tbody>
+    <tr>
+      <th>null_distribution</th>
+      <td>chi squared</td>
+    </tr>
+    <tr>
+      <th>degrees_freedom</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>test_name</th>
+      <td>log-likelihood ratio test</td>
+    </tr>
+  </tbody>
+</table>
+</div><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>test_statistic</th>
+      <th>p</th>
+      <th>-log2(p)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>20.58</td>
+      <td>&lt;0.005</td>
+      <td>14.85</td>
+    </tr>
+  </tbody>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">MS</span><span class="p">([</span><span class="s1">&#39;Wait time&#39;</span><span class="p">,</span> <span class="s1">&#39;Failed&#39;</span><span class="p">,</span> <span class="s1">&#39;Time&#39;</span><span class="p">],</span> <span class="n">intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">coxph</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="s1">&#39;Wait time&#39;</span><span class="p">,</span> <span class="s1">&#39;Failed&#39;</span><span class="p">)</span>
+<span class="n">F</span><span class="o">.</span><span class="n">log_likelihood_ratio_test</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <tbody>
+    <tr>
+      <th>null_distribution</th>
+      <td>chi squared</td>
+    </tr>
+    <tr>
+      <th>degrees_freedom</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>test_name</th>
+      <td>log-likelihood ratio test</td>
+    </tr>
+  </tbody>
+</table>
+</div><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>test_statistic</th>
+      <th>p</th>
+      <th>-log2(p)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>48.12</td>
+      <td>&lt;0.005</td>
+      <td>34.71</td>
+    </tr>
+  </tbody>
+</table></div></div>
+</div>
+<p><strong>Cox의 비례위험 모델</strong></p>
+<p>마지막으로, 데이터에 Cox의 비례위험 모델을 피팅시켰다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">MS</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+<span class="n">fit_queuing</span> <span class="o">=</span> <span class="n">coxph</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="s1">&#39;Wait time&#39;</span><span class="p">,</span> <span class="s1">&#39;Failed&#39;</span><span class="p">)</span>
+<span class="n">fit_queuing</span><span class="o">.</span><span class="n">summary</span><span class="p">[[</span><span class="s1">&#39;coef&#39;</span><span class="p">,</span> <span class="s1">&#39;se(coef)&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>coef</th>
+      <th>se(coef)</th>
+      <th>p</th>
+    </tr>
+    <tr>
+      <th>covariate</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Operators</th>
+      <td>0.043934</td>
+      <td>0.007520</td>
+      <td>5.143589e-09</td>
+    </tr>
+    <tr>
+      <th>Center[B]</th>
+      <td>-0.236060</td>
+      <td>0.058113</td>
+      <td>4.864162e-05</td>
+    </tr>
+    <tr>
+      <th>Center[C]</th>
+      <td>0.012231</td>
+      <td>0.057518</td>
+      <td>8.316096e-01</td>
+    </tr>
+    <tr>
+      <th>Time[Even.]</th>
+      <td>0.268845</td>
+      <td>0.057797</td>
+      <td>3.294956e-06</td>
+    </tr>
+    <tr>
+      <th>Time[Morn.]</th>
+      <td>-0.148217</td>
+      <td>0.057334</td>
+      <td>9.733557e-03</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Center[B]</span></code> 및 <code class="docutils literal notranslate"><span class="pre">Time[Even.]</span></code>에 대한 <span class="math notranslate nohighlight">\(p\)</span>-값이 매우 작다. 또한, 상담사 숫자와 함께 위험(통화가 이루어질 순간적인 위험)이 증가하는 것이 명확하다.</p>
+<p>데이터를 직접 생성했기 때문에 우리는 <code class="docutils literal notranslate"><span class="pre">Operators</span></code>, <code class="docutils literal notranslate"><span class="pre">Center</span> <span class="pre">=</span> <span class="pre">B</span></code>, <code class="docutils literal notranslate"><span class="pre">Center</span> <span class="pre">=</span> <span class="pre">C</span></code>, <code class="docutils literal notranslate"><span class="pre">Time</span> <span class="pre">=</span> <span class="pre">Even.</span></code>, <code class="docutils literal notranslate"><span class="pre">Time</span> <span class="pre">=</span> <span class="pre">Morn.</span></code>에 대한 계수 참값을 알고 있다. 각각 <span class="math notranslate nohighlight">\(0.04\)</span>, <span class="math notranslate nohighlight">\(-0.3\)</span>, <span class="math notranslate nohighlight">\(0\)</span>, <span class="math notranslate nohighlight">\(0.2\)</span>, <span class="math notranslate nohighlight">\(-0.2\)</span>이다. 위의 피팅 결과를 보면, Cox 모델의 계수 추정값이 상당히 정확한 편이다.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="16_%EB%B9%84%EC%A7%80%EB%8F%84%ED%95%99%EC%8A%B5%EA%B3%BC_%EC%A3%BC%EC%84%B1%EB%B6%84_%EB%B6%84%EC%84%9D.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">16장 비지도학습과 주성분 분석</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">17.1 소개</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chatgpt-q-a">ChatGPT Q&amp;A</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">17.2 생존시간 및 중도절단시간</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">ChatGPT Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">중도절단의 의미</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">17.3 중도절단에 대한 가정</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">17.4 카플란-마이어 생존곡선 추정</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">카플란-마이어 추정</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">ChatGPT Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">중도절단이 있는 경우</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">이론적 설명</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#braincancer">BrainCancer 데이터세트</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">ChatGPT Q&amp;A</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">17.5 로그순위 검정</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">이론적 설명</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">17.6 생존분석 회귀 모델</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">위험함수</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">비례위험</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cox">Cox 비례위험 모델</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">BrainCancer 데이터</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#publication">Publication 데이터</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">콜센터 데이터</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 최필선 민인식
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

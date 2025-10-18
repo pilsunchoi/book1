@@ -1,0 +1,1788 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3장 은행 텔레마케팅 데이터 분석 &#8212; 데이터과학의 첫걸음</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/03_은행_텔레마케팅_데이터_분석';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4장 전자상거래 데이터 분석" href="04_%EC%A0%84%EC%9E%90%EC%83%81%EA%B1%B0%EB%9E%98_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%B6%84%EC%84%9D.html" />
+    <link rel="prev" title="2장 파이썬 코딩 기초" href="02_%ED%8C%8C%EC%9D%B4%EC%8D%AC_%EC%BD%94%EB%94%A9_%EA%B8%B0%EC%B4%88.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="00_%EC%84%9C%EB%AC%B8.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="데이터과학의 첫걸음 - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="데이터과학의 첫걸음 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_%EC%84%9C%EB%AC%B8.html">
+                    데이터과학의 첫걸음: 시작하며
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_%ED%8C%8C%EC%9D%B4%EC%8D%AC_%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.html">1장 파이썬 시작하기</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_%ED%8C%8C%EC%9D%B4%EC%8D%AC_%EC%BD%94%EB%94%A9_%EA%B8%B0%EC%B4%88.html">2장 파이썬 코딩 기초</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3장 은행 텔레마케팅 데이터 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_%EC%A0%84%EC%9E%90%EC%83%81%EA%B1%B0%EB%9E%98_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%B6%84%EC%84%9D.html">4장 전자상거래 데이터 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_%ED%86%B5%EA%B3%84%EC%A0%81_%ED%95%99%EC%8A%B5.html">5장 통계적 학습</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_%EC%84%A0%ED%98%95_%ED%9A%8C%EA%B7%80.html">6장 선형 회귀</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_%EB%A1%9C%EC%A7%80%EC%8A%A4%ED%8B%B1_%ED%9A%8C%EA%B7%80%EB%A5%BC_%EC%9D%B4%EC%9A%A9%ED%95%9C_%EB%B6%84%EB%A5%98.html">7장 로지스틱 회귀를 이용한 분류</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_KNN%EC%9D%84_%EC%9D%B4%EC%9A%A9%ED%95%9C_%EB%B6%84%EB%A5%98.html">8장 KNN 분류</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_%EB%82%98%EC%9D%B4%EB%B8%8C_%EB%B2%A0%EC%9D%B4%EC%A6%88_%EB%B6%84%EB%A5%98.html">9장 나이브 베이즈 분류</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_%EB%B3%80%EC%88%98%EC%84%A0%ED%83%9D_%EB%B0%8F_%EC%A0%95%EA%B7%9C%ED%99%94.html">10장 변수선택 및 정규화</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_%EC%B6%94%EC%B2%9C_%EC%8B%9C%EC%8A%A4%ED%85%9C.html">11장 추천 시스템</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_%EA%B2%B0%EC%A0%95_%ED%8A%B8%EB%A6%AC_%EB%A7%8C%EB%93%A4%EA%B8%B0.html">12장 결정 트리 만들기</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_%ED%8A%B8%EB%A6%AC_%EA%B8%B0%EB%B0%98_%EB%AA%A8%ED%98%95.html">13장 트리 기반 모형</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_%EC%84%9C%ED%8F%AC%ED%8A%B8_%EB%B2%A1%ED%84%B0_%EB%A8%B8%EC%8B%A0.html">14장 서포트 벡터 머신</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_%EB%94%A5%EB%9F%AC%EB%8B%9D_%EC%9E%85%EB%AC%B8.html">15장 딥러닝 입문</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_%EB%B9%84%EC%A7%80%EB%8F%84%ED%95%99%EC%8A%B5%EA%B3%BC_%EC%A3%BC%EC%84%B1%EB%B6%84_%EB%B6%84%EC%84%9D.html">16장 비지도학습과 주성분 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_%EC%83%9D%EC%A1%B4%EB%B6%84%EC%84%9D.html">17장 생존분석</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book1" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book1/issues/new?title=Issue%20on%20page%20%2Fnotebooks/03_은행_텔레마케팅_데이터_분석.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/03_은행_텔레마케팅_데이터_분석.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3장 은행 텔레마케팅 데이터 분석</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3.1 소개</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chatgpt-q-a">ChatGPT Q&amp;A</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">3.2 데이터</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">개요</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">변수 정보</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">데이터 로딩</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">3.3 핵심성과지표 계산</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">핵심성과지표</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">전환율 계산</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">그룹별 전환율</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">피벗 테이블</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lambda">부록: lambda 사용법</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">ChatGPT Q&amp;A</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>3장 은행 텔레마케팅 데이터 분석<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>자료 출처: Hands-On Data Science for Marketing, Packt Publishing, 2019.</p>
+<section id="id2">
+<h2>3.1 소개<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>이 장에서는 어떤 은행의 텔레마케팅 관련 데이터를 파이썬으로 분석한다. 여기에서 다룰 데이터는 포르투갈의 한 은행이 정기예금 텔레마케팅 행사를 하면서 기록한 각종 변수들로서 텔레마케팅 행사에 의해 고객이 정기예금에 가입했는지 여부가 초점이다. 분석 방법은 회귀분석 등 상대적으로 복잡한 통계적 모형을 사용하지 않고, 마케팅 활동의 성과를 평가하는 데 사용되는 핵심성과지표를 계산해보는 수준이다. 특히 텔레마케팅으로 어느 정도의 고객이 정기예금에 가입했는지, 즉 소위 전환율(conversion rate)을 계산하는 데 초점을 맞춘다. 전환율은 <strong>디지털 마케팅 관련</strong> 기본적인 <strong>애널리틱스</strong>(analytics)이다.(애널리틱스란 데이터 또는 통계의 체계적인 <strong>계산적 분석</strong>을 말한다.)</p>
+<section id="chatgpt-q-a">
+<h3>ChatGPT Q&amp;A<a class="headerlink" href="#chatgpt-q-a" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p><strong>애널리틱스(analytics)에 대해 쉽게 설명해줘.</strong></p>
+</div></blockquote>
+<hr class="docutils" />
+<blockquote>
+<div><p>애널리틱스(Analytics)란 데이터를 수집, 분석, 해석하여 유용한 정보를 추출하고, 이를 바탕으로 의사결정을 지원하는 과정을 말합니다. 쉽게 말해, 다양한 데이터를 분석하여 사람들이 더 나은 결정을 내릴 수 있도록 도와주는 것입니다. 애널리틱스는 비즈니스, 과학, 의료, 금융, 교육 등 다양한 분야에서 사용됩니다.</p>
+<p>애널리틱스의 주요 과정은 다음과 같습니다:</p>
+<ol class="arabic simple">
+<li><p><strong>데이터 수집</strong>: 다양한 출처로부터 데이터를 모읍니다. 이 데이터는 판매 기록, 고객 설문, 웹사이트 트래픽 등이 될 수 있습니다.</p></li>
+<li><p><strong>데이터 정제</strong>: 수집된 데이터는 종종 불완전하거나 오류를 포함하고 있을 수 있습니다. 데이터를 정제하는 과정에서는 이러한 오류를 수정하고, 누락된 값을 처리합니다.</p></li>
+<li><p><strong>데이터 분석</strong>: 정제된 데이터를 사용하여 통계적 방법, 기계학습 알고리즘, 데이터 마이닝 기법 등을 적용해 유의미한 정보를 추출합니다.</p></li>
+<li><p><strong>인사이트 도출</strong>: 분석을 통해 얻은 결과를 해석하여 비즈니스 의사결정, 고객 행동 이해, 시장 동향 예측 등에 활용할 수 있는 인사이트를 도출합니다.</p></li>
+<li><p><strong>결과 공유 및 의사결정 지원</strong>: 분석 결과를 보고서, 대시보드 등의 형태로 정리하여 관련 이해관계자와 공유하고, 이를 바탕으로 전략 수립이나 의사결정을 지원합니다.</p></li>
+</ol>
+<p>애널리틱스는 조직이나 기업이 보다 데이터에 기반한, 객관적이고 효과적인 결정을 내리는 데 큰 도움을 줍니다. 예를 들어, 소매업체는 고객 구매 데이터를 분석하여 재고 관리를 최적화할 수 있고, 마케팅 팀은 고객 행동 데이터를 분석하여 타겟 마케팅 전략을 개발할 수 있습니다.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="id3">
+<h2>3.2 데이터<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<section id="id4">
+<h3>개요<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>여기에서 다룰 데이터는 포르투갈 한 은행의 정기예금 텔레마케팅과 관련된 것이다. 데이터의 원래 출처는 Moro 등이 수행한 2014년 연구논문(S. Moro, P. Cortez and P. Rita. A Data-Driven Approach to Predict the Success of Bank Telemarketing. Decision Support Systems, Elsevier, 62:22-31, June 2014)이다.</p>
+<p>이 연구는 은행의 정기예금 가입 텔레마케팅 성공 여부를 머신러닝 기법으로 접근한 것이다. 연구자들은 포르투갈의 한 은행에 대해 2008년부터 2013년까지 수집된 데이터를 사용했으며, 로지스틱 회귀(logistic regression), 결정 트리(decision trees), 신경망(neural network), 서포트 벡터 머신(SVM: support vector machine) 등 네 가지 모델을 비교했다.</p>
+<p>우리가 사용하는 “bank-additional-full.csv” 파일에는 Moro 등(2014) 연구의 데이터 파일에서 추출한 일부 관측들이 담겨 있다. 2008년 5월부터 2010년 11월까지 41,188개의 관측으로서 고객의 나이, 직업 등 20개 입력변수와 정기예금 가입 여부를 ‘yes’와 ‘no’로 기록한 출력변수 1개이다.</p>
+</section>
+<section id="id5">
+<h3>변수 정보<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>(1) 은행 고객 데이터</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code>: 나이(숫자)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">job</span></code>: 직업의 종류(범주: admin., blue-collar, entrepreneur, housemaid, management, retired, self-employed, services, student, technician, unemployed, unknown)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">marital</span></code>: 혼인 여부(범주: divorced, married, single, unknown; 참고: “divorced”는 이혼 또는 사별을 의미함)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">education</span></code>: 교육(범주: basic.4y, basic.6y, basic.9y, high.school, illiterate, professional.course, university.degree, unknown)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">default</span></code>: 채무불이행 여부(범주: no, yes, unknown)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">housing</span></code>: 주택 융자 여부(범주: no, yes, unknown)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loan</span></code>: 개인 대출 여부(범주: no, yes, unknown)</p></li>
+</ul>
+<p>(2) 이번 텔레마케팅 행사의 마지막 컨택 관련</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">contact</span></code>: 콜 유형(범주: cellular, telephone)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">month</span></code>: 컨택 월(범주: jan, feb, mar, …, nov, dec)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">day_of_week</span></code>: 컨택 요일(범주: mon, tue, wed, thu, fri)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">duration</span></code>: 컨택 지속 시간(초)(숫자). <strong>주의 사항</strong>: 이 변수는 출력변수에 큰 영향을 미친다. 예를 들어 <code class="docutils literal notranslate"><span class="pre">duration</span></code>=0이면 <code class="docutils literal notranslate"><span class="pre">y</span></code>는 당연히 no이다. 또한 콜이 수행되기 전에는 <code class="docutils literal notranslate"><span class="pre">duration</span></code>을 알 수는 없지만, <code class="docutils literal notranslate"><span class="pre">duration</span></code>이 측정되는 시점(즉, 콜이 끝난 시점)에는 <code class="docutils literal notranslate"><span class="pre">y</span></code>값이 곧바로 드러난다. 따라서 이 변수는 예측변수로 사용돼서는 안되며, 벤치마크 목적으로만 포함되어야 한다.</p></li>
+</ul>
+<p>(3) 기타 특성</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">campaign</span></code>: 이번 행사 동안 해당 고객에 대해 수행된 컨택 횟수(숫자, 마지막 컨택 포함)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pdays</span></code>: 이전 행사에서 해당 고객에게 마지막으로 연락한 후 경과한 날짜 수(숫자, 999는 고객에게 이전에 연락한 적이 없었음을 의미함)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">previous</span></code>: 이번 행사 이전에 해당 고객에 대해 수행된 컨택 횟수(숫자)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">poutcome</span></code>: 이전 마케팅 행사의 결과(범주: failure, nonexistent, success)</p></li>
+</ul>
+<p>(4) 사회적, 경제적 관련 특성</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">emp.var.rate</span></code>: 고용 변동률 - 분기별 지표(숫자)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cons.price.idx</span></code>: 소비자 물가지수 - 월별 지표(숫자)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cons.conf.idx</span></code>: 소비자 신뢰지수 - 월별 지표(숫자)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">euribor3m</span></code>: 유리보(EURIBOR) 3개월물 금리 - 일별 기록(숫자)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nr.Employee</span></code>: 직원 수 - 분기별 지표(숫자)</p></li>
+</ul>
+<p><strong>출력 변수</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">y</span></code>: 고객이 정기 예금에 가입했는지 여부(이항 변수: yes, no)</p></li>
+</ul>
+</section>
+<section id="id6">
+<h3>데이터 로딩<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p><strong>라이브러리</strong></p>
+<p>아래 첫 번째 줄은 그래프 등의 이미지를 자신의 웹 애플리케이션에 그리도록 <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>에 지시하는 것이다. 또한 <code class="docutils literal notranslate"><span class="pre">pandas</span></code>는 데이터 분석을 지원하며, <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>과 <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>은 그래프 작성을 지원한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>데이터세트</strong></p>
+<p>UCI Machine Learning Repository의 데이터 중 <a class="reference external" href="https://archive.ics.uci.edu/dataset/222/bank+marketing">Bank Marketing Data Set</a>을 사용한다. 해당 웹페이지에 가서 오른쪽의 <a class="reference external" href="https://archive.ics.uci.edu/static/public/222/bank+marketing.zip">DOWNLOAD</a> 링크를 클릭하여 데이터를 다운로드한 다음, 압축을 풀어 몇 단계의 폴더를 거쳐 들어가면 “bank-additional-full.csv” 파일을 발견할 수 있다. 이 파일을 자신의 컴퓨터의 적절한 폴더에 저장한 다음 아래와 같은 방식으로 로딩시킨다.(데이터 파일의 디렉토리를 적는 방법에 대해서는 2.2.1절의 ISLP “College.csv”를 불러들이는 방법을 참조할 것.)</p>
+<p><code class="docutils literal notranslate"><span class="pre">pd.read_csv()</span></code> 함수의 옵션으로 <code class="docutils literal notranslate"><span class="pre">sep=';'</span></code>이 사용된다.(워드패드 등의 문서 앱으로 “bank-additional-full.csv” 파일을 열어보면 구분 기호로 쉼표(,)가 아니라 세미콜론(;)이 사용된 것을 알 수 있다.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../Data/bank-additional-full.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>job</th>
+      <th>marital</th>
+      <th>education</th>
+      <th>default</th>
+      <th>housing</th>
+      <th>loan</th>
+      <th>contact</th>
+      <th>month</th>
+      <th>day_of_week</th>
+      <th>...</th>
+      <th>campaign</th>
+      <th>pdays</th>
+      <th>previous</th>
+      <th>poutcome</th>
+      <th>emp.var.rate</th>
+      <th>cons.price.idx</th>
+      <th>cons.conf.idx</th>
+      <th>euribor3m</th>
+      <th>nr.employed</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>56</td>
+      <td>housemaid</td>
+      <td>married</td>
+      <td>basic.4y</td>
+      <td>no</td>
+      <td>no</td>
+      <td>no</td>
+      <td>telephone</td>
+      <td>may</td>
+      <td>mon</td>
+      <td>...</td>
+      <td>1</td>
+      <td>999</td>
+      <td>0</td>
+      <td>nonexistent</td>
+      <td>1.1</td>
+      <td>93.994</td>
+      <td>-36.4</td>
+      <td>4.857</td>
+      <td>5191.0</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>57</td>
+      <td>services</td>
+      <td>married</td>
+      <td>high.school</td>
+      <td>unknown</td>
+      <td>no</td>
+      <td>no</td>
+      <td>telephone</td>
+      <td>may</td>
+      <td>mon</td>
+      <td>...</td>
+      <td>1</td>
+      <td>999</td>
+      <td>0</td>
+      <td>nonexistent</td>
+      <td>1.1</td>
+      <td>93.994</td>
+      <td>-36.4</td>
+      <td>4.857</td>
+      <td>5191.0</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>37</td>
+      <td>services</td>
+      <td>married</td>
+      <td>high.school</td>
+      <td>no</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>telephone</td>
+      <td>may</td>
+      <td>mon</td>
+      <td>...</td>
+      <td>1</td>
+      <td>999</td>
+      <td>0</td>
+      <td>nonexistent</td>
+      <td>1.1</td>
+      <td>93.994</td>
+      <td>-36.4</td>
+      <td>4.857</td>
+      <td>5191.0</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>40</td>
+      <td>admin.</td>
+      <td>married</td>
+      <td>basic.6y</td>
+      <td>no</td>
+      <td>no</td>
+      <td>no</td>
+      <td>telephone</td>
+      <td>may</td>
+      <td>mon</td>
+      <td>...</td>
+      <td>1</td>
+      <td>999</td>
+      <td>0</td>
+      <td>nonexistent</td>
+      <td>1.1</td>
+      <td>93.994</td>
+      <td>-36.4</td>
+      <td>4.857</td>
+      <td>5191.0</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>56</td>
+      <td>services</td>
+      <td>married</td>
+      <td>high.school</td>
+      <td>no</td>
+      <td>no</td>
+      <td>yes</td>
+      <td>telephone</td>
+      <td>may</td>
+      <td>mon</td>
+      <td>...</td>
+      <td>1</td>
+      <td>999</td>
+      <td>0</td>
+      <td>nonexistent</td>
+      <td>1.1</td>
+      <td>93.994</td>
+      <td>-36.4</td>
+      <td>4.857</td>
+      <td>5191.0</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>41183</th>
+      <td>73</td>
+      <td>retired</td>
+      <td>married</td>
+      <td>professional.course</td>
+      <td>no</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>cellular</td>
+      <td>nov</td>
+      <td>fri</td>
+      <td>...</td>
+      <td>1</td>
+      <td>999</td>
+      <td>0</td>
+      <td>nonexistent</td>
+      <td>-1.1</td>
+      <td>94.767</td>
+      <td>-50.8</td>
+      <td>1.028</td>
+      <td>4963.6</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <th>41184</th>
+      <td>46</td>
+      <td>blue-collar</td>
+      <td>married</td>
+      <td>professional.course</td>
+      <td>no</td>
+      <td>no</td>
+      <td>no</td>
+      <td>cellular</td>
+      <td>nov</td>
+      <td>fri</td>
+      <td>...</td>
+      <td>1</td>
+      <td>999</td>
+      <td>0</td>
+      <td>nonexistent</td>
+      <td>-1.1</td>
+      <td>94.767</td>
+      <td>-50.8</td>
+      <td>1.028</td>
+      <td>4963.6</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>41185</th>
+      <td>56</td>
+      <td>retired</td>
+      <td>married</td>
+      <td>university.degree</td>
+      <td>no</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>cellular</td>
+      <td>nov</td>
+      <td>fri</td>
+      <td>...</td>
+      <td>2</td>
+      <td>999</td>
+      <td>0</td>
+      <td>nonexistent</td>
+      <td>-1.1</td>
+      <td>94.767</td>
+      <td>-50.8</td>
+      <td>1.028</td>
+      <td>4963.6</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>41186</th>
+      <td>44</td>
+      <td>technician</td>
+      <td>married</td>
+      <td>professional.course</td>
+      <td>no</td>
+      <td>no</td>
+      <td>no</td>
+      <td>cellular</td>
+      <td>nov</td>
+      <td>fri</td>
+      <td>...</td>
+      <td>1</td>
+      <td>999</td>
+      <td>0</td>
+      <td>nonexistent</td>
+      <td>-1.1</td>
+      <td>94.767</td>
+      <td>-50.8</td>
+      <td>1.028</td>
+      <td>4963.6</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <th>41187</th>
+      <td>74</td>
+      <td>retired</td>
+      <td>married</td>
+      <td>professional.course</td>
+      <td>no</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>cellular</td>
+      <td>nov</td>
+      <td>fri</td>
+      <td>...</td>
+      <td>3</td>
+      <td>999</td>
+      <td>1</td>
+      <td>failure</td>
+      <td>-1.1</td>
+      <td>94.767</td>
+      <td>-50.8</td>
+      <td>1.028</td>
+      <td>4963.6</td>
+      <td>no</td>
+    </tr>
+  </tbody>
+</table>
+<p>41188 rows × 21 columns</p>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="id7">
+<h2>3.3 핵심성과지표 계산<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<section id="id8">
+<h3>핵심성과지표<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<p>마케팅 활동의 성과를 평가하는 데 흔히 <strong>핵심성과지표</strong>(KPI: key performance indicators)가 사용된다. 성과지표는 수치화된 목표 또는 그 목표 달성과 관련된  정량화된 측정지표를 의미한다. “핵심”성과지표는 여러 성과지표 중 가장 중요한 것으로 선정한 것을 말한다. KPI 중 “디지털” 마케팅과 관련된 것으로는 CTR(클릭률), 전환율 등이 대표적이다.</p>
+<p><strong>CTR (Click Through Rate): 클릭률</strong></p>
+<p>광고를 본 사람 중 클릭한 수가 얼마나 많은지의 비율, 즉 클릭수를 노출수로 나눈 것이다. 클릭률이 높을수록 광고가 올바른 대상에게 노출됐다고 판단할 수 있다.</p>
+<p><strong>Conversion Rate: 전환율</strong></p>
+<p>전환은 광고를 통해 사이트로 유입된 방문객이 광고주가 원하는 특정 행위를 취하는 것을 말한다. 여기에서 특정 행위는 가령 회원가입, 장바구니 담기, 제품 구매, 뉴스레터 가입, 소프트웨어 다운로드 등이 될 수 있다. 전환율은 유입수(number of leads)를 전환수(number of conversions)로 나눈 것이다.</p>
+</section>
+<section id="id9">
+<h3>전환율 계산<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<p>우리의 텔레마케팅 데이터세트에서 “전환”은 예금가입을 의미한다. 데이터세트의 출력변수 <code class="docutils literal notranslate"><span class="pre">y</span></code>는 고객이 정기예금에 가입했는지를 yes 또는 no로 기록한 것이다. 우선 전환율 계산을 위해 이 변수를 yes는 1, no는 0으로 인코딩한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;conversion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s1">&#39;yes&#39;</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>job</th>
+      <th>marital</th>
+      <th>education</th>
+      <th>default</th>
+      <th>housing</th>
+      <th>loan</th>
+      <th>contact</th>
+      <th>month</th>
+      <th>day_of_week</th>
+      <th>...</th>
+      <th>pdays</th>
+      <th>previous</th>
+      <th>poutcome</th>
+      <th>emp.var.rate</th>
+      <th>cons.price.idx</th>
+      <th>cons.conf.idx</th>
+      <th>euribor3m</th>
+      <th>nr.employed</th>
+      <th>y</th>
+      <th>conversion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>56</td>
+      <td>housemaid</td>
+      <td>married</td>
+      <td>basic.4y</td>
+      <td>no</td>
+      <td>no</td>
+      <td>no</td>
+      <td>telephone</td>
+      <td>may</td>
+      <td>mon</td>
+      <td>...</td>
+      <td>999</td>
+      <td>0</td>
+      <td>nonexistent</td>
+      <td>1.1</td>
+      <td>93.994</td>
+      <td>-36.4</td>
+      <td>4.857</td>
+      <td>5191.0</td>
+      <td>no</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>57</td>
+      <td>services</td>
+      <td>married</td>
+      <td>high.school</td>
+      <td>unknown</td>
+      <td>no</td>
+      <td>no</td>
+      <td>telephone</td>
+      <td>may</td>
+      <td>mon</td>
+      <td>...</td>
+      <td>999</td>
+      <td>0</td>
+      <td>nonexistent</td>
+      <td>1.1</td>
+      <td>93.994</td>
+      <td>-36.4</td>
+      <td>4.857</td>
+      <td>5191.0</td>
+      <td>no</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>37</td>
+      <td>services</td>
+      <td>married</td>
+      <td>high.school</td>
+      <td>no</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>telephone</td>
+      <td>may</td>
+      <td>mon</td>
+      <td>...</td>
+      <td>999</td>
+      <td>0</td>
+      <td>nonexistent</td>
+      <td>1.1</td>
+      <td>93.994</td>
+      <td>-36.4</td>
+      <td>4.857</td>
+      <td>5191.0</td>
+      <td>no</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>40</td>
+      <td>admin.</td>
+      <td>married</td>
+      <td>basic.6y</td>
+      <td>no</td>
+      <td>no</td>
+      <td>no</td>
+      <td>telephone</td>
+      <td>may</td>
+      <td>mon</td>
+      <td>...</td>
+      <td>999</td>
+      <td>0</td>
+      <td>nonexistent</td>
+      <td>1.1</td>
+      <td>93.994</td>
+      <td>-36.4</td>
+      <td>4.857</td>
+      <td>5191.0</td>
+      <td>no</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>56</td>
+      <td>services</td>
+      <td>married</td>
+      <td>high.school</td>
+      <td>no</td>
+      <td>no</td>
+      <td>yes</td>
+      <td>telephone</td>
+      <td>may</td>
+      <td>mon</td>
+      <td>...</td>
+      <td>999</td>
+      <td>0</td>
+      <td>nonexistent</td>
+      <td>1.1</td>
+      <td>93.994</td>
+      <td>-36.4</td>
+      <td>4.857</td>
+      <td>5191.0</td>
+      <td>no</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 22 columns</p>
+</div></div></div>
+</div>
+<p><strong>총 고객수</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">pandas</span></code>에서 지원하는 <code class="docutils literal notranslate"><span class="pre">shape</span></code> 함수는 데이터 행과 열의 개수를 구하는 함수이다. 아래 결과를 보면 텔레마케팅 총 고객수는 41,188명이고, 변수는 22개이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(41188, 22)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>총 전환 수</strong></p>
+<p>전환자(즉, 예금에 가입한 고객)자가 총 몇명인지 알기 위해 앞에서 만든 <code class="docutils literal notranslate"><span class="pre">conversion</span></code> 변수의 합을 구한다. <code class="docutils literal notranslate"><span class="pre">conversion</span></code> 변수가 <code class="docutils literal notranslate"><span class="pre">df</span></code>라는 데이터프레임에 들어있기 때문에 <code class="docutils literal notranslate"><span class="pre">df.conversion</span></code> 또는 <code class="docutils literal notranslate"><span class="pre">df['conversion']</span></code>으로 표현해야 한다. 판다스의 <code class="docutils literal notranslate"><span class="pre">sum()</span></code> 메서드를 이용해 해당 변수의 합을 구할 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>  <span class="c1"># 또는 df[&#39;conversion&#39;].sum()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4640
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>전환율</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%i</span><span class="s1">명 중 </span><span class="si">%i</span><span class="s1">명이 전환&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">df</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;전환율: </span><span class="si">%0.2f%%</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mf">100.0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>41188명 중 4640명이 전환
+전환율: 11.27%
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id10">
+<h3>그룹별 전환율<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<p>위에서 계산한 것은 총(aggregate) 전환율인 반면, 고객을 여러 세그먼트로 분류하고 각 세그먼트 별로 전환율을 계산해보자. 이런 경우 <code class="docutils literal notranslate"><span class="pre">groupby</span></code> 함수가 유용하다.</p>
+<p><strong>연령별 전환율 계산</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conversions_by_age</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;age&#39;</span><span class="p">)[</span><span class="s1">&#39;conversion&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> 
+                      <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;age&#39;</span><span class="p">)[</span><span class="s1">&#39;conversion&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">*</span> <span class="mf">100.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conversions_by_age</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>age
+17     40.000000
+18     42.857143
+19     47.619048
+20     35.384615
+21     28.431373
+         ...    
+91      0.000000
+92     75.000000
+94      0.000000
+95      0.000000
+98    100.000000
+Name: conversion, Length: 78, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>연령별 전환율 그래프</strong></p>
+<p>그래프에서 한글이 깨지는 것을 막기 위해 아래 명령문을 실행한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">font_manager</span><span class="p">,</span> <span class="n">rc</span>
+<span class="n">font_path</span> <span class="o">=</span> <span class="s2">&quot;C:/Windows/Fonts/malgun.ttf&quot;</span>
+<span class="n">font</span> <span class="o">=</span> <span class="n">font_manager</span><span class="o">.</span><span class="n">FontProperties</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="n">font_path</span><span class="p">)</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span>
+<span class="n">rc</span><span class="p">(</span><span class="s1">&#39;font&#39;</span><span class="p">,</span> <span class="n">family</span><span class="o">=</span><span class="n">font</span><span class="p">)</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.unicode_minus&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># 축에 마이너스 부호 제대로 나오게 하기</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>위 코드는 Windows에 해당하는 것이고, MacBook의 경우에는 위 명령문 세 번째 줄을 다음과 같이 바꿔야 한다.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">font_path</span> <span class="o">=</span> <span class="s2">&quot;/System/Library/Fonts/AppleSDGothicNeo.ttc&quot;</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">conversions_by_age</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;연령&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;전환율(%)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;연령별 전환율&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/479dbdeddd6c55b6ec499b97ed0a5372e50287e402702c4f99fbad34c4213c11.png" src="../_images/479dbdeddd6c55b6ec499b97ed0a5372e50287e402702c4f99fbad34c4213c11.png" />
+</div>
+</div>
+<p><strong>연령대 그룹핑</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;age_group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span>
+                                  <span class="s1">&#39;[17, 30)&#39;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">30</span> <span class="k">else</span> 
+                                  <span class="s1">&#39;[30, 40)&#39;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">40</span> <span class="k">else</span>
+                                  <span class="s1">&#39;[40, 50)&#39;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">50</span> <span class="k">else</span>
+                                  <span class="s1">&#39;[50, 60)&#39;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">60</span> <span class="k">else</span>
+                                  <span class="s1">&#39;[60, 70)&#39;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">70</span> <span class="k">else</span>
+                                  <span class="s1">&#39;[70, 98]&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>위 코딩에서 <code class="docutils literal notranslate"><span class="pre">lambda</span></code> 사용법은 아래 <a class="reference internal" href="#%EB%B6%80%EB%A1%9D:-lambda-%EC%82%AC%EC%9A%A9%EB%B2%95"><span class="xref myst">부록</span></a>에 몇 가지 사용 예시가 나와 있다.</p>
+<p><strong>연령대별 전환율</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conversions_by_age_group</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;age_group&#39;</span><span class="p">)[</span><span class="s1">&#39;conversion&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span>
+                            <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;age_group&#39;</span><span class="p">)[</span><span class="s1">&#39;conversion&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">*</span> <span class="mf">100.0</span><span class="p">)</span>
+<span class="n">conversions_by_age_group</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>age_group
+[17, 30)    16.263891
+[30, 40)    10.125162
+[40, 50)     7.923238
+[50, 60)    10.157389
+[60, 70)    34.668508
+[70, 98]    47.121535
+Name: conversion, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">conversions_by_age_group</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">[</span><span class="s1">&#39;[17, 30)&#39;</span><span class="p">,</span> <span class="s1">&#39;[30, 40)&#39;</span><span class="p">,</span> <span class="s1">&#39;[40, 50)&#39;</span><span class="p">,</span> <span class="s1">&#39;[50, 60)&#39;</span><span class="p">,</span> <span class="s1">&#39;[60, 70)&#39;</span><span class="p">,</span> <span class="s1">&#39;[70, 98]&#39;</span><span class="p">]</span>
+<span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;연령대&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;전환율(%)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;연령대별 전환율&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/5b5ddad0b0f2b2ab56e2e09d9fd8a54ee96f67d7e23cbd7a9492d7edb109d449.png" src="../_images/5b5ddad0b0f2b2ab56e2e09d9fd8a54ee96f67d7e23cbd7a9492d7edb109d449.png" />
+</div>
+</div>
+</section>
+<section id="id11">
+<h3>피벗 테이블<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<p>전환 그룹과 비전환 그룹의 인구통계적(demographic) 특징을 분석하는 것은 마케팅 전략 수립에 중요하다. 가령 전환 그룹과 비전환 그룹의 결혼 여부 분포를 비교해보자. 이런 식으로 만든 표를 <strong>피벗 테이블</strong>(pivot table)이라고 한다. 통계학에서는 <strong>분할표</strong>(contingency table)라고 부른다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pandas</span></code> 라이브러리의 <code class="docutils literal notranslate"><span class="pre">pivot_table</span></code> 함수를 사용한다. <code class="docutils literal notranslate"><span class="pre">df</span></code> 데이터프레임의 <code class="docutils literal notranslate"><span class="pre">y</span></code> 변수를 분류하는데, 행(index)은 <code class="docutils literal notranslate"><span class="pre">marital</span></code> 변수이고 열(column)은 <code class="docutils literal notranslate"><span class="pre">conversion</span></code> 변수이다. <code class="docutils literal notranslate"><span class="pre">aggfunc=</span></code> 파라미터를 사용하여 집계 유형을 정할 수 있는데, 여기에서는 <code class="docutils literal notranslate"><span class="pre">len</span></code> 함수를 사용하여 각 그룹의 개체(고객) 수를 count한다. 이렇게 해서 만들어진 <code class="docutils literal notranslate"><span class="pre">pd.pivot_table</span></code>은 하나의 새로운 데이터프레임이 된다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s1">&#39;marital&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;conversion&#39;</span><span class="p">,</span> <span class="n">aggfunc</span><span class="o">=</span><span class="nb">len</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>conversion</th>
+      <th>0</th>
+      <th>1</th>
+    </tr>
+    <tr>
+      <th>marital</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>divorced</th>
+      <td>4136</td>
+      <td>476</td>
+    </tr>
+    <tr>
+      <th>married</th>
+      <td>22396</td>
+      <td>2532</td>
+    </tr>
+    <tr>
+      <th>single</th>
+      <td>9948</td>
+      <td>1620</td>
+    </tr>
+    <tr>
+      <th>unknown</th>
+      <td>68</td>
+      <td>12</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>똑같은 피벗 테이블을 <code class="docutils literal notranslate"><span class="pre">groupby</span></code> 함수를 사용해서 아래와 같이 만들 수도 있다. 아래 명령문은 <code class="docutils literal notranslate"><span class="pre">marital</span></code>과 <code class="docutils literal notranslate"><span class="pre">conversion</span></code>의 각 그룹에 몇명이 속해 있는지를 (<code class="docutils literal notranslate"><span class="pre">conversion</span></code> 관측 개수를 통해) 구한 다음에 <code class="docutils literal notranslate"><span class="pre">conversion</span></code> 그룹에 대해서는 stack 하지 않는 방식으로(즉, <code class="docutils literal notranslate"><span class="pre">conversion</span></code> 그룹을 column으로) 표현하라는 것이다. 아래 표에서 가령 싱글이면서 예금에 가입한 사람은 1,620명이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;marital&#39;</span><span class="p">,</span><span class="s1">&#39;conversion&#39;</span><span class="p">])[</span><span class="s1">&#39;conversion&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s1">&#39;conversion&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>conversion</th>
+      <th>0</th>
+      <th>1</th>
+    </tr>
+    <tr>
+      <th>marital</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>divorced</th>
+      <td>4136</td>
+      <td>476</td>
+    </tr>
+    <tr>
+      <th>married</th>
+      <td>22396</td>
+      <td>2532</td>
+    </tr>
+    <tr>
+      <th>single</th>
+      <td>9948</td>
+      <td>1620</td>
+    </tr>
+    <tr>
+      <th>unknown</th>
+      <td>68</td>
+      <td>12</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>결혼유형별 전환율 계산</strong></p>
+<p>위 표는 <code class="docutils literal notranslate"><span class="pre">marital</span></code>과 <code class="docutils literal notranslate"><span class="pre">conversion</span></code>의 각 그룹별로 관측 숫자를 구한 것이고, 이것을 비율로 바꾼 것이 아래 나와 있다. 이때 분모를 무엇으로 하는냐가 문제인데, 여기에서는 각 결혼유형별 총 관측 숫자를 분모로 삼았다. 따라서 아래 표의 숫자는 각 결혼유형별 비전환율(<code class="docutils literal notranslate"><span class="pre">conversion=0</span></code>) 및 전환율(<code class="docutils literal notranslate"><span class="pre">conversion=1</span></code>)이다. 아래 결과를 보면, 싱글 그룹에서는 전환율이 14.0%로서 이혼 그룹(10.3%) 및 결혼 그룹(10.2%)의 전환율보다 더 높은 것을 알 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">marital_conversion_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s1">&#39;marital&#39;</span><span class="p">,</span> 
+    <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;conversion&#39;</span><span class="p">,</span> <span class="n">aggfunc</span><span class="o">=</span><span class="nb">len</span><span class="p">)</span>  <span class="c1"># 위에서 만든 피벗 테이블</span>
+<span class="n">marital_conversion_df</span> <span class="o">=</span> <span class="n">marital_conversion_df</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;marital&#39;</span><span class="p">)[</span><span class="s1">&#39;conversion&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="mf">100.0</span>
+<span class="n">marital_conversion_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>conversion</th>
+      <th>0</th>
+      <th>1</th>
+    </tr>
+    <tr>
+      <th>marital</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>divorced</th>
+      <td>89.679098</td>
+      <td>10.320902</td>
+    </tr>
+    <tr>
+      <th>married</th>
+      <td>89.842747</td>
+      <td>10.157253</td>
+    </tr>
+    <tr>
+      <th>single</th>
+      <td>85.995851</td>
+      <td>14.004149</td>
+    </tr>
+    <tr>
+      <th>unknown</th>
+      <td>85.000000</td>
+      <td>15.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>연령대별 &amp; 결혼유형별 피벗 테이블</strong></p>
+<p>앞에서는 결혼유형이라는 단일 범주를 기준으로 전환율을 계산했는데, 이번에는 연령대 및 결혼유형의 2개 범주를 기준으로 전환율을 계산해보자. 우선 아래 명령문은 <code class="docutils literal notranslate"><span class="pre">age_group</span></code>과 <code class="docutils literal notranslate"><span class="pre">marital</span></code>의 각 그룹에 전환자가 몇명 속해 있는지를 (<code class="docutils literal notranslate"><span class="pre">conversion</span></code> 관측값의 합을 통해) 구한 다음에 <code class="docutils literal notranslate"><span class="pre">marital</span></code> 그룹에 대해서는 stack 하지 않는 방식으로(즉 <code class="docutils literal notranslate"><span class="pre">marital</span></code> 그룹을 column으로) 표현하라는 것이다. 아래 표에서 가령 싱글이면서 30대 중 예금에 가입한 전환자는 684명이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">age_marital_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;age_group&#39;</span><span class="p">,</span> <span class="s1">&#39;marital&#39;</span><span class="p">])</span>\
+<span class="p">[</span><span class="s1">&#39;conversion&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s1">&#39;marital&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">age_marital_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>marital</th>
+      <th>divorced</th>
+      <th>married</th>
+      <th>single</th>
+      <th>unknown</th>
+    </tr>
+    <tr>
+      <th>age_group</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>[17, 30)</th>
+      <td>12.0</td>
+      <td>158.0</td>
+      <td>751.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>[30, 40)</th>
+      <td>128.0</td>
+      <td>897.0</td>
+      <td>684.0</td>
+      <td>6.0</td>
+    </tr>
+    <tr>
+      <th>[40, 50)</th>
+      <td>126.0</td>
+      <td>575.0</td>
+      <td>130.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>[50, 60)</th>
+      <td>119.0</td>
+      <td>533.0</td>
+      <td>44.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>[60, 70)</th>
+      <td>27.0</td>
+      <td>218.0</td>
+      <td>5.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>[70, 98]</th>
+      <td>64.0</td>
+      <td>151.0</td>
+      <td>6.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>연령대별 &amp; 결혼유형별 전환율 계산</strong></p>
+<p>위 표는 <code class="docutils literal notranslate"><span class="pre">age_group</span></code>과 <code class="docutils literal notranslate"><span class="pre">marital</span></code>의 각 그룹별로 전환자 숫자를 구한 것이고, 이것을 전환율로 바꾼 것이 아래 나와 있다. 이때 분모를 무엇으로 하는냐가 문제인데, 여기에서는 각 결혼유형별 총 관측수를 분모로 삼았다. 따라서 아래 표의 숫자는 각 결혼유형별 전환율인 셈이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">age_marital_df</span> <span class="o">=</span> <span class="n">age_marital_df</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;age_group&#39;</span><span class="p">)[</span><span class="s1">&#39;conversion&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="mf">100.0</span>
+<span class="n">age_marital_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>marital</th>
+      <th>divorced</th>
+      <th>married</th>
+      <th>single</th>
+      <th>unknown</th>
+    </tr>
+    <tr>
+      <th>age_group</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>[17, 30)</th>
+      <td>0.211678</td>
+      <td>2.787088</td>
+      <td>13.247486</td>
+      <td>0.017640</td>
+    </tr>
+    <tr>
+      <th>[30, 40)</th>
+      <td>0.755697</td>
+      <td>5.295785</td>
+      <td>4.038257</td>
+      <td>0.035423</td>
+    </tr>
+    <tr>
+      <th>[40, 50)</th>
+      <td>1.197036</td>
+      <td>5.462664</td>
+      <td>1.235037</td>
+      <td>0.028501</td>
+    </tr>
+    <tr>
+      <th>[50, 60)</th>
+      <td>1.734188</td>
+      <td>7.767415</td>
+      <td>0.641212</td>
+      <td>0.014573</td>
+    </tr>
+    <tr>
+      <th>[60, 70)</th>
+      <td>3.729282</td>
+      <td>30.110497</td>
+      <td>0.690608</td>
+      <td>0.138122</td>
+    </tr>
+    <tr>
+      <th>[70, 98]</th>
+      <td>13.646055</td>
+      <td>32.196162</td>
+      <td>1.279318</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>전환율 막대그래프(1)</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">age_marital_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">[</span><span class="s1">&#39;[17, 30)&#39;</span><span class="p">,</span> <span class="s1">&#39;[30, 40)&#39;</span><span class="p">,</span> <span class="s1">&#39;[40, 50)&#39;</span><span class="p">,</span> <span class="s1">&#39;[50, 60)&#39;</span><span class="p">,</span> <span class="s1">&#39;[60, 70)&#39;</span><span class="p">,</span> <span class="s1">&#39;[70, 98]&#39;</span><span class="p">]</span>
+<span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mf">4.5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;연령대&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;전환율(%)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;연령대별 및 결혼유형별 전환율&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/23911039f86ca55b5cc3f8d482023dec319e0f2c21fbd256faf47bee6f3f1e09.png" src="../_images/23911039f86ca55b5cc3f8d482023dec319e0f2c21fbd256faf47bee6f3f1e09.png" />
+</div>
+</div>
+<p><strong>전환율 막대그래프(2)</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">age_marital_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">[</span><span class="s1">&#39;[17, 30)&#39;</span><span class="p">,</span> <span class="s1">&#39;[30, 40)&#39;</span><span class="p">,</span> <span class="s1">&#39;[40, 50)&#39;</span><span class="p">,</span> <span class="s1">&#39;[50, 60)&#39;</span><span class="p">,</span> <span class="s1">&#39;[60, 70)&#39;</span><span class="p">,</span> <span class="s1">&#39;[70, 98]&#39;</span><span class="p">]</span>
+<span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mf">4.5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;연령대&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;전환율(%)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;연령대별 및 결혼유형별 전환율&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/0406b10fa65751f6fab72352e8061961ac81856b42bc4854ce394e6ec2668424.png" src="../_images/0406b10fa65751f6fab72352e8061961ac81856b42bc4854ce394e6ec2668424.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="lambda">
+<h2>부록: lambda 사용법<a class="headerlink" href="#lambda" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># lambda 문장 자체를 함수로 사용하는 경우</span>
+<span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">:</span> <span class="n">n</span><span class="o">+</span><span class="n">m</span><span class="p">)(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># lambda를 변수에 할당하여 재사용하는 경우</span>
+<span class="n">x</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">10</span>
+<span class="n">x</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>15
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># lambda 식 안에서 조건문 사용 가능</span>
+<span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">:</span> <span class="n">n</span> <span class="k">if</span> <span class="n">n</span><span class="o">%</span><span class="k">2</span>==0 else m)(1,3)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id12">
+<h3>ChatGPT Q&amp;A<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p><strong>파이썬에서 lambda 사용법의 간단한 예를 하나 알려줘.</strong></p>
+</div></blockquote>
+<hr class="docutils" />
+<blockquote>
+<div><p>파이썬에서 <code class="docutils literal notranslate"><span class="pre">lambda</span></code> 함수는 작은 익명 함수를 정의할 때 사용합니다. <code class="docutils literal notranslate"><span class="pre">lambda</span></code> 함수는 여러 개의 인자를 받을 수 있지만, 표현식은 하나만 가집니다. 여기 간단한 예시가 있습니다:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>add = lambda x, y: x + y  
+result = add(5, 3)  
+print(result)  # 출력: 8
+</pre></div>
+</div>
+<p>이 예시에서 <code class="docutils literal notranslate"><span class="pre">lambda</span> <span class="pre">x,</span> <span class="pre">y:</span> <span class="pre">x</span> <span class="pre">+</span> <span class="pre">y</span></code>는 두 개의 인자 <code class="docutils literal notranslate"><span class="pre">x</span></code>와 <code class="docutils literal notranslate"><span class="pre">y</span></code>를 받아서 더한 값을 반환하는 익명 함수를 생성합니다. 이 함수를 <code class="docutils literal notranslate"><span class="pre">add</span></code>라는 변수에 할당하고, <code class="docutils literal notranslate"><span class="pre">add(5,</span> <span class="pre">3)</span></code>을 호출하여 <code class="docutils literal notranslate"><span class="pre">x</span></code>에 <code class="docutils literal notranslate"><span class="pre">5</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>에 <code class="docutils literal notranslate"><span class="pre">3</span></code>을 전달한 결과를 출력합니다. 결과는 두 숫자의 합인 <code class="docutils literal notranslate"><span class="pre">8</span></code>입니다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">lambda</span></code> 함수는 간단한 함수가 필요할 때, 다른 함수의 인자로 함수를 전달할 때 유용하게 사용됩니다. 예를 들어, 리스트의 요소를 정렬할 때 정렬 기준으로 사용되는 함수를 <code class="docutils literal notranslate"><span class="pre">lambda</span></code>로 간단하게 정의할 수 있습니다.</p>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02_%ED%8C%8C%EC%9D%B4%EC%8D%AC_%EC%BD%94%EB%94%A9_%EA%B8%B0%EC%B4%88.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">2장 파이썬 코딩 기초</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04_%EC%A0%84%EC%9E%90%EC%83%81%EA%B1%B0%EB%9E%98_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%B6%84%EC%84%9D.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">4장 전자상거래 데이터 분석</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3.1 소개</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chatgpt-q-a">ChatGPT Q&amp;A</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">3.2 데이터</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">개요</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">변수 정보</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">데이터 로딩</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">3.3 핵심성과지표 계산</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">핵심성과지표</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">전환율 계산</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">그룹별 전환율</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">피벗 테이블</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lambda">부록: lambda 사용법</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">ChatGPT Q&amp;A</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 최필선 민인식
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
