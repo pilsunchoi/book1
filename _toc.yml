@@ -1,0 +1,21 @@
+format: jb-book
+root: notebooks/00_서문
+
+chapters:
+  - file: notebooks/01_파이썬_시작하기
+  - file: notebooks/02_파이썬_코딩_기초
+  - file: notebooks/03_은행_텔레마케팅_데이터_분석
+  - file: notebooks/04_전자상거래_데이터_분석
+  - file: notebooks/05_통계적_학습
+  - file: notebooks/06_선형_회귀
+  - file: notebooks/07_로지스틱_회귀를_이용한_분류
+  - file: notebooks/08_KNN을_이용한_분류
+  - file: notebooks/09_나이브_베이즈_분류
+  - file: notebooks/10_변수선택_및_정규화
+  - file: notebooks/11_추천_시스템
+  - file: notebooks/12_결정_트리_만들기
+  - file: notebooks/13_트리_기반_모형
+  - file: notebooks/14_서포트_벡터_머신
+  - file: notebooks/15_딥러닝_입문
+  - file: notebooks/16_비지도학습과_주성분_분석
+  - file: notebooks/17_생존분석

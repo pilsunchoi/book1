@@ -1,0 +1,3915 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>11장 추천 시스템 &#8212; 데이터과학의 첫걸음</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/11_추천_시스템';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="12장 결정 트리 만들기" href="12_%EA%B2%B0%EC%A0%95_%ED%8A%B8%EB%A6%AC_%EB%A7%8C%EB%93%A4%EA%B8%B0.html" />
+    <link rel="prev" title="10장 변수선택 및 정규화" href="10_%EB%B3%80%EC%88%98%EC%84%A0%ED%83%9D_%EB%B0%8F_%EC%A0%95%EA%B7%9C%ED%99%94.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="00_%EC%84%9C%EB%AC%B8.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="데이터과학의 첫걸음 - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="데이터과학의 첫걸음 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_%EC%84%9C%EB%AC%B8.html">
+                    데이터과학의 첫걸음: 시작하며
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_%ED%8C%8C%EC%9D%B4%EC%8D%AC_%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.html">1장 파이썬 시작하기</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_%ED%8C%8C%EC%9D%B4%EC%8D%AC_%EC%BD%94%EB%94%A9_%EA%B8%B0%EC%B4%88.html">2장 파이썬 코딩 기초</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_%EC%9D%80%ED%96%89_%ED%85%94%EB%A0%88%EB%A7%88%EC%BC%80%ED%8C%85_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%B6%84%EC%84%9D.html">3장 은행 텔레마케팅 데이터 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_%EC%A0%84%EC%9E%90%EC%83%81%EA%B1%B0%EB%9E%98_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%B6%84%EC%84%9D.html">4장 전자상거래 데이터 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_%ED%86%B5%EA%B3%84%EC%A0%81_%ED%95%99%EC%8A%B5.html">5장 통계적 학습</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_%EC%84%A0%ED%98%95_%ED%9A%8C%EA%B7%80.html">6장 선형 회귀</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_%EB%A1%9C%EC%A7%80%EC%8A%A4%ED%8B%B1_%ED%9A%8C%EA%B7%80%EB%A5%BC_%EC%9D%B4%EC%9A%A9%ED%95%9C_%EB%B6%84%EB%A5%98.html">7장 로지스틱 회귀를 이용한 분류</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_KNN%EC%9D%84_%EC%9D%B4%EC%9A%A9%ED%95%9C_%EB%B6%84%EB%A5%98.html">8장 KNN 분류</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_%EB%82%98%EC%9D%B4%EB%B8%8C_%EB%B2%A0%EC%9D%B4%EC%A6%88_%EB%B6%84%EB%A5%98.html">9장 나이브 베이즈 분류</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_%EB%B3%80%EC%88%98%EC%84%A0%ED%83%9D_%EB%B0%8F_%EC%A0%95%EA%B7%9C%ED%99%94.html">10장 변수선택 및 정규화</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">11장 추천 시스템</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_%EA%B2%B0%EC%A0%95_%ED%8A%B8%EB%A6%AC_%EB%A7%8C%EB%93%A4%EA%B8%B0.html">12장 결정 트리 만들기</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_%ED%8A%B8%EB%A6%AC_%EA%B8%B0%EB%B0%98_%EB%AA%A8%ED%98%95.html">13장 트리 기반 모형</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_%EC%84%9C%ED%8F%AC%ED%8A%B8_%EB%B2%A1%ED%84%B0_%EB%A8%B8%EC%8B%A0.html">14장 서포트 벡터 머신</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_%EB%94%A5%EB%9F%AC%EB%8B%9D_%EC%9E%85%EB%AC%B8.html">15장 딥러닝 입문</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_%EB%B9%84%EC%A7%80%EB%8F%84%ED%95%99%EC%8A%B5%EA%B3%BC_%EC%A3%BC%EC%84%B1%EB%B6%84_%EB%B6%84%EC%84%9D.html">16장 비지도학습과 주성분 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_%EC%83%9D%EC%A1%B4%EB%B6%84%EC%84%9D.html">17장 생존분석</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book1" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book1/issues/new?title=Issue%20on%20page%20%2Fnotebooks/11_추천_시스템.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/11_추천_시스템.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>11장 추천 시스템</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">11.1 개요</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">11.2 추천 시스템 종류 및 특징</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">사례: 뮤직 추천 시스템</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">협업 필터링</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">콘텐츠 기반 필터링</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">하이브리드 추천 시스템</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">추천 시스템이 갖춰야 할 요소</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">모바일 추천 시스템</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">11.3 이커머스 추천 시스템 예제</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">데이터 로딩 및 전처리</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">협업 필터링</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chatgpt-q-a">ChatGPT Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">사용자-아이템 행렬</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">협업 필터링 실행</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">11.4 영화 추천 시스템 예제</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">데이터</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">인구통계 필터링</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">줄거리 기반 추천</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">ChatGPT Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">ChatGPT Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">메타데이터 기반 추천</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>11장 추천 시스템<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>자료 출처: Wikipedia, “<a class="reference external" href="https://en.wikipedia.org/wiki/Recommender_system">Recommender system</a>”.</p>
+<section id="id2">
+<h2>11.1 개요<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p><strong>추천 시스템</strong>(recommender system 또는 recommendation system)은 추천 플랫폼 또는 추천 엔진이라고도 한다. 추천 시스템은 어떤 사용자가 좋아할 것으로 생각되는 아이템을 추천해주는 시스템으로 이제는 우리 일상 생활 구석구석에서 그 예를 찾아볼 수 있다.</p>
+<p>추천 시스템은 달리 표현하면 어떤 아이템에 대한 사용자의 선호도 또는 평점(rating)을 예측하는 시스템으로서 <strong>정보 필터링 시스템</strong>(information filtering system)의 한 분야이다. 영화, 음악, 뉴스, 서적, 연구논문, 검색어, 소셜태그, 그밖에 여러 제품 등 다양한 영역에서 활용된다. 또한 식당, 의복, 금융서비스, 생명보험, 파트너(온라인 데이트), 조크, 트위터 페이지, 전문가, 협업자(예: 공동 연구) 등에 대한 추천 시스템도 있다.</p>
+<p>추천 시스템이 작동하는 방식은 크게 두 가지로 나눌 수 있다. 즉 <strong>협업 필터링</strong>(collaborative filtering)과 <strong>콘텐츠 기반 필터링</strong>(content-based filtering)이다. 콘텐츠 기반 필터링을 성격 기반 접근(personality-based approach)이라고도 한다.</p>
+<p>협업 필터링은 어떤 사용자의 과거 행동(이전에 구매했거나 선택한 아이템 기록이나 해당 아이템에 부여한 숫자 평점), 그리고 다른 사용자들이 내린 비슷한 결정을 바탕으로 모형을 만든다. 그것을 통해 해당 사용자가 관심을 가질만한 아이템(또는 아이템에 대한 평점)을 예측한다. 이에 반해 콘텐츠 기반 필터링은 어떤 아이템이 갖고 있는 일련의 개별적 특성을 활용하여 그와 비슷한 속성을 가진 아이템을 추천하는 방식이다. 협업 필터링과 콘텐츠 기반 필터링을 결합시킨 것을 <strong>하이브리드 추천 시스템</strong>이라고 한다.</p>
+</section>
+<section id="id3">
+<h2>11.2 추천 시스템 종류 및 특징<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<section id="id4">
+<h3>사례: 뮤직 추천 시스템<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p><strong>1. <a class="reference external" href="http://Last.fm">Last.fm</a>: 협업 필터링</strong></p>
+<ul class="simple">
+<li><p>어떤 사용자가 정기적으로 듣는 곡들을 다른 사용자들의 음악 청취 행태와 비교하여 추천곡 “스테이션”을 만든다.</p></li>
+<li><p>해당 사용자의 라이브러리에 들어있지는 않지만 그와 관심이 비슷한 다른 사용자들이 자주 청취하는 곡들을 추천하는 방식이다.</p></li>
+</ul>
+<p><strong>2. Pandora: 콘텐츠 기반 필터링</strong></p>
+<ul class="simple">
+<li><p>노래 또는 아티스트의 특성(Music Genome Project에서 제공하는 400여 개의 속성 중 일부)을 이용하여 유사한 특성을 지닌 음악을 재생하는 “스테이션”을 마련한다.</p></li>
+<li><p>이와 함께 사용자 피드백을 통해 스테이션을 개선해 나간다. 즉 사용자가 특정 노래에 “싫어요”를 누르면 관련 특성을 줄이고, 사용자가 어떤 노래에 “좋아요”를 누르면 관련 특성을 강화하는 방식이다.</p></li>
+</ul>
+<p><strong>두 접근법의 장단점</strong></p>
+<p>앞의 예에서 <a class="reference external" href="http://Last.fm">Last.fm</a> 같은 협업 필터링의 경우, 정확한 추천을 위해서는 사용자에 대해 많은 양의 정보가 필요하다. 소위 <strong>콜드 스타트</strong>(cold start), 즉 아직 충분한 정보를 모으지 않은 사용자 또는 아이템에 대해서는 어떠한 추론도 할 수 없는 문제를 지닌다. 이에 반해 Pandora 같은 콘텐츠 기반 필터링의 경우에는 초기에 극히 제한적인 정보로도 추천이 가능하지만, 추천의 제공 범위가 극히 제한적이라는 한계를 갖는다.</p>
+</section>
+<section id="id5">
+<h3>협업 필터링<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>협업 필터링 방법은 사용자들의 행태, 활동, 선호도에 대한 많은 양의 정보를 수집 및 분석하고, 다른 사용자들과의 유사성을 기반으로 사용들이 무엇을 좋아할지 예측한다. 협업 필터링은 과거에 의견이 일치한 사람들이 장래에도 일치할 것이며, 과거에 좋아한 것과 비슷한 종류의 아이템을 미래에도 좋아할 것이라는 가정에 기반한다. 현재 사용자/아이템과 유사한 평점 기록을 가진 다른 사용자/아이템을 찾아서 추천한다.</p>
+<p>협업 필터링의 주요 이점은 콘텐츠에 의존하지 않으므로 아이템 자체에 대한 “이해” 없이도 영화와 같은 복잡한 아이템을 우수하게 추천할 수 있다는 점이다. 협업 필터링 추천 시스템에서는 사용자 <strong>유사성</strong>(similarity) 또는 아이템 유사성을 측정하는 다양한 알고리즘을 사용한다.</p>
+<p><strong>사례</strong></p>
+<p>협업 필터링 시스템에 대한 상업적, 비상업적인 사례들이 많다. 협업 필터링의 가장 유명한 사례 중 하나는 Amazon.com이 사용함으로써 대중화된 알고리즘인 아이템-아이템(item-to-item) 방식, 즉 아이템 <span class="math notranslate nohighlight">\(x\)</span>를 사는 사람이 <span class="math notranslate nohighlight">\(y\)</span>도 구매한다는 아이디어이다. Last.fm은 비슷한 사용자의 청취 습관을 비교하여 음악을 추천한다. Readgeek은 책에 대한 평점을 비교하여 추천한다. Facebook, MySpace, LinkedIn, 기타 소셜 네트워크들은 협업 필터링을 사용하여 새로운 친구, 그룹, 기타 소셜 친구를 추천한다. Twitter는 많은 신호와 인메모리(in-memory) 계산을 통해 사용자가 누구를 팔로우할지 추천한다.</p>
+<p><strong>한계</strong></p>
+<p>협업 필터링 접근법 다음 세 가지 문제로 어려움을 겪는다.</p>
+<ul class="simple">
+<li><p><strong>콜드 스타트</strong>(cold start): 정확한 추천을 위해서는 사용자에 대해 많은 양의 축적된 데이터를 필요로 한다.</p></li>
+<li><p><strong>확장성</strong>(scalability): 사용자가 수백만 명이고 제품 수도 아주 많을 경우 추천 사항을 계산할 때 대량의 계산 능력이 필요하다.</p></li>
+<li><p><strong>희소성</strong>(sparsity): 주요 전자상거래 사이트에서 판매되는 아이템의 수는 엄청나게 많지만, 가장 활발한 사용자라도 전체 데이터베이스의 아주 일부에만 평점을 매긴다. 즉 가장 인기있는 아이템조차도 평점을 준 사람이 아주 적다.</p></li>
+</ul>
+</section>
+<section id="id6">
+<h3>콘텐츠 기반 필터링<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p>콘텐츠 기반 필터링은 아이템에 대한 설명(description)과 사용자 선호에 대한 프로파일을 기반으로 한다. 이 방법은 아이템에 대해서는 알려진 정보(이름, 위치, 설명 등)가 있지만, 사용자에 대해서는 정보가 없는 경우에 적합하다. 추천을 사용자별 분류 문제로 취급하고 아이템의 속성을 기반으로 사용자가 좋아하고 싫어하는 아이템의 분류 시스템을 학습시킨다. 아이템을 설명하는 데에는 키워드가 사용되며, 해당 사용자가 좋아하는 아이템이 어떤 유형인지 알기 위해 사용자 프로파일이 필요하다.</p>
+<p>이 알고리즘은 사용자가 과거에 좋아했던 (또는 현재 살펴보고 있는) 것과 가급적 유사한 아이템을 추천한다. 특히 다양한 후보 아이템 중에서 사용자가 이전에 평가한 아이템들과 비교를 통해 가장 매칭이 잘 되는 아이템을 추천한다. 이 접근법은 정보 검색 및 정보 필터링 연구에 뿌리를 두고 있다.</p>
+<p><strong>아이템 특성 추출</strong></p>
+<p>기본적으로 이 방법은 시스템 내에서 아이템의 특성이 기록된 아이템 프로파일(즉, 여러가지 속성 및 특성 집합)을 사용한다. 아이템의 특성을 추출하기 위해 아이템 표현 알고리즘(item presentation algorithm)이 사용되는데, 널리 사용되는 알고리즘은 <strong>tf-idf</strong>(term frequency–inverse document frequency, 단어빈도-역문서빈도)이다. 이는 여러 문서로 이루어진 문서군이 있을 때 어떤 단어가 특정 문서 내에서 얼마나 중요한 것인지를 나타내는 통계적 수치이다.</p>
+<p><strong>아이템 특성 가중치 벡터</strong></p>
+<p>이 시스템은 아이템 특성의 가중치 벡터를 기반으로 사용자의 콘텐츠 기반 프로파일을 만든다. 가중치는 사용자에게 각 특성의 중요성을 의미하며 다양한 기술을 사용하여 계산할 수 있다. 간단히 아이템 평점 벡터의 평균값을 사용할 수도 있으며, 보다 정교한 방법은 베이즈 분류기(Bayesian Classifier), 클러스터 분석(cluster analysis), 결정 트리(decision tree), 인공신경망(artificial neural network)과 같은 머신러밍 기법을 사용하여 사용자가 해당 아이템을 좋아할 확률을 추정한다. 사용자로부터 직접적인 피드백(좋아요 또는 싫어요)을 받아 어떤 특성의 중요성에 대한 가중치를 높이거나 낮출 수 있다.</p>
+<p><strong>사용자의 선호를 학습하는 기능 필요</strong></p>
+<p>콘텐츠 기반 필터링의 주요 이슈는 추천 시스템이 어떤 콘텐츠에 대한 사용자의 행동에서 사용자의 선호를 학습하여 그것을 다른 콘텐츠 유형에 활용할 수 있는지 여부이다. 이미 사용자가 사용하고 있는 것과 동일한 유형의 콘텐츠를 추천하는 데 국한된다면, 추천 시스템의 가치가 크게 떨어질 것이다. 다른 서비스의 다른 콘텐츠 유형을 추천할 수 있어야 강력한 힘을 갖는다. 예를 들어, 사용자의 뉴스 검색을 기반으로 뉴스 기사만 추천하는 것이 아니라 음악, 비디오, 상품, 토론 등을 추천할 수 있다면 훨씬 더 유용할 것이다.</p>
+<p><strong>사례</strong></p>
+<p>Pandora Radio는 사용자가 초기 시드로 제공한 노래와 비슷한 특성을 가진 음악을 재생한다. 영화와 관련된 여러 콘텐츠 기반 추천 시스템이 있는데, Rotten Tomatoes, IMDb(Internet Movie Database), Jinni, Rovi Corporation, Jaman 등이 있다. 문서 관련 추천 시스템은 연구자들에게 문서 추천 사항을 제공하는 것을 목표로 한다. 공중보건(public health) 전문가들은 건강 교육 및 예방 전략을 개인화하기 위한 추천 시스템을 연구하고 있다.</p>
+</section>
+<section id="id7">
+<h3>하이브리드 추천 시스템<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<p>최근의 연구에 따르면 협업 필터링과 콘텐츠 기반 필터링을 결합한 하이브리드 방식이 더 효과적일 수 있다는 사실이 입증되고 있다. 하이브리드 접근법은 여러 가지 방법으로 구현될 수 있다. 콘텐츠 기반 및 협업 기반 예측을 개별적으로 수행한 다음 결합하는 방식, 협업 기반 접근법에 콘텐츠 기반 기능을 추가하는 방식(혹은 그 반대), 여러 접근법을 하나의 모형으로 통일하는 방법 등이다.</p>
+<p>몇몇 실증연구에 따르면 하이브리드 방식의 성과를 순수한 협업 또는 콘텐츠 기반 기법과 비교한 결과, 하이브리드 방식이 순수한 방식보다 더 정확한 추천을 제공하는 것으로 나타났다. 또한 하이브리드 방식을 사용하여 콜드 스타트나 희소성 문제처럼 추천 시스템에서 흔히 발생하는 문제를 일정 부분 극복할 수 있다.</p>
+<p>넷플릭스(Netflix)는 하이브리드 추천 시스템의 좋은 예이다. 유사한 사용자들의 시청 및 검색 습관을 비교할 뿐만 아니라(협업 필터링), 사용자가 높은 평점을 준 영화와 특성을 공유하는 영화를 제공하는 방식(콘텐츠 기반 필터링)으로 추천 시스템이 작동한다.</p>
+</section>
+<section id="id8">
+<h3>추천 시스템이 갖춰야 할 요소<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<p>일반적으로 추천 시스템은 가장 <strong>정확한</strong> 추천 알고리즘을 찾는 데 관심이 있지만, 그것 외에 다른 요소들도 중요하다.</p>
+<ul class="simple">
+<li><p><strong>다양성</strong>(diversity) – 사용자는 한 가지 추천보다는 다양한 추천에 더 만족하는 경향이 있다.</p></li>
+<li><p><strong>지속성</strong>(persistence) – 매번 새로운 아이템을 보여주는 것보다 원래의 추천 사항을 다시 보여주는 것이 더 효과적일 수 있다.</p></li>
+<li><p><strong>프라이버시</strong> – 추천 시스템은 사용자가 중요한 정보를 공개해야 하기 때문에 프라이버시 문제에 신경을 써야한다. 협업 필터링을 위해 사용자 프로파일을 구축할 경우 개인정보 보호 문제가 제기될 수 있다.</p></li>
+<li><p><strong>사용자 인구통계적 특성</strong> – 사용자의 인구통계적 특성이 사용자 만족도에 영향을 미칠 수 있다. 가령 한 연구에 따르면 노년층 사용자가 청년층 사용자보다 추천 항목에 더 관심을 가지는 경향이 있다.</p></li>
+<li><p><strong>견고성</strong>(robustness) – 사용자들이 추천 시스템에 참여할 수 있는 경우, 이를 이용한 사기 행위가 발생할 수 있기 때문에 이를 통제해야 한다.</p></li>
+<li><p><strong>세렌디피티</strong>(serendipity) – 평범하지 않은 뜻밖의 추천이 효과적일 수 있다.(세렌디피티는 뜻밖의 행운이란 뜻)</p></li>
+<li><p><strong>신뢰</strong>(trust) – 추천 시스템은 사용자가 시스템을 신뢰하지 않는다면 가치가 없다.</p></li>
+<li><p><strong>레이블링</strong>(labelling) – 동일한 추천 사항이더라도 ‘스폰서’로 표시된 경우, 또는 ‘유기농’이라고 표시된 경우, 또는 아무런 레이블이 없는 경우 클릭률이 서로 다르다.</p></li>
+</ul>
+</section>
+<section id="id9">
+<h3>모바일 추천 시스템<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<p>추천 시스템에서 관심이 높아지고 있는 연구 분야 중 하나가 모바일 추천 시스템이다. 어디에서나 인터넷 접속이 가능한 스마트폰으로 인해 개인화되고 상황에 맞는 추천을 제공할 수 있게 되었다.</p>
+<p>추천 시스템으로서는 일반적인 데이터에 비해 모바일 데이터가 더 복잡하기 때문에 훨씬 어려운 연구 영역이다. 모바일 데이터는 동질적이지 않고, 노이즈가 많으며, 공간적 및 시간적 자기상관성이 있고, 검증 및 일반성 문제가 있다.</p>
+<p>모바일 추천 시스템의 한 예는 도시에서 주행하는 택시들에게 수익성 있는 주행 경로를 추천하는 시스템이다(우버와 리프트가 채택). 이 시스템의 입력 데이터는 위치(위도 및 경도), 타임 스탬프, 운행 상태 등이다. 이 데이터를 사용하여 택시 운행경로 상의 픽업 포인트를 추천하는데, 목표는 승객 점유 시간과 이익을 최적화 하는 것이 될 것이다. 이러한 유형의 시스템은 당연히 해당 택시가 어디에 위치하느냐에 따라 다르며, 핸드폰 같은 장치에서 작동해야 하므로 계산 능력 및 에너지 요구 사항이 낮아야 한다.</p>
+</section>
+</section>
+<section id="id10">
+<h2>11.3 이커머스 추천 시스템 예제<a class="headerlink" href="#id10" title="Link to this heading">#</a></h2>
+<p>코드 출처: Hwang (2019), Hands-On Data Science for Marketing</p>
+<p>이 예제를 통해 e-commerce 비즈니스 데이터로 협업 필터링 알고리즘을 사용하여 제품 추천 시스템을 구축하는 방법을 배워보자. scikit-learn을 사용하여 파이썬에서 협업 필터링 알고리즘을 구현하는 방법을 배움과 동시에 데이터 전처리 과정도 학습한다.</p>
+<p>여기에서 다룰 데이터세트는 앞에서도 다뤘는데, 각종 기프트 상품을 취급하는 영국 한 온라인 몰의 전자상거래(electronic commerce) 데이터이다. 이 회사의 고객들은 세계 전역의 도매상들이며, 온라인으로만 상품을 취급한다. 2010년 12월 1일부터 2011년 12월 9일까지의 거래 내역이다.</p>
+<section id="id11">
+<h3>데이터 로딩 및 전처리<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;http://archive.ics.uci.edu/ml/machine-learning-databases/00352/&#39;</span> <span class="o">+</span> 
+       <span class="s1">&#39;Online%20Retail.xlsx&#39;</span><span class="p">)</span>
+<span class="n">OnlineRetail</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">OnlineRetail</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="c1"># 관측 개수가 50만개가 넘어서 데이터 로딩에 시간이 걸림(3~4분 정도)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(541909, 8)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">OnlineRetail</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>InvoiceNo</th>
+      <th>StockCode</th>
+      <th>Description</th>
+      <th>Quantity</th>
+      <th>InvoiceDate</th>
+      <th>UnitPrice</th>
+      <th>CustomerID</th>
+      <th>Country</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>536365</td>
+      <td>85123A</td>
+      <td>WHITE HANGING HEART T-LIGHT HOLDER</td>
+      <td>6</td>
+      <td>2010-12-01 08:26:00</td>
+      <td>2.55</td>
+      <td>17850.0</td>
+      <td>United Kingdom</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>536365</td>
+      <td>71053</td>
+      <td>WHITE METAL LANTERN</td>
+      <td>6</td>
+      <td>2010-12-01 08:26:00</td>
+      <td>3.39</td>
+      <td>17850.0</td>
+      <td>United Kingdom</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>536365</td>
+      <td>84406B</td>
+      <td>CREAM CUPID HEARTS COAT HANGER</td>
+      <td>8</td>
+      <td>2010-12-01 08:26:00</td>
+      <td>2.75</td>
+      <td>17850.0</td>
+      <td>United Kingdom</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>536365</td>
+      <td>84029G</td>
+      <td>KNITTED UNION FLAG HOT WATER BOTTLE</td>
+      <td>6</td>
+      <td>2010-12-01 08:26:00</td>
+      <td>3.39</td>
+      <td>17850.0</td>
+      <td>United Kingdom</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>536365</td>
+      <td>84029E</td>
+      <td>RED WOOLLY HOTTIE WHITE HEART.</td>
+      <td>6</td>
+      <td>2010-12-01 08:26:00</td>
+      <td>3.39</td>
+      <td>17850.0</td>
+      <td>United Kingdom</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>변수 설명</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">InvoiceNo</span></code> : 인보이스 번호. 각 거래에 고유하게 지정된 6자리 정수. 이 코드가 문자 ‘C’로 시작하면 취소를 나타냄. 이름(nominal) 변수</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">StockCode</span></code> : 아이템 코드. 각 제품에 고유하게 지정된 5자리 정수. 이름(nominal) 변수</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Description</span></code> : 아이템 이름. 이름(nominal) 변수</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Quantity</span></code> : 거래 아이템 수량. 숫자(numeric) 변수</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">InvoiceDate</span></code> : 인보이스 날짜 및 시간. 각 거래가 생성된 날짜 및 시간</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">UnitPrice</span></code> : 단가. 단위당 아이템 가격(영국 파운드). 숫자(numeric) 변수</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Customer</span> <span class="pre">ID</span></code> : 고객 ID. 각 고객에게 고유하게 지정된 5자리 정수. 숫자(numeric) 변수</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Country</span></code> : 국가 이름. 각 고객이 거주하는 국가의 이름.  이름(nominal) 변수</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Quantity&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>    <span class="c1"># Quantity 변수가 음수인 경우 거래 취소를 나타냄</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>InvoiceNo</th>
+      <th>StockCode</th>
+      <th>Description</th>
+      <th>Quantity</th>
+      <th>InvoiceDate</th>
+      <th>UnitPrice</th>
+      <th>CustomerID</th>
+      <th>Country</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>141</th>
+      <td>C536379</td>
+      <td>D</td>
+      <td>Discount</td>
+      <td>-1</td>
+      <td>2010-12-01 09:41:00</td>
+      <td>27.50</td>
+      <td>14527.0</td>
+      <td>United Kingdom</td>
+    </tr>
+    <tr>
+      <th>154</th>
+      <td>C536383</td>
+      <td>35004C</td>
+      <td>SET OF 3 COLOURED  FLYING DUCKS</td>
+      <td>-1</td>
+      <td>2010-12-01 09:49:00</td>
+      <td>4.65</td>
+      <td>15311.0</td>
+      <td>United Kingdom</td>
+    </tr>
+    <tr>
+      <th>235</th>
+      <td>C536391</td>
+      <td>22556</td>
+      <td>PLASTERS IN TIN CIRCUS PARADE</td>
+      <td>-12</td>
+      <td>2010-12-01 10:24:00</td>
+      <td>1.65</td>
+      <td>17548.0</td>
+      <td>United Kingdom</td>
+    </tr>
+    <tr>
+      <th>236</th>
+      <td>C536391</td>
+      <td>21984</td>
+      <td>PACK OF 12 PINK PAISLEY TISSUES</td>
+      <td>-24</td>
+      <td>2010-12-01 10:24:00</td>
+      <td>0.29</td>
+      <td>17548.0</td>
+      <td>United Kingdom</td>
+    </tr>
+    <tr>
+      <th>237</th>
+      <td>C536391</td>
+      <td>21983</td>
+      <td>PACK OF 12 BLUE PAISLEY TISSUES</td>
+      <td>-24</td>
+      <td>2010-12-01 10:24:00</td>
+      <td>0.29</td>
+      <td>17548.0</td>
+      <td>United Kingdom</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>540449</th>
+      <td>C581490</td>
+      <td>23144</td>
+      <td>ZINC T-LIGHT HOLDER STARS SMALL</td>
+      <td>-11</td>
+      <td>2011-12-09 09:57:00</td>
+      <td>0.83</td>
+      <td>14397.0</td>
+      <td>United Kingdom</td>
+    </tr>
+    <tr>
+      <th>541541</th>
+      <td>C581499</td>
+      <td>M</td>
+      <td>Manual</td>
+      <td>-1</td>
+      <td>2011-12-09 10:28:00</td>
+      <td>224.69</td>
+      <td>15498.0</td>
+      <td>United Kingdom</td>
+    </tr>
+    <tr>
+      <th>541715</th>
+      <td>C581568</td>
+      <td>21258</td>
+      <td>VICTORIAN SEWING BOX LARGE</td>
+      <td>-5</td>
+      <td>2011-12-09 11:57:00</td>
+      <td>10.95</td>
+      <td>15311.0</td>
+      <td>United Kingdom</td>
+    </tr>
+    <tr>
+      <th>541716</th>
+      <td>C581569</td>
+      <td>84978</td>
+      <td>HANGING HEART JAR T-LIGHT HOLDER</td>
+      <td>-1</td>
+      <td>2011-12-09 11:58:00</td>
+      <td>1.25</td>
+      <td>17315.0</td>
+      <td>United Kingdom</td>
+    </tr>
+    <tr>
+      <th>541717</th>
+      <td>C581569</td>
+      <td>20979</td>
+      <td>36 PENCILS TUBE RED RETROSPOT</td>
+      <td>-5</td>
+      <td>2011-12-09 11:58:00</td>
+      <td>1.25</td>
+      <td>17315.0</td>
+      <td>United Kingdom</td>
+    </tr>
+  </tbody>
+</table>
+<p>10624 rows × 8 columns</p>
+</div></div></div>
+</div>
+<p>기존의 <code class="docutils literal notranslate"><span class="pre">df</span></code>에서 Quantity 변수가 0보다 큰 관측만을 선택한다. 원래 541,909개의 관측에서 10,624개가 사라지고 531,285 rows × 8 columns가 된다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Quantity&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(531285, 8)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;CustomerID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>count    397924.000000
+mean      15294.315171
+std        1713.169877
+min       12346.000000
+25%       13969.000000
+50%       15159.000000
+75%       16795.000000
+max       18287.000000
+Name: CustomerID, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">CustomerID</span></code> 변수에서 관측값 개수가 397,924개이고 나머지는 결측값(NaN)이라는 것을 알 수 있다. <code class="docutils literal notranslate"><span class="pre">df</span></code> 데이터프레임에서 <code class="docutils literal notranslate"><span class="pre">CustomerID</span></code> 변수에 <code class="docutils literal notranslate"><span class="pre">isna()</span></code> 함수를 적용하여 결측값(NaN)이면 1, 그렇지 않으면 0인 데이터프레임을 만든 다음, <code class="docutils literal notranslate"><span class="pre">sum()</span></code> 함수를 사용하여 전체를 합침으로써 결측값 개수가 133,361개임을 파악할 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;CustomerID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>133361
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;CustomerID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>InvoiceNo</th>
+      <th>StockCode</th>
+      <th>Description</th>
+      <th>Quantity</th>
+      <th>InvoiceDate</th>
+      <th>UnitPrice</th>
+      <th>CustomerID</th>
+      <th>Country</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>622</th>
+      <td>536414</td>
+      <td>22139</td>
+      <td>NaN</td>
+      <td>56</td>
+      <td>2010-12-01 11:52:00</td>
+      <td>0.00</td>
+      <td>NaN</td>
+      <td>United Kingdom</td>
+    </tr>
+    <tr>
+      <th>1443</th>
+      <td>536544</td>
+      <td>21773</td>
+      <td>DECORATIVE ROSE BATHROOM BOTTLE</td>
+      <td>1</td>
+      <td>2010-12-01 14:32:00</td>
+      <td>2.51</td>
+      <td>NaN</td>
+      <td>United Kingdom</td>
+    </tr>
+    <tr>
+      <th>1444</th>
+      <td>536544</td>
+      <td>21774</td>
+      <td>DECORATIVE CATS BATHROOM BOTTLE</td>
+      <td>2</td>
+      <td>2010-12-01 14:32:00</td>
+      <td>2.51</td>
+      <td>NaN</td>
+      <td>United Kingdom</td>
+    </tr>
+    <tr>
+      <th>1445</th>
+      <td>536544</td>
+      <td>21786</td>
+      <td>POLKADOT RAIN HAT</td>
+      <td>4</td>
+      <td>2010-12-01 14:32:00</td>
+      <td>0.85</td>
+      <td>NaN</td>
+      <td>United Kingdom</td>
+    </tr>
+    <tr>
+      <th>1446</th>
+      <td>536544</td>
+      <td>21787</td>
+      <td>RAIN PONCHO RETROSPOT</td>
+      <td>2</td>
+      <td>2010-12-01 14:32:00</td>
+      <td>1.66</td>
+      <td>NaN</td>
+      <td>United Kingdom</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>pandas 패키지의 <code class="docutils literal notranslate"><span class="pre">dropna()</span></code> 함수는 주어진 데이터프레임에서 결측값이 들어있는 관측을 제거해준다. 이때 <code class="docutils literal notranslate"><span class="pre">subset</span></code> 인수를 사용하면 특정 변수를 기준으로 결측값 관측을 삭제할 수 있다. 이를 제거한 데이터프레임은 397,924 rows × 8 columns가 된다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;CustomerID&#39;</span><span class="p">])</span>
+<span class="n">df</span><span class="o">.</span><span class="n">shape</span>    <span class="c1"># (397924, 8)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(397924, 8)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id12">
+<h3>협업 필터링<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<p>협업 필터링은 가령 어떤 사람이 과거에 아이템 A, B, C를 구매하고, 또 다른 사람은 아이템 A, B, D를 구매한 경우, 유사성을 공유하고 있기 때문에 첫 번째 사람은 아이템 D를 구매할 가능성이 있고, 두 번째 사람은 아이템 C를 구매할 가능성이 있다고 본다. 협업 필터링 알고리즘은 사용자 행동 기록과 사용자간의 유사성을 기반으로 제품을 추천한다. 협업 필터링 알고리즘을 구현하는 첫 번째 단계는 사용자-아이템 행렬(user-to-item matrix)을 구축하는 것이다. 사용자-아이템 행렬에서 행에는 개별 사용자들이, 그리고 열에는 개별 아이템들이 위치한다.</p>
+<p><strong>사용자-아이템 행렬 예</strong></p>
+<p><img alt="사용자-아이템 행렬 예" src="https://raw.githubusercontent.com/pilsunchoi/images/main/11-1.png" /></p>
+<p>이 예에서 1부터 5까지 다섯 명의 사용자와 A부터 E까지 다섯 개의 아이템이 있다. 각 셀의 값은 해당 사용자가 해당 아이템을 구입했는지 여부를 나타낸다(1은 구입, 0은 미구입). 이 예에서 가령 사용자 1은 아이템 B와 D를 구매하고, 사용자 2는 아이템 A, B, C, E를 구매했다.</p>
+<p><strong>사용자간 유사성 측정</strong></p>
+<p>사용자-아이템 행렬을 구축한 다음에는 이를 이용해서 사용자간의 유사성을 계산해야 한다. 유사성을 측정하는 다양한 방법이 있는데, 여기서는 예시적으로 <strong>코사인 유사성</strong>(cosine similarity)을 사용하기로 한다. 코사인 유사성 계산식은 다음과 같다.</p>
+<div class="math notranslate nohighlight">
+\[
+{\rm cos}(U_1,U_2)=\frac{\sum_{i=1}^{n}P_{1i}P_{2i}} {\sqrt{ \sum_{i=1}^{n}P_{1i}^{2}\cdot\sum_{i=1}^{n}P_{2i}^{2} }} \tag{11.1}
+\]</div>
+<p>여기서 <span class="math notranslate nohighlight">\(U_1\)</span>과 <span class="math notranslate nohighlight">\(U_2\)</span>는 사용자 1과 사용자 2를 나타내며, <span class="math notranslate nohighlight">\(P_{1i}\)</span>와 <span class="math notranslate nohighlight">\(P_{2i}\)</span>는 사용자 1과 사용자 2가 제품 <span class="math notranslate nohighlight">\(i\)</span>를 몇 개 구입했는지를 나타낸다. 여기에서는 개수 대신 구매는 1, 비구매는 0의 값을 갖는다.</p>
+<p><strong>[사례 1]</strong> 아래 표는 사용자 1과 2만 표시한 것으로 이들 두 사용자의 코사인 유사성을 식 11.1로 계산하면 다음과 같다.</p>
+<p><img alt="사례 1" src="https://raw.githubusercontent.com/pilsunchoi/images/main/11-2.png" /></p>
+<div class="math notranslate nohighlight">
+\[
+{\rm cos}(U_1,U_2)=\frac{0+1+0+0+0}{\sqrt{(1+1)(1+1+1+1)}}=\frac{1}{\sqrt{8}}=0.354
+\]</div>
+<p><strong>[사례 2]</strong> 아래 표는 사용자 2와 4만 표시한 것으로 이들 두 사용자의  코사인 유사성을 식 11.1로 계산하면 다음과 같다.</p>
+<p><img alt="사례 2" src="https://raw.githubusercontent.com/pilsunchoi/images/main/11-3.png" /></p>
+<div class="math notranslate nohighlight">
+\[
+{\rm cos}(U_1,U_2)=\frac{1+0+1+0+1}{\sqrt{(1+1+1+1)(1+1+1)}}=\frac{3}{\sqrt{12}}=0.866
+\]</div>
+<p>코사인 유사성이 클수록 두 명의 사용자가 더욱 유사함을 의미한다. 앞의 예에서 사용자 2와 4의 아이템 구매 패턴이 사용자 1과 2의 구매 패턴보다 훨씬 유사하다는 것을 눈으로도 쉽게 확인할 수 있다. 그러나 아이템의 개수가 많아지면 눈으로 파악하기 어려우며, 식 11.1과 같은 공식이 필요할 것이다.</p>
+</section>
+<section id="chatgpt-q-a">
+<h3>ChatGPT Q&amp;A<a class="headerlink" href="#chatgpt-q-a" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p><strong>사용자 유사성을 측정할 때 코사인 유사성(cosine similarity) 대신 가령 상관계수를 사용해도 될까?</strong></p>
+</div></blockquote>
+<hr class="docutils" />
+<blockquote>
+<div><p>네, 사용자 유사성을 측정할 때 코사인 유사성(cosine similarity) 대신 상관계수(correlation coefficient)를 사용하는 것도 가능합니다. 코사인 유사성과 상관계수는 서로 다른 상황과 데이터 특성에 따라 유용할 수 있습니다.</p>
+<p><strong>코사인 유사성 (Cosine Similarity)</strong></p>
+<ul class="simple">
+<li><p>코사인 유사성은 두 벡터 간의 각도를 측정하여 유사성을 평가합니다.</p></li>
+<li><p>값의 범위는 -1에서 1까지이며, 1은 완전히 같은 방향(유사함), 0은 독립적, -1은 완전히 반대 방향(불일치)을 의미합니다.</p></li>
+<li><p>크기에 덜 민감하고 방향성에 중점을 둡니다. 즉, 두 벡터의 길이(값의 크기)가 달라도 유사한 방향을 가지고 있다면 높은 유사성을 나타냅니다.</p></li>
+<li><p>특히 텍스트 데이터나 고차원 데이터에서 유용하게 사용됩니다.</p></li>
+</ul>
+<p><strong>상관계수 (Correlation Coefficient)</strong></p>
+<ul class="simple">
+<li><p>상관계수는 두 변수 간의 선형적 관계의 강도와 방향을 측정합니다.</p></li>
+<li><p>값의 범위는 -1에서 1까지이며, 1은 완벽한 양의 선형 관계, 0은 선형 관계의 부재, -1은 완벽한 음의 선형 관계를 의미합니다.</p></li>
+<li><p>두 변수의 변동이 얼마나 잘 일치하는지를 나타냅니다.</p></li>
+<li><p>주로 통계학에서 사용되며, 특히 평가 점수나 선호도와 같이 연속적인 값에 대한 유사성을 측정할 때 유용합니다.</p></li>
+</ul>
+<p><strong>언제 어떤 것을 사용할까?</strong></p>
+<ul class="simple">
+<li><p><strong>코사인 유사성</strong>: 벡터의 크기보다 방향성이 더 중요할 때 사용합니다. 예를 들어, 사용자가 아이템에 대해 부여한 평점 패턴의 유사성을 측정할 때 적합할 수 있습니다.</p></li>
+<li><p><strong>상관계수</strong>: 두 사용자 간의 평가 점수가 얼마나 선형적으로 관련되어 있는지를 알고 싶을 때 사용합니다. 예를 들어, 사용자가 아이템에 대해 부여한 평점의 경향이 얼마나 비슷한지를 파악할 때 유용합니다.</p></li>
+</ul>
+<p>최종적으로 선택은 분석하려는 데이터의 특성과 목적에 따라 달라질 수 있습니다. 때로는 두 방법을 모두 시도해보고, 어떤 방법이 문제에 더 적합한 결과를 제공하는지 평가하는 것이 좋습니다.</p>
+</div></blockquote>
+</section>
+<section id="id13">
+<h3>사용자-아이템 행렬<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<p>우리가 보유한 데이터는 고객이 구매한 개별 아이템을 나타낸다. 그러나 협업 필터링 알고리즘을 사용하여 제품 추천 시스템을 구축하려면 각 고객이 어떤 일련의 아이템을 구매했는지를 보여주는 데이터가 있어야 한다. 즉 주어진 데이터를 변환하여 각 행은 고객, 그리고 각 열은 서로 다른 제품을 나타내는 사용자-아이템 행렬로 바꿔야 한다.</p>
+<p>이를 위해 데이터프레임 <code class="docutils literal notranslate"><span class="pre">df</span></code>에 <code class="docutils literal notranslate"><span class="pre">pivot_table</span></code> 함수를 적용한다. 행(row)에 해당하는 <code class="docutils literal notranslate"><span class="pre">index</span></code>를 <code class="docutils literal notranslate"><span class="pre">CustomerID</span></code>로 정한다. 열에 해당하는 <code class="docutils literal notranslate"><span class="pre">columns</span></code>를 제품 코드인 <code class="docutils literal notranslate"><span class="pre">StockCode</span></code>로 정한다. <code class="docutils literal notranslate"><span class="pre">values</span></code>를 <code class="docutils literal notranslate"><span class="pre">Quantity</span></code> 변수로 하고, <code class="docutils literal notranslate"><span class="pre">aggfunc=sum</span></code>을 사용하면 각 사용자가 각 아이템별로 구매한 모든 수량을 합칠 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">customer_item_matrix</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+    <span class="n">index</span><span class="o">=</span><span class="s1">&#39;CustomerID&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;StockCode&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">&#39;Quantity&#39;</span><span class="p">,</span> <span class="n">aggfunc</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+<span class="c1"># 평균값은 aggfunc=&#39;sum&#39; 대신 aggfunc=&#39;mean&#39; 사용</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">customer_item_matrix</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">12481</span><span class="p">:]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>    <span class="c1"># CustomerID 12481 이후를 프린트함 </span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>StockCode</th>
+      <th>10002</th>
+      <th>10080</th>
+      <th>10120</th>
+      <th>10125</th>
+      <th>10133</th>
+      <th>10135</th>
+      <th>11001</th>
+      <th>15030</th>
+      <th>15034</th>
+      <th>15036</th>
+      <th>...</th>
+      <th>90214V</th>
+      <th>90214W</th>
+      <th>90214Y</th>
+      <th>90214Z</th>
+      <th>BANK CHARGES</th>
+      <th>C2</th>
+      <th>DOT</th>
+      <th>M</th>
+      <th>PADS</th>
+      <th>POST</th>
+    </tr>
+    <tr>
+      <th>CustomerID</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>12481.0</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>36.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>32.0</td>
+    </tr>
+    <tr>
+      <th>12483.0</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>16.0</td>
+    </tr>
+    <tr>
+      <th>12484.0</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>16.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>21.0</td>
+    </tr>
+    <tr>
+      <th>12488.0</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>10.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>12489.0</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 3665 columns</p>
+</div></div></div>
+</div>
+<p>사용자-아이템 행렬을 0-1로 인코딩 한다. 1은 제품 구매를 의미하고, 0은 구매하지 않을 것을 의미한다. <code class="docutils literal notranslate"><span class="pre">map(lambda)</span></code> 함수를 사용하여 행렬의 원소 값이 0보다 크면 1, 그렇지 않으면 0으로 만든다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">customer_item_matrix</span> <span class="o">=</span> <span class="n">customer_item_matrix</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">customer_item_matrix</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">12481</span><span class="p">:]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>StockCode</th>
+      <th>10002</th>
+      <th>10080</th>
+      <th>10120</th>
+      <th>10125</th>
+      <th>10133</th>
+      <th>10135</th>
+      <th>11001</th>
+      <th>15030</th>
+      <th>15034</th>
+      <th>15036</th>
+      <th>...</th>
+      <th>90214V</th>
+      <th>90214W</th>
+      <th>90214Y</th>
+      <th>90214Z</th>
+      <th>BANK CHARGES</th>
+      <th>C2</th>
+      <th>DOT</th>
+      <th>M</th>
+      <th>PADS</th>
+      <th>POST</th>
+    </tr>
+    <tr>
+      <th>CustomerID</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>12481.0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>12483.0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>12484.0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>12488.0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>12489.0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 3665 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="id14">
+<h3>협업 필터링 실행<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<p>사이킷런(scikit-learn, <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>)에서 <code class="docutils literal notranslate"><span class="pre">cosine_similarity</span></code> 함수를 불러온 다음, 이를 사용자-아이템 행렬에 적용하여 사용자간 코사인 유사성 행렬(user-to-user similarity matrix)을 만든다.</p>
+<p><strong>사용자간 유사성 행렬</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">cosine_similarity</span>
+
+<span class="n">user_user_sim_matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cosine_similarity</span><span class="p">(</span><span class="n">customer_item_matrix</span><span class="p">))</span>
+<span class="n">user_user_sim_matrix</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>...</th>
+      <th>4329</th>
+      <th>4330</th>
+      <th>4331</th>
+      <th>4332</th>
+      <th>4333</th>
+      <th>4334</th>
+      <th>4335</th>
+      <th>4336</th>
+      <th>4337</th>
+      <th>4338</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.0</td>
+      <td>1.000000</td>
+      <td>0.063022</td>
+      <td>0.046130</td>
+      <td>0.047795</td>
+      <td>0.038484</td>
+      <td>0.0</td>
+      <td>0.025876</td>
+      <td>0.136641</td>
+      <td>0.094742</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.029709</td>
+      <td>0.052668</td>
+      <td>0.0</td>
+      <td>0.032844</td>
+      <td>0.062318</td>
+      <td>0.0</td>
+      <td>0.113776</td>
+      <td>0.109364</td>
+      <td>0.012828</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.0</td>
+      <td>0.063022</td>
+      <td>1.000000</td>
+      <td>0.024953</td>
+      <td>0.051709</td>
+      <td>0.027756</td>
+      <td>0.0</td>
+      <td>0.027995</td>
+      <td>0.118262</td>
+      <td>0.146427</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.064282</td>
+      <td>0.113961</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.170905</td>
+      <td>0.083269</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.0</td>
+      <td>0.046130</td>
+      <td>0.024953</td>
+      <td>1.000000</td>
+      <td>0.056773</td>
+      <td>0.137137</td>
+      <td>0.0</td>
+      <td>0.030737</td>
+      <td>0.032461</td>
+      <td>0.144692</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.105868</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.039014</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.067574</td>
+      <td>0.137124</td>
+      <td>0.030475</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.0</td>
+      <td>0.047795</td>
+      <td>0.051709</td>
+      <td>0.056773</td>
+      <td>1.000000</td>
+      <td>0.031575</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.033315</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.044866</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 4339 columns</p>
+</div></div></div>
+</div>
+<p>위 결과는 <code class="docutils literal notranslate"><span class="pre">CustomerID</span></code> 대신 행렬 인덱스로 표시돼 있기 때문에 이를 원래 사용자-아이템 행렬의 <code class="docutils literal notranslate"><span class="pre">CustomerID</span></code>로 바꿔준다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">user_user_sim_matrix</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">customer_item_matrix</span><span class="o">.</span><span class="n">index</span>
+<span class="n">user_user_sim_matrix</span><span class="p">[</span><span class="s1">&#39;CustomerID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">customer_item_matrix</span><span class="o">.</span><span class="n">index</span>
+<span class="n">user_user_sim_matrix</span> <span class="o">=</span> <span class="n">user_user_sim_matrix</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;CustomerID&#39;</span><span class="p">)</span>
+<span class="n">user_user_sim_matrix</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>CustomerID</th>
+      <th>12346.0</th>
+      <th>12347.0</th>
+      <th>12348.0</th>
+      <th>12349.0</th>
+      <th>12350.0</th>
+      <th>12352.0</th>
+      <th>12353.0</th>
+      <th>12354.0</th>
+      <th>12355.0</th>
+      <th>12356.0</th>
+      <th>...</th>
+      <th>18273.0</th>
+      <th>18274.0</th>
+      <th>18276.0</th>
+      <th>18277.0</th>
+      <th>18278.0</th>
+      <th>18280.0</th>
+      <th>18281.0</th>
+      <th>18282.0</th>
+      <th>18283.0</th>
+      <th>18287.0</th>
+    </tr>
+    <tr>
+      <th>CustomerID</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>12346.0</th>
+      <td>1.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>12347.0</th>
+      <td>0.0</td>
+      <td>1.000000</td>
+      <td>0.063022</td>
+      <td>0.046130</td>
+      <td>0.047795</td>
+      <td>0.038484</td>
+      <td>0.0</td>
+      <td>0.025876</td>
+      <td>0.136641</td>
+      <td>0.094742</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.029709</td>
+      <td>0.052668</td>
+      <td>0.0</td>
+      <td>0.032844</td>
+      <td>0.062318</td>
+      <td>0.0</td>
+      <td>0.113776</td>
+      <td>0.109364</td>
+      <td>0.012828</td>
+    </tr>
+    <tr>
+      <th>12348.0</th>
+      <td>0.0</td>
+      <td>0.063022</td>
+      <td>1.000000</td>
+      <td>0.024953</td>
+      <td>0.051709</td>
+      <td>0.027756</td>
+      <td>0.0</td>
+      <td>0.027995</td>
+      <td>0.118262</td>
+      <td>0.146427</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.064282</td>
+      <td>0.113961</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.170905</td>
+      <td>0.083269</td>
+    </tr>
+    <tr>
+      <th>12349.0</th>
+      <td>0.0</td>
+      <td>0.046130</td>
+      <td>0.024953</td>
+      <td>1.000000</td>
+      <td>0.056773</td>
+      <td>0.137137</td>
+      <td>0.0</td>
+      <td>0.030737</td>
+      <td>0.032461</td>
+      <td>0.144692</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.105868</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.039014</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.067574</td>
+      <td>0.137124</td>
+      <td>0.030475</td>
+    </tr>
+    <tr>
+      <th>12350.0</th>
+      <td>0.0</td>
+      <td>0.047795</td>
+      <td>0.051709</td>
+      <td>0.056773</td>
+      <td>1.000000</td>
+      <td>0.031575</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.033315</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.044866</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 4339 columns</p>
+</div></div></div>
+</div>
+<p><strong>추천하기</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CustomerID=12350에 대해 사용자간 유사성 지수를 내림차순으로 프린트함</span>
+<span class="n">user_user_sim_matrix</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mf">12350.0</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CustomerID
+12350.0    1.000000
+17935.0    0.183340
+12414.0    0.181902
+12652.0    0.175035
+16692.0    0.171499
+             ...   
+14885.0    0.000000
+14886.0    0.000000
+14887.0    0.000000
+14888.0    0.000000
+18287.0    0.000000
+Name: 12350.0, Length: 4339, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>유사성이 가장 높은 12350(A) 및 17935(B) 고객에 대해 사용자-아이템 행렬의 원소가 0이 아닌 아이템을 반환시킨다. A가 구입한 아이템 중 B가 아직 구입하지 않은 아이템을 B에 대한 추천 리스트로 지정한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">items_bought_by_A</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">customer_item_matrix</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">12350</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span>
+    <span class="n">customer_item_matrix</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">12350</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">items_bought_by_B</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">customer_item_matrix</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">17935</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span>
+    <span class="n">customer_item_matrix</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">17935</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">items_to_recommend_to_B</span> <span class="o">=</span> <span class="n">items_bought_by_A</span> <span class="o">-</span> <span class="n">items_bought_by_B</span>
+<span class="n">items_to_recommend_to_B</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{20615,
+ 20652,
+ 21171,
+ 21832,
+ 21864,
+ 21908,
+ 21915,
+ 22348,
+ 22412,
+ 22620,
+ &#39;79066K&#39;,
+ &#39;79191C&#39;,
+ &#39;84086C&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<p>원래의 데이터프레임 <code class="docutils literal notranslate"><span class="pre">df</span></code>를 이용해 <code class="docutils literal notranslate"><span class="pre">items_to_recommend_to_B</span></code>에 있는 관측에 대해 <code class="docutils literal notranslate"><span class="pre">StockCode</span></code>와 <code class="docutils literal notranslate"><span class="pre">Description</span></code>을 반환시킨다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;StockCode&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">items_to_recommend_to_B</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;StockCode&#39;</span><span class="p">,</span> <span class="s1">&#39;Description&#39;</span><span class="p">]</span>
+<span class="p">]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;StockCode&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <th>StockCode</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>21832</th>
+      <td>CHOCOLATE CALCULATOR</td>
+    </tr>
+    <tr>
+      <th>21915</th>
+      <td>RED  HARMONICA IN BOX</td>
+    </tr>
+    <tr>
+      <th>22620</th>
+      <td>4 TRADITIONAL SPINNING TOPS</td>
+    </tr>
+    <tr>
+      <th>79066K</th>
+      <td>RETRO MOD TRAY</td>
+    </tr>
+    <tr>
+      <th>21864</th>
+      <td>UNION JACK FLAG PASSPORT COVER</td>
+    </tr>
+    <tr>
+      <th>79191C</th>
+      <td>RETRO PLASTIC ELEPHANT TRAY</td>
+    </tr>
+    <tr>
+      <th>21908</th>
+      <td>CHOCOLATE THIS WAY METAL SIGN</td>
+    </tr>
+    <tr>
+      <th>20615</th>
+      <td>BLUE POLKADOT PASSPORT COVER</td>
+    </tr>
+    <tr>
+      <th>20652</th>
+      <td>BLUE POLKADOT LUGGAGE TAG</td>
+    </tr>
+    <tr>
+      <th>22348</th>
+      <td>TEA BAG PLATE RED RETROSPOT</td>
+    </tr>
+    <tr>
+      <th>22412</th>
+      <td>METAL SIGN NEIGHBOURHOOD WITCH</td>
+    </tr>
+    <tr>
+      <th>21171</th>
+      <td>BATHROOM METAL SIGN</td>
+    </tr>
+    <tr>
+      <th>84086C</th>
+      <td>PINK/PURPLE RETRO RADIO</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>아이템간 유사성 행렬</strong></p>
+<p>사용자-아이템 행렬을 전치(transpose)시켜 <code class="docutils literal notranslate"><span class="pre">cosine_similarity</span></code> 함수를 적용하면 아이템간 코사인 유사성을 계산할 수 있다. <code class="docutils literal notranslate"><span class="pre">StockCode</span></code> 대신 행렬 인덱스로 표시돼 있기 때문에 이를 원래 사용자-아이템 행렬의 <code class="docutils literal notranslate"><span class="pre">StockCode</span></code>로 바꿔준다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">item_item_sim_matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cosine_similarity</span><span class="p">(</span><span class="n">customer_item_matrix</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+<span class="n">item_item_sim_matrix</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">customer_item_matrix</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">index</span>
+<span class="n">item_item_sim_matrix</span><span class="p">[</span><span class="s1">&#39;StockCode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">customer_item_matrix</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">index</span>
+<span class="n">item_item_sim_matrix</span> <span class="o">=</span> <span class="n">item_item_sim_matrix</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;StockCode&#39;</span><span class="p">)</span>
+<span class="n">item_item_sim_matrix</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>StockCode</th>
+      <th>10002</th>
+      <th>10080</th>
+      <th>10120</th>
+      <th>10125</th>
+      <th>10133</th>
+      <th>10135</th>
+      <th>11001</th>
+      <th>15030</th>
+      <th>15034</th>
+      <th>15036</th>
+      <th>...</th>
+      <th>90214V</th>
+      <th>90214W</th>
+      <th>90214Y</th>
+      <th>90214Z</th>
+      <th>BANK CHARGES</th>
+      <th>C2</th>
+      <th>DOT</th>
+      <th>M</th>
+      <th>PADS</th>
+      <th>POST</th>
+    </tr>
+    <tr>
+      <th>StockCode</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>10002</th>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.094868</td>
+      <td>0.090351</td>
+      <td>0.062932</td>
+      <td>0.098907</td>
+      <td>0.095346</td>
+      <td>0.047673</td>
+      <td>0.075593</td>
+      <td>0.090815</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.029361</td>
+      <td>0.0</td>
+      <td>0.066915</td>
+      <td>0.000000</td>
+      <td>0.078217</td>
+    </tr>
+    <tr>
+      <th>10080</th>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.032774</td>
+      <td>0.045655</td>
+      <td>0.047836</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.082261</td>
+      <td>0.049413</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.016182</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>10120</th>
+      <td>0.094868</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.057143</td>
+      <td>0.059702</td>
+      <td>0.041703</td>
+      <td>0.060302</td>
+      <td>0.060302</td>
+      <td>0.095618</td>
+      <td>0.028718</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.070535</td>
+      <td>0.000000</td>
+      <td>0.010993</td>
+    </tr>
+    <tr>
+      <th>10125</th>
+      <td>0.090351</td>
+      <td>0.032774</td>
+      <td>0.057143</td>
+      <td>1.000000</td>
+      <td>0.042644</td>
+      <td>0.044682</td>
+      <td>0.043073</td>
+      <td>0.000000</td>
+      <td>0.051224</td>
+      <td>0.030770</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.070535</td>
+      <td>0.000000</td>
+      <td>0.070669</td>
+    </tr>
+    <tr>
+      <th>10133</th>
+      <td>0.062932</td>
+      <td>0.045655</td>
+      <td>0.059702</td>
+      <td>0.042644</td>
+      <td>1.000000</td>
+      <td>0.280097</td>
+      <td>0.045002</td>
+      <td>0.060003</td>
+      <td>0.071358</td>
+      <td>0.057152</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.036955</td>
+      <td>0.0</td>
+      <td>0.070185</td>
+      <td>0.049752</td>
+      <td>0.021877</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 3665 columns</p>
+</div></div></div>
+</div>
+<p><strong>추천하기</strong></p>
+<p>어떤 고객이 방금 가령 <code class="docutils literal notranslate"><span class="pre">StockCode</span></code> 23166 제품을 구매했을 때, 이와 가장 유사한 제품 10개를 추천하고자 한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">top_10_similar_items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+    <span class="n">item_item_sim_matrix</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">23166</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>원래의 데이터프레임 <code class="docutils literal notranslate"><span class="pre">df</span></code>를 이용해 <code class="docutils literal notranslate"><span class="pre">top_10_similar_items</span></code>에 있는 관측에 대해 <code class="docutils literal notranslate"><span class="pre">StockCode</span></code>와 <code class="docutils literal notranslate"><span class="pre">Description</span></code>을 반환시킨다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;StockCode&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">top_10_similar_items</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;StockCode&#39;</span><span class="p">,</span> <span class="s1">&#39;Description&#39;</span><span class="p">]</span>
+      <span class="p">]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;StockCode&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">top_10_similar_items</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <th>StockCode</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>23166</th>
+      <td>MEDIUM CERAMIC TOP STORAGE JAR</td>
+    </tr>
+    <tr>
+      <th>23165</th>
+      <td>LARGE CERAMIC TOP STORAGE JAR</td>
+    </tr>
+    <tr>
+      <th>23167</th>
+      <td>SMALL CERAMIC TOP STORAGE JAR</td>
+    </tr>
+    <tr>
+      <th>22993</th>
+      <td>SET OF 4 PANTRY JELLY MOULDS</td>
+    </tr>
+    <tr>
+      <th>23307</th>
+      <td>SET OF 60 PANTRY DESIGN CAKE CASES</td>
+    </tr>
+    <tr>
+      <th>22722</th>
+      <td>SET OF 6 SPICE TINS PANTRY DESIGN</td>
+    </tr>
+    <tr>
+      <th>22720</th>
+      <td>SET OF 3 CAKE TINS PANTRY DESIGN</td>
+    </tr>
+    <tr>
+      <th>22666</th>
+      <td>RECIPE BOX PANTRY YELLOW DESIGN</td>
+    </tr>
+    <tr>
+      <th>23243</th>
+      <td>SET OF TEA COFFEE SUGAR TINS PANTRY</td>
+    </tr>
+    <tr>
+      <th>22961</th>
+      <td>JAM MAKING SET PRINTED</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="id15">
+<h2>11.4 영화 추천 시스템 예제<a class="headerlink" href="#id15" title="Link to this heading">#</a></h2>
+<p>코드 출처: (1) The Age of Recommender Systems (<a class="reference external" href="https://www.kaggle.com/ibtesama/getting-started-with-a-movie-recommendation-system/notebook?select=tmdb_5000_credits.csv">Kaggle post</a>) (2) Hwang (2019), Hands-On Data Science for Marketing</p>
+<p>여기에서는 영화 추천에 있어서 인구통계적 필터링과 콘텐츠 기반 필터링에 대한 내용과 파이썬 코딩을 학습한다. 먼저 <strong>인구통계적</strong>(demographic) 필터링은 인구통계적 특성(나이, 성별, 인종/민족, 거주지, 사회경제적 상태 등)에 따라 영화의 인기 및 장르를 고려하여 추천을 제공하는 것을 말한다.</p>
+<p><strong>콘텐츠 기반</strong>(content based) 필터링은 특정 아이템에 대해 콘텐츠에 있어서 그것과 유사한 아이템을 제안하는 방식으로서 영화 추천에 있어서는 영화의 장르, 감독, 줄거리, 배우 등 영화에 대한 <strong>메타데이터</strong>(metadata)를 사용하여 추천을 행하는 방식이다. 메타데이터란 어떤 정보나 데이터의 속성을 설명하는 데이터이다. 이를테면, 디지털 카메라는 사진(화상 데이터)을 찍어 기록할 때마다 카메라 자체의 정보와 촬영 당시의 시간, 노출, 플래시 사용 여부, 해상도, 사진 크기, 장소 등의 정보를 화상 데이터와 같이 저장하는데, 이를 사진에 대한 메타데이터라고 한다.</p>
+<section id="id16">
+<h3>데이터<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
+<p>IMDB의 TMDb(The Movie Database)에서 뽑은 두 가지의 데이터세트를 병합해서 사용한다.</p>
+<p><strong>tmdb_5000_credits.csv</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">movie_id</span></code>: 각 영화의 고유 식별 ID</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cast</span></code>: 주연 및 조연 배우의 이름</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">crew</span></code>: 감독, 편집자, 작곡가, 작가 등의 이름</p></li>
+</ul>
+<p><strong>tmdb_5000_movies.csv</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">budget</span></code>: 영화 제작 예산</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">genre</span></code>: 영화 장르, 액션, 코미디, 스릴러 등</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">homepage</span></code>: 영화 홈페이지로 연결되는 링크</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code>: 첫 번째 데이터세트와 동일한 movie_id</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">keywords</span></code>: 영화와 관련된 키워드 또는 태그</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">original_language</span></code>: 영화 제작 언어</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">original_title</span></code>: 번역 또는 수정 전의 영화 제목</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">overview</span></code>: 영화에 대한 간단한 개요</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">popularity</span></code>: 영화 인기를 나타내는  숫자</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">production_companies</span></code>: 영화 제작소</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">production_countries</span></code>: 영화 생산 국가</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">release_date</span></code>: 영화 릴리스 날짜</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">revenue</span></code>: 영화에서 생성된 전 세계 수익</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">runtime</span></code>: 영화 실행 시간(분)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span></code>: “Released” 또는 “Rumored”</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tagline</span></code>: 영화의 태그 라인</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">title</span></code>: 영화 제목</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vote_average</span></code>: 영화가 받은 평균 평점</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vote_count</span></code>: 받은 투표 수</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">url1</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/sd12832/MoViZ/master/&#39;</span> <span class="o">+</span> 
+        <span class="s1">&#39;src/tmdb_5000_credits.csv&#39;</span><span class="p">)</span>
+<span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">df1</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4803, 4)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>movie_id</th>
+      <th>title</th>
+      <th>cast</th>
+      <th>crew</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>19995</td>
+      <td>Avatar</td>
+      <td>[{"cast_id": 242, "character": "Jake Sully", "...</td>
+      <td>[{"credit_id": "52fe48009251416c750aca23", "de...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>285</td>
+      <td>Pirates of the Caribbean: At World's End</td>
+      <td>[{"cast_id": 4, "character": "Captain Jack Spa...</td>
+      <td>[{"credit_id": "52fe4232c3a36847f800b579", "de...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>206647</td>
+      <td>Spectre</td>
+      <td>[{"cast_id": 1, "character": "James Bond", "cr...</td>
+      <td>[{"credit_id": "54805967c3a36829b5002c41", "de...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>49026</td>
+      <td>The Dark Knight Rises</td>
+      <td>[{"cast_id": 2, "character": "Bruce Wayne / Ba...</td>
+      <td>[{"credit_id": "52fe4781c3a36847f81398c3", "de...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>49529</td>
+      <td>John Carter</td>
+      <td>[{"cast_id": 5, "character": "John Carter", "c...</td>
+      <td>[{"credit_id": "52fe479ac3a36847f813eaa3", "de...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url2</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/sd12832/MoViZ/master/&#39;</span> <span class="o">+</span> 
+        <span class="s1">&#39;src/tmdb_5000_movies.csv&#39;</span><span class="p">)</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">df2</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4803, 20)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>budget</th>
+      <th>genres</th>
+      <th>homepage</th>
+      <th>id</th>
+      <th>keywords</th>
+      <th>original_language</th>
+      <th>original_title</th>
+      <th>overview</th>
+      <th>popularity</th>
+      <th>production_companies</th>
+      <th>production_countries</th>
+      <th>release_date</th>
+      <th>revenue</th>
+      <th>runtime</th>
+      <th>spoken_languages</th>
+      <th>status</th>
+      <th>tagline</th>
+      <th>title</th>
+      <th>vote_average</th>
+      <th>vote_count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>237000000</td>
+      <td>[{"id": 28, "name": "Action"}, {"id": 12, "nam...</td>
+      <td>http://www.avatarmovie.com/</td>
+      <td>19995</td>
+      <td>[{"id": 1463, "name": "culture clash"}, {"id":...</td>
+      <td>en</td>
+      <td>Avatar</td>
+      <td>In the 22nd century, a paraplegic Marine is di...</td>
+      <td>150.437577</td>
+      <td>[{"name": "Ingenious Film Partners", "id": 289...</td>
+      <td>[{"iso_3166_1": "US", "name": "United States o...</td>
+      <td>2009-12-10</td>
+      <td>2787965087</td>
+      <td>162.0</td>
+      <td>[{"iso_639_1": "en", "name": "English"}, {"iso...</td>
+      <td>Released</td>
+      <td>Enter the World of Pandora.</td>
+      <td>Avatar</td>
+      <td>7.2</td>
+      <td>11800</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>300000000</td>
+      <td>[{"id": 12, "name": "Adventure"}, {"id": 14, "...</td>
+      <td>http://disney.go.com/disneypictures/pirates/</td>
+      <td>285</td>
+      <td>[{"id": 270, "name": "ocean"}, {"id": 726, "na...</td>
+      <td>en</td>
+      <td>Pirates of the Caribbean: At World's End</td>
+      <td>Captain Barbossa, long believed to be dead, ha...</td>
+      <td>139.082615</td>
+      <td>[{"name": "Walt Disney Pictures", "id": 2}, {"...</td>
+      <td>[{"iso_3166_1": "US", "name": "United States o...</td>
+      <td>2007-05-19</td>
+      <td>961000000</td>
+      <td>169.0</td>
+      <td>[{"iso_639_1": "en", "name": "English"}]</td>
+      <td>Released</td>
+      <td>At the end of the world, the adventure begins.</td>
+      <td>Pirates of the Caribbean: At World's End</td>
+      <td>6.9</td>
+      <td>4500</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>데이터세트 병합(merge):</strong> <code class="docutils literal notranslate"><span class="pre">df1</span></code>의 <code class="docutils literal notranslate"><span class="pre">movie_id</span></code> 변수를 <code class="docutils literal notranslate"><span class="pre">id</span></code>로 이름을 바꾸어 <code class="docutils literal notranslate"><span class="pre">df2</span></code> 와 동일하게 만든 다음, <code class="docutils literal notranslate"><span class="pre">merge</span></code> 메서드를 사용해 <code class="docutils literal notranslate"><span class="pre">df1</span></code>을 <code class="docutils literal notranslate"><span class="pre">df2</span></code>에 <code class="docutils literal notranslate"><span class="pre">id</span></code> 변수를 매개로 병합시킨다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df1</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;tittle&#39;</span><span class="p">,</span> <span class="s1">&#39;cast&#39;</span><span class="p">,</span> <span class="s1">&#39;crew&#39;</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s1">&#39;id&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4803, 23)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id17">
+<h3>인구통계 필터링<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
+<p>모든 영화에 대해 평점을 매겨 최고 등급의 영화를 추천하려고 한다. 이를 위해서는 영화에 대한 사람들의 평점을 평균할 필요가 있다. 그런데 가령 20명이 투표에 참가해서 평균 9.0점인 영화와 1만명이 참가해서 평균이 8.0점인 영화를 그대로 비교하는 것은 적절하지 않다. IMDB의 영화 평점 산정은 다음과 같은 가중평균 방식이다.</p>
+<div class="math notranslate nohighlight">
+\[
+{\rm Weighted \ Rating \ (WR)}=\frac{v}{v+m}\times R + \frac{m}{v+m}\times C
+\]</div>
+<p>여기에서 <span class="math notranslate nohighlight">\(v\)</span>는 해당 영화에 대한 투표수, <span class="math notranslate nohighlight">\(m\)</span>은 차트에 표시되기 위해 필요한 최소 투표수, <span class="math notranslate nohighlight">\(R\)</span>은 해당 영화의 평균 평점, <span class="math notranslate nohighlight">\(C\)</span>는 전체 영화의 평균 평점이다. 앞에서 예로 든 20명이 투표에 참가해서 평균 9.0점인 영화의 경우 가중평균평점(<span class="math notranslate nohighlight">\(\rm WR\)</span>)이 6.12이고, 1만명이 참가해서 평균이 8.0점인 영화는 <span class="math notranslate nohighlight">\(\rm WR\)</span>이 7.70이다.</p>
+<p><strong>전체 영화</strong></p>
+<p>각 영화의 평점(<code class="docutils literal notranslate"><span class="pre">vote_average</span></code>)에 대해 전체 평균값(<span class="math notranslate nohighlight">\(C\)</span>)을 계산한 결과는 6.09이다. 영화 투표수(<code class="docutils literal notranslate"><span class="pre">vote_count</span></code>)의 90% 분위수(quantile)는 1,838.4로서 이를 <span class="math notranslate nohighlight">\(m\)</span>(차트에 표시되기 위해 필요한 최소 투표수)으로 삼는다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;vote_average&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;vote_count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">C</span><span class="p">,</span> <span class="n">m</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(6.092171559442016, 1838.4000000000015)
+</pre></div>
+</div>
+</div>
+</div>
+<p>평점 투표수가 <span class="math notranslate nohighlight">\(m\)</span>(차트에 표시되기 위해 필요한 최소 투표수)보다 큰 영화만 추려내 <code class="docutils literal notranslate"><span class="pre">q_movies</span></code>로 지정한 결과, 관측이 원래 4,803개의 1/10인 481개로 줄어든다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">q_movies</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;vote_count&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">m</span><span class="p">]</span>
+<span class="n">q_movies</span><span class="o">.</span><span class="n">shape</span>    <span class="c1"># (481, 23)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(481, 23)
+</pre></div>
+</div>
+</div>
+</div>
+<p>위에 제시된 가중평균점수 산정 방식을 함수(<code class="docutils literal notranslate"><span class="pre">weighted_rating</span></code>)로 만들어 투표수 상위 10%인 <code class="docutils literal notranslate"><span class="pre">q_movies</span></code>에 적용하여 점수를 계산한 다음, <code class="docutils literal notranslate"><span class="pre">score</span></code> 변수라는 이름으로 <code class="docutils literal notranslate"><span class="pre">q_movies</span></code>에 추가한다. <code class="docutils literal notranslate"><span class="pre">q_movies</span></code>를 <code class="docutils literal notranslate"><span class="pre">score</span></code> 변수 기준으로 내림차순 정렬한 다음, 최상위 10개를 프린트한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># IMDB 평점 계산 함수</span>
+<span class="k">def</span> <span class="nf">weighted_rating</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">m</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">):</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;vote_count&#39;</span><span class="p">]</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;vote_average&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">v</span><span class="o">/</span><span class="p">(</span><span class="n">v</span><span class="o">+</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">R</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">m</span><span class="o">/</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="n">v</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>
+
+<span class="c1"># q_movies 데이터프레임에 IMDB 평점 계산 함수 적용</span>
+<span class="n">score</span> <span class="o">=</span> <span class="n">q_movies</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">weighted_rating</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">q_movies</span> <span class="o">=</span> <span class="n">q_movies</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">score</span> <span class="o">=</span> <span class="n">score</span><span class="p">)</span>
+<span class="n">q_movies</span> <span class="o">=</span> <span class="n">q_movies</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;score&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">q_movies</span><span class="p">[[</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;vote_count&#39;</span><span class="p">,</span> <span class="s1">&#39;vote_average&#39;</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">,</span> <span class="s1">&#39;original_language&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>title</th>
+      <th>vote_count</th>
+      <th>vote_average</th>
+      <th>score</th>
+      <th>original_language</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1881</th>
+      <td>The Shawshank Redemption</td>
+      <td>8205</td>
+      <td>8.5</td>
+      <td>8.059258</td>
+      <td>en</td>
+    </tr>
+    <tr>
+      <th>662</th>
+      <td>Fight Club</td>
+      <td>9413</td>
+      <td>8.3</td>
+      <td>7.939256</td>
+      <td>en</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>The Dark Knight</td>
+      <td>12002</td>
+      <td>8.2</td>
+      <td>7.920020</td>
+      <td>en</td>
+    </tr>
+    <tr>
+      <th>3232</th>
+      <td>Pulp Fiction</td>
+      <td>8428</td>
+      <td>8.3</td>
+      <td>7.904645</td>
+      <td>en</td>
+    </tr>
+    <tr>
+      <th>96</th>
+      <td>Inception</td>
+      <td>13752</td>
+      <td>8.1</td>
+      <td>7.863239</td>
+      <td>en</td>
+    </tr>
+    <tr>
+      <th>3337</th>
+      <td>The Godfather</td>
+      <td>5893</td>
+      <td>8.4</td>
+      <td>7.851236</td>
+      <td>en</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>Interstellar</td>
+      <td>10867</td>
+      <td>8.1</td>
+      <td>7.809479</td>
+      <td>en</td>
+    </tr>
+    <tr>
+      <th>809</th>
+      <td>Forrest Gump</td>
+      <td>7927</td>
+      <td>8.2</td>
+      <td>7.803188</td>
+      <td>en</td>
+    </tr>
+    <tr>
+      <th>329</th>
+      <td>The Lord of the Rings: The Return of the King</td>
+      <td>8064</td>
+      <td>8.1</td>
+      <td>7.727243</td>
+      <td>en</td>
+    </tr>
+    <tr>
+      <th>1990</th>
+      <td>The Empire Strikes Back</td>
+      <td>5879</td>
+      <td>8.2</td>
+      <td>7.697884</td>
+      <td>en</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>비영어권 영화</strong></p>
+<p>영화 제작 언어(<code class="docutils literal notranslate"><span class="pre">original_language</span></code>)가 영어(<code class="docutils literal notranslate"><span class="pre">en</span></code>)가 아닌 영화들만 추려내 <code class="docutils literal notranslate"><span class="pre">f_movies</span></code>로 지정한다. 관측이 298개이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f_movies</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;original_language&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;en&#39;</span><span class="p">]</span>
+<span class="n">f_movies</span><span class="o">.</span><span class="n">shape</span>    <span class="c1"># (298, 23)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(298, 23)
+</pre></div>
+</div>
+</div>
+</div>
+<p>투표수(<code class="docutils literal notranslate"><span class="pre">vote_count</span></code>)에 대한 요약통계량을 보면, 투표수 최대는 3,840, 최소는 0, 중위값은 90.5이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f_movies</span><span class="p">[</span><span class="s1">&#39;vote_count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>    
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>count     298.000000
+mean      254.748322
+std       486.358454
+min         0.000000
+25%        23.250000
+50%        90.500000
+75%       264.500000
+max      3840.000000
+Name: vote_count, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>영화의 평점(<code class="docutils literal notranslate"><span class="pre">vote_average</span></code>)에 대해 평균값(<span class="math notranslate nohighlight">\(C\)</span>)을 계산한 결과 6.49이다. 영화 투표수(<code class="docutils literal notranslate"><span class="pre">vote_count</span></code>)의 50% 분위수(quantile)에 해당하는 90.5를 차트에 표시되기 위해 필요한 최소 투표수(<span class="math notranslate nohighlight">\(m\)</span>)로 삼기로 한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="n">f_movies</span><span class="p">[</span><span class="s1">&#39;vote_average&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">f_movies</span><span class="p">[</span><span class="s1">&#39;vote_count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">C</span><span class="p">,</span> <span class="n">m</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(6.492617449664429, 90.5)
+</pre></div>
+</div>
+</div>
+</div>
+<p>앞에서 만든 가중평균점수 함수(<code class="docutils literal notranslate"><span class="pre">weighted_rating</span></code>)를 외국 영화 투표수 상위 50%인 <code class="docutils literal notranslate"><span class="pre">f_movies</span></code>에 적용한 다음, 앞에서와 동일한 방식으로 <code class="docutils literal notranslate"><span class="pre">score</span></code> 변수 기준으로 최상위 10개를 반환한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">score</span> <span class="o">=</span> <span class="n">f_movies</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">weighted_rating</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">f_movies</span> <span class="o">=</span> <span class="n">f_movies</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">score</span> <span class="o">=</span> <span class="n">score</span><span class="p">)</span>
+<span class="n">f_movies</span> <span class="o">=</span> <span class="n">f_movies</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;score&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">f_movies</span><span class="p">[[</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;vote_count&#39;</span><span class="p">,</span> <span class="s1">&#39;vote_average&#39;</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">,</span> <span class="s1">&#39;original_language&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>title</th>
+      <th>vote_count</th>
+      <th>vote_average</th>
+      <th>score</th>
+      <th>original_language</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2294</th>
+      <td>Spirited Away</td>
+      <td>3840</td>
+      <td>8.3</td>
+      <td>7.585209</td>
+      <td>ja</td>
+    </tr>
+    <tr>
+      <th>4302</th>
+      <td>The Good, the Bad and the Ugly</td>
+      <td>2311</td>
+      <td>8.1</td>
+      <td>7.210428</td>
+      <td>it</td>
+    </tr>
+    <tr>
+      <th>1260</th>
+      <td>Amélie</td>
+      <td>3310</td>
+      <td>7.8</td>
+      <td>7.190166</td>
+      <td>fr</td>
+    </tr>
+    <tr>
+      <th>1987</th>
+      <td>Howl's Moving Castle</td>
+      <td>1991</td>
+      <td>8.2</td>
+      <td>7.188084</td>
+      <td>ja</td>
+    </tr>
+    <tr>
+      <th>2247</th>
+      <td>Princess Mononoke</td>
+      <td>1983</td>
+      <td>8.2</td>
+      <td>7.185965</td>
+      <td>ja</td>
+    </tr>
+    <tr>
+      <th>3866</th>
+      <td>City of God</td>
+      <td>1814</td>
+      <td>8.1</td>
+      <td>7.089379</td>
+      <td>pt</td>
+    </tr>
+    <tr>
+      <th>3940</th>
+      <td>Oldboy</td>
+      <td>1945</td>
+      <td>8.0</td>
+      <td>7.072963</td>
+      <td>ko</td>
+    </tr>
+    <tr>
+      <th>2465</th>
+      <td>Pan's Labyrinth</td>
+      <td>3041</td>
+      <td>7.6</td>
+      <td>7.031899</td>
+      <td>es</td>
+    </tr>
+    <tr>
+      <th>3622</th>
+      <td>Once Upon a Time in the West</td>
+      <td>1128</td>
+      <td>8.1</td>
+      <td>6.855666</td>
+      <td>it</td>
+    </tr>
+    <tr>
+      <th>4535</th>
+      <td>Seven Samurai</td>
+      <td>878</td>
+      <td>8.2</td>
+      <td>6.773468</td>
+      <td>ja</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="id18">
+<h3>줄거리 기반 추천<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
+<p>콘텐츠 기반 추천 시스템은 영화의 콘텐츠(개요, 캐스트, 제작진, 키워드, 태그 라인 등)를 이용하여 어떤 영화에 대해 다른 영화와의 유사성을 계산하여 해당 영화와 가장 유사한 영화를 추천하는 방식이다. 여기에서는 <strong>줄거리 기반</strong> 및 <strong>메타데이터 기반</strong> 추천 시스템을 만들어 본다.</p>
+<p>먼저 줄거리 기반 추천 시스템은 줄거리(plot descriptions)를 기반으로 모든 영화에 대해 쌍별 유사성 점수를 계산하고 그것을 기반으로 영화를 추천하는 방식이다.</p>
+<p>이를 위해 먼저 각 영화의 <code class="docutils literal notranslate"><span class="pre">overview</span></code> 변수에 대해 <strong>TF-IDF</strong>(Term Frequency-Inverse Document Frequency: 단어빈도-역문서빈도) 행렬을 만든다. 여기에서 <strong>TF(단어빈도)는 해당 문서에서 해당 단어가</strong> <strong>얼마나 자주</strong> 나오는지 상대적 빈도로서 해당 단어 개수를 총 단어 개수로 나눈 것이다. 또한 <strong>IDF(역문서빈도)는 전체 문서에서 해당 단어가</strong> <strong>얼마나 드물게</strong> 나오는지를 측정하는 것으로서 전체 문서 개수를 해당 단어를 가진 문서 개수로 나눈 것이다. 각 단어가 문서에서 가지는 종합적인 중요도는 TF와 IDF를 곱하여 평가한다. 즉 해당 단어의 상대적 빈도가 높을수록, 그리고 많은 문서에 공통으로 나오지 않을수록 중요도가 높은 것으로 평가하는 셈이다.</p>
+</section>
+<section id="id19">
+<h3>ChatGPT Q&amp;A<a class="headerlink" href="#id19" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p><strong>TF-IDF 행렬을 구하는 방법에 대해 아주 간단한 예를 들어 설명해줘.</strong></p>
+</div></blockquote>
+<hr class="docutils" />
+<blockquote>
+<div><p>TF-IDF (Term Frequency-Inverse Document Frequency)는 문서 내에서 특정 단어의 중요도를 평가하는 방법입니다. 이를 통해 문서들로 구성된 코퍼스(문서 집합)에서 각 단어의 중요도를 나타내는 행렬을 만들 수 있습니다. 여기서 간단한 예를 들어 설명해보겠습니다.</p>
+<p><strong>예시</strong></p>
+<p>문서 집합 (코퍼스):</p>
+<ul class="simple">
+<li><p>문서 1: “the cat sat on the mat”</p></li>
+<li><p>문서 2: “the dog sat on the log”</p></li>
+</ul>
+<p>단계별 설명:</p>
+<ol class="arabic simple">
+<li><p><strong>TF (Term Frequency)</strong>: 각 문서에서 단어가 등장하는 빈도를 계산합니다.</p>
+<ul class="simple">
+<li><p>예를 들어, 문서 1에서 ‘the’의 빈도는 2, ‘cat’의 빈도는 1입니다.</p></li>
+</ul>
+</li>
+<li><p><strong>IDF (Inverse Document Frequency)</strong>: 코퍼스 전체에서 단어가 얼마나 흔하게 등장하는지 반대로 계산합니다. 이는 흔한 단어의 중요도를 낮추고, 드문 단어의 중요도를 높입니다.</p>
+<ul class="simple">
+<li><p>예를 들어, ‘the’는 두 문서 모두에 등장하므로 덜 중요한 단어로 간주됩니다.</p></li>
+<li><p>IDF는 일반적으로 <code class="docutils literal notranslate"><span class="pre">log(총</span> <span class="pre">문서</span> <span class="pre">수</span> <span class="pre">/</span> <span class="pre">단어가</span> <span class="pre">등장한</span> <span class="pre">문서</span> <span class="pre">수)</span></code>로 계산됩니다.</p></li>
+</ul>
+</li>
+<li><p><strong>TF-IDF 계산</strong>: 각 단어의 TF와 IDF 값을 곱하여 계산합니다.</p>
+<ul class="simple">
+<li><p>예를 들어, 문서 1에서 ‘the’의 TF-IDF 값은 ‘the’의 TF 값과 IDF 값을 곱한 값이 됩니다.</p></li>
+</ul>
+</li>
+</ol>
+<p><strong>결과 행렬</strong></p>
+<p>결과적으로, 각 문서에 대해 단어별 TF-IDF 값을 계산하고, 이를 행렬로 나타낼 수 있습니다. 행렬의 각 행은 문서를, 각 열은 코퍼스의 고유 단어를 나타냅니다.</p>
+<p>이러한 TF-IDF 행렬은 텍스트 마이닝, 문서 분류, 정보 검색 등에서 널리 사용됩니다. 예를 들어, 문서 간의 유사성을 비교하거나 키워드 추출, 검색 엔진 최적화 등에 활용될 수 있습니다.</p>
+</div></blockquote>
+</section>
+<section id="id20">
+<h3>ChatGPT Q&amp;A<a class="headerlink" href="#id20" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p><strong>그래서 위 예(즉, 문서 1: “the cat sat on the mat”, 문서 2: “the dog sat on the log”)에서 TF-IDF 행렬은 뭐가 되는거야?</strong></p>
+</div></blockquote>
+<hr class="docutils" />
+<blockquote>
+<div><p>위의 예시인 “the cat sat on the mat”과 “the dog sat on the log” 두 문서에 대한 TF-IDF 행렬을 구하는 과정은 다음과 같습니다.</p>
+<p>먼저, 각 단계를 수행해야 합니다:</p>
+<ol class="arabic">
+<li><p><strong>단어 목록 작성</strong>: 두 문서에 등장하는 모든 고유 단어를 나열합니다.</p>
+<ul class="simple">
+<li><p>고유 단어: ‘the’, ‘cat’, ‘sat’, ‘on’, ‘mat’, ‘dog’, ‘log’</p></li>
+</ul>
+</li>
+<li><p><strong>TF 계산</strong>: 각 문서에서 각 단어의 빈도(Term Frequency)를 계산합니다.</p>
+<p>문서 1의 TF:</p>
+<ul class="simple">
+<li><p>‘the’: 2/6</p></li>
+<li><p>‘cat’: 1/6</p></li>
+<li><p>‘sat’: 1/6</p></li>
+<li><p>‘on’: 1/6</p></li>
+<li><p>‘mat’: 1/6</p></li>
+<li><p>‘dog’: 0</p></li>
+<li><p>‘log’: 0</p></li>
+</ul>
+<p>문서 2의 TF:</p>
+<ul class="simple">
+<li><p>‘the’: 2/6</p></li>
+<li><p>‘cat’: 0</p></li>
+<li><p>‘sat’: 1/6</p></li>
+<li><p>‘on’: 1/6</p></li>
+<li><p>‘mat’: 0</p></li>
+<li><p>‘dog’: 1/6</p></li>
+<li><p>‘log’: 1/6</p></li>
+</ul>
+</li>
+<li><p><strong>IDF 계산</strong>: 각 단어에 대한 역문서 빈도(Inverse Document Frequency)를 계산합니다.</p>
+<ul class="simple">
+<li><p>‘the’, ‘sat’, ‘on’: log(2/2) = 0 (모든 문서에 등장)</p></li>
+<li><p>‘cat’, ‘mat’, ‘dog’, ‘log’: log(2/1) = log(2) (한 문서에만 등장)</p></li>
+</ul>
+</li>
+<li><p><strong>TF-IDF 계산</strong>: 각 문서의 각 단어에 대해 TF와 IDF를 곱합니다.</p>
+<p>문서 1의 TF-IDF:</p>
+<ul class="simple">
+<li><p>‘the’: 2/6 * 0 = 0</p></li>
+<li><p>‘cat’: 1/6 * log(2) ≈ 0.1155</p></li>
+<li><p>‘sat’: 1/6 * 0 = 0</p></li>
+<li><p>‘on’: 1/6 * 0 = 0</p></li>
+<li><p>‘mat’: 1/6 * log(2) ≈ 0.1155</p></li>
+<li><p>‘dog’: 0</p></li>
+<li><p>‘log’: 0</p></li>
+</ul>
+<p>문서 2의 TF-IDF:</p>
+<ul class="simple">
+<li><p>‘the’: 2/6 * 0 = 0</p></li>
+<li><p>‘cat’: 0</p></li>
+<li><p>‘sat’: 1/6 * 0 = 0</p></li>
+<li><p>‘on’: 1/6 * 0 = 0</p></li>
+<li><p>‘mat’: 0</p></li>
+<li><p>‘dog’: 1/6 * log(2) ≈ 0.1155</p></li>
+<li><p>‘log’: 1/6 * log(2) ≈ 0.1155</p></li>
+</ul>
+</li>
+</ol>
+<p>결과적으로, TF-IDF 행렬은 다음과 같습니다 (값은 반올림하여 표시):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>the</p></th>
+<th class="head"><p>cat</p></th>
+<th class="head"><p>sat</p></th>
+<th class="head"><p>on</p></th>
+<th class="head"><p>mat</p></th>
+<th class="head"><p>dog</p></th>
+<th class="head"><p>log</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>문서 1</p></td>
+<td><p>0</p></td>
+<td><p>0.1155</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0.1155</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>문서 2</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0.1155</p></td>
+<td><p>0.1155</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>이 행렬에서 각 행은 문서를 나타내고, 각 열은 특정 단어의 TF-IDF 값을 나타냅니다. 이 값들은 문서 내에서 단어의 중요도를 반영합니다.</p>
+</div></blockquote>
+<p><strong>영화 콘텐츠 TF-IDF 행렬</strong></p>
+<p>여기에서 만들려고 하는 TF-IDF 행렬에서 각 행은 영화이고, 각 열은 <code class="docutils literal notranslate"><span class="pre">overview</span></code> 어휘(한 개 이상의 문서에 나타나는 모든 단어)이며, 각 셀은 TF-IDF를 나타낸다. 가령 영화 “올드보이”의 한 문장으로 된 줄거리를 살펴보자.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">3940</span><span class="p">]</span> <span class="c1"># 올드보이 줄거리</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;With no clue how he came to be imprisoned, drugged and tortured for 15 years, a desperate businessman seeks revenge on his captors.&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>이와 같은 영화의 <code class="docutils literal notranslate"><span class="pre">overview</span></code>가 있을 때, 여기에 들어있는 단어들을 이용하여 영화의 유사성을 측정하는 것이 줄거리 기반 추천이다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">sklearn</span></code>에서 <code class="docutils literal notranslate"><span class="pre">TfidfVectorizer</span></code>를 불러들인다. 그것을 이용해서 불용어(stop words), 즉 자주 등장하지만 분석에서 큰 의미가 없는 단어들(“the”, “a” 등)을 제거한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+<span class="n">tfidf</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">stop_words</span><span class="o">=</span><span class="s1">&#39;english&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">overview</span></code> 변수가 결측값(NaN)인 경우 문자가 없는 것으로 간주한다(즉 empty string). 그런 다음 <code class="docutils literal notranslate"><span class="pre">overview</span></code> 변수에 대해 <code class="docutils literal notranslate"><span class="pre">tfidf</span></code>를 적용하여 TF-IDF 행렬을 만들고, 이를 <code class="docutils literal notranslate"><span class="pre">tfidf_matrix</span></code>로 지정한다.(4,803 rows × 20,978 columns)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">tfidf_matrix</span> <span class="o">=</span> <span class="n">tfidf</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;overview&#39;</span><span class="p">])</span>
+<span class="n">tfidf_matrix</span><span class="o">.</span><span class="n">shape</span>    <span class="c1"># (4803, 20978)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4803, 20978)
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">sklearn</span></code>의 <code class="docutils literal notranslate"><span class="pre">cosine_similarity</span></code> 함수를 TF-IDF 행렬에 적용하여 이를 기반으로 영화간 유사성 행렬(<code class="docutils literal notranslate"><span class="pre">cosine_sim</span></code>)을 만든다. 행 인덱스 및 열 이름을 영화 제목(<code class="docutils literal notranslate"><span class="pre">title</span></code>)으로 한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">tfidf_matrix</span><span class="p">),</span> <span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">],</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">])</span>
+<span class="n">sim_matrix</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>title</th>
+      <th>Avatar</th>
+      <th>Pirates of the Caribbean: At World's End</th>
+      <th>Spectre</th>
+      <th>The Dark Knight Rises</th>
+      <th>John Carter</th>
+      <th>Spider-Man 3</th>
+      <th>Tangled</th>
+      <th>Avengers: Age of Ultron</th>
+      <th>Harry Potter and the Half-Blood Prince</th>
+      <th>Batman v Superman: Dawn of Justice</th>
+      <th>...</th>
+      <th>On The Downlow</th>
+      <th>Sanctuary: Quite a Conundrum</th>
+      <th>Bang</th>
+      <th>Primer</th>
+      <th>Cavite</th>
+      <th>El Mariachi</th>
+      <th>Newlyweds</th>
+      <th>Signed, Sealed, Delivered</th>
+      <th>Shanghai Calling</th>
+      <th>My Date with Drew</th>
+    </tr>
+    <tr>
+      <th>title</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Avatar</th>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.024995</td>
+      <td>0.000000</td>
+      <td>0.030353</td>
+      <td>0.000000</td>
+      <td>0.037581</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.029175</td>
+      <td>0.042176</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>Pirates of the Caribbean: At World's End</th>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.033369</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.022676</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.006895</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.021605</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>Spectre</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.030949</td>
+      <td>0.024830</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.027695</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.017768</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.014882</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>The Dark Knight Rises</th>
+      <td>0.024995</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>1.000000</td>
+      <td>0.010433</td>
+      <td>0.005145</td>
+      <td>0.012601</td>
+      <td>0.026954</td>
+      <td>0.020652</td>
+      <td>0.133740</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.033864</td>
+      <td>0.042752</td>
+      <td>0.022692</td>
+    </tr>
+    <tr>
+      <th>John Carter</th>
+      <td>0.000000</td>
+      <td>0.033369</td>
+      <td>0.0</td>
+      <td>0.010433</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.009339</td>
+      <td>0.037407</td>
+      <td>0.000000</td>
+      <td>0.017148</td>
+      <td>...</td>
+      <td>0.012730</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.006126</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 4803 columns</p>
+</div></div></div>
+</div>
+<p>예를 들어, 영화 “The Dark Knight Rises”에 대해 줄거리 기반 추천 10개 영화(코사인 유사성 상위 10개 영화)를 반환시켰더니 다음과 같은 결과가 나왔다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">top_10_similar_items</span> <span class="o">=</span> <span class="n">sim_matrix</span><span class="p">[</span>
+    <span class="s1">&#39;The Dark Knight Rises&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">11</span><span class="p">]</span>
+<span class="n">top_10_similar_items</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>title
+The Dark Knight                            0.301512
+Batman Forever                             0.298570
+Batman Returns                             0.287851
+Batman                                     0.264461
+Batman: The Dark Knight Returns, Part 2    0.185450
+Batman Begins                              0.167996
+Slow Burn                                  0.166829
+Batman v Superman: Dawn of Justice         0.133740
+JFK                                        0.132197
+Batman &amp; Robin                             0.130455
+Name: The Dark Knight Rises, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id21">
+<h3>메타데이터 기반 추천<a class="headerlink" href="#id21" title="Link to this heading">#</a></h3>
+<p>여기에서는 3명의 톱배우, 감독, 장르, 영화 플롯 키워드 등의 메타데이터를 기반으로 추천을 하고자 한다. 이를 위해서는 <code class="docutils literal notranslate"><span class="pre">cast</span></code>, <code class="docutils literal notranslate"><span class="pre">crew</span></code>, <code class="docutils literal notranslate"><span class="pre">keywords</span></code>, <code class="docutils literal notranslate"><span class="pre">genres</span></code> 변수에서 이를 추출해야 한다. 우선 이들 변수가 어떤 형태인지 살펴보자.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;cast&#39;</span><span class="p">,</span> <span class="s1">&#39;crew&#39;</span><span class="p">,</span> <span class="s1">&#39;keywords&#39;</span><span class="p">,</span> <span class="s1">&#39;genres&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cast</th>
+      <th>crew</th>
+      <th>keywords</th>
+      <th>genres</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>[{"cast_id": 242, "character": "Jake Sully", "...</td>
+      <td>[{"credit_id": "52fe48009251416c750aca23", "de...</td>
+      <td>[{"id": 1463, "name": "culture clash"}, {"id":...</td>
+      <td>[{"id": 28, "name": "Action"}, {"id": 12, "nam...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>[{"cast_id": 4, "character": "Captain Jack Spa...</td>
+      <td>[{"credit_id": "52fe4232c3a36847f800b579", "de...</td>
+      <td>[{"id": 270, "name": "ocean"}, {"id": 726, "na...</td>
+      <td>[{"id": 12, "name": "Adventure"}, {"id": 14, "...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>[{"cast_id": 1, "character": "James Bond", "cr...</td>
+      <td>[{"credit_id": "54805967c3a36829b5002c41", "de...</td>
+      <td>[{"id": 470, "name": "spy"}, {"id": 818, "name...</td>
+      <td>[{"id": 28, "name": "Action"}, {"id": 12, "nam...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>[{"cast_id": 2, "character": "Bruce Wayne / Ba...</td>
+      <td>[{"credit_id": "52fe4781c3a36847f81398c3", "de...</td>
+      <td>[{"id": 849, "name": "dc comics"}, {"id": 853,...</td>
+      <td>[{"id": 28, "name": "Action"}, {"id": 80, "nam...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>[{"cast_id": 5, "character": "John Carter", "c...</td>
+      <td>[{"credit_id": "52fe479ac3a36847f813eaa3", "de...</td>
+      <td>[{"id": 818, "name": "based on novel"}, {"id":...</td>
+      <td>[{"id": 28, "name": "Action"}, {"id": 12, "nam...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>위에서 보듯이 <code class="docutils literal notranslate"><span class="pre">cast</span></code>, <code class="docutils literal notranslate"><span class="pre">crew</span></code>, <code class="docutils literal notranslate"><span class="pre">keywords</span></code>, <code class="docutils literal notranslate"><span class="pre">genres</span></code>의 설명 내역에 큰따옴표로 표시된 것을 파이썬에서 사용가능한 데이터로 전환해야 한다. 이를 위해 <code class="docutils literal notranslate"><span class="pre">AST</span></code>(Abstract Syntax Trees) 모듈을 불러들여 <code class="docutils literal notranslate"><span class="pre">literal_eval</span></code> 함수를 각 변수에 적용한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ast</span> <span class="kn">import</span> <span class="n">literal_eval</span>
+
+<span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cast&#39;</span><span class="p">,</span> <span class="s1">&#39;crew&#39;</span><span class="p">,</span> <span class="s1">&#39;keywords&#39;</span><span class="p">,</span> <span class="s1">&#39;genres&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">literal_eval</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[[</span><span class="s1">&#39;cast&#39;</span><span class="p">,</span> <span class="s1">&#39;crew&#39;</span><span class="p">,</span> <span class="s1">&#39;keywords&#39;</span><span class="p">,</span> <span class="s1">&#39;genres&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cast</th>
+      <th>crew</th>
+      <th>keywords</th>
+      <th>genres</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>[{'cast_id': 242, 'character': 'Jake Sully', '...</td>
+      <td>[{'credit_id': '52fe48009251416c750aca23', 'de...</td>
+      <td>[{'id': 1463, 'name': 'culture clash'}, {'id':...</td>
+      <td>[{'id': 28, 'name': 'Action'}, {'id': 12, 'nam...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>[{'cast_id': 4, 'character': 'Captain Jack Spa...</td>
+      <td>[{'credit_id': '52fe4232c3a36847f800b579', 'de...</td>
+      <td>[{'id': 270, 'name': 'ocean'}, {'id': 726, 'na...</td>
+      <td>[{'id': 12, 'name': 'Adventure'}, {'id': 14, '...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>[{'cast_id': 1, 'character': 'James Bond', 'cr...</td>
+      <td>[{'credit_id': '54805967c3a36829b5002c41', 'de...</td>
+      <td>[{'id': 470, 'name': 'spy'}, {'id': 818, 'name...</td>
+      <td>[{'id': 28, 'name': 'Action'}, {'id': 12, 'nam...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>[{'cast_id': 2, 'character': 'Bruce Wayne / Ba...</td>
+      <td>[{'credit_id': '52fe4781c3a36847f81398c3', 'de...</td>
+      <td>[{'id': 849, 'name': 'dc comics'}, {'id': 853,...</td>
+      <td>[{'id': 28, 'name': 'Action'}, {'id': 80, 'nam...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>[{'cast_id': 5, 'character': 'John Carter', 'c...</td>
+      <td>[{'credit_id': '52fe479ac3a36847f813eaa3', 'de...</td>
+      <td>[{'id': 818, 'name': 'based on novel'}, {'id':...</td>
+      <td>[{'id': 28, 'name': 'Action'}, {'id': 12, 'nam...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 첫 번째 영화의 crew 리스트(각 crew에 대한 설명이 딕셔너리 형태로 나오는데, 처음 3명만 반환시킴)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;crew&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;credit_id&#39;: &#39;52fe48009251416c750aca23&#39;,
+  &#39;department&#39;: &#39;Editing&#39;,
+  &#39;gender&#39;: 0,
+  &#39;id&#39;: 1721,
+  &#39;job&#39;: &#39;Editor&#39;,
+  &#39;name&#39;: &#39;Stephen E. Rivkin&#39;},
+ {&#39;credit_id&#39;: &#39;539c47ecc3a36810e3001f87&#39;,
+  &#39;department&#39;: &#39;Art&#39;,
+  &#39;gender&#39;: 2,
+  &#39;id&#39;: 496,
+  &#39;job&#39;: &#39;Production Design&#39;,
+  &#39;name&#39;: &#39;Rick Carter&#39;},
+ {&#39;credit_id&#39;: &#39;54491c89c3a3680fb4001cf7&#39;,
+  &#39;department&#39;: &#39;Sound&#39;,
+  &#39;gender&#39;: 0,
+  &#39;id&#39;: 900,
+  &#39;job&#39;: &#39;Sound Designer&#39;,
+  &#39;name&#39;: &#39;Christopher Boyes&#39;}]
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">crew</span></code> 변수에서 감독 이름을 추출하기 위해 <code class="docutils literal notranslate"><span class="pre">get_director</span></code>라는 함수를 만든다. 모든 원소에 대해 <code class="docutils literal notranslate"><span class="pre">job</span></code>이 <code class="docutils literal notranslate"><span class="pre">Director</span></code>이면 <code class="docutils literal notranslate"><span class="pre">name</span></code>을 반환하고, 그렇지 않으면 <code class="docutils literal notranslate"><span class="pre">NaN</span></code>을 반환하도록 하는 함수이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_director</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="s1">&#39;job&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Director&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">i</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;cast&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;cast_id&#39;: 242,
+  &#39;character&#39;: &#39;Jake Sully&#39;,
+  &#39;credit_id&#39;: &#39;5602a8a7c3a3685532001c9a&#39;,
+  &#39;gender&#39;: 2,
+  &#39;id&#39;: 65731,
+  &#39;name&#39;: &#39;Sam Worthington&#39;,
+  &#39;order&#39;: 0},
+ {&#39;cast_id&#39;: 3,
+  &#39;character&#39;: &#39;Neytiri&#39;,
+  &#39;credit_id&#39;: &#39;52fe48009251416c750ac9cb&#39;,
+  &#39;gender&#39;: 1,
+  &#39;id&#39;: 8691,
+  &#39;name&#39;: &#39;Zoe Saldana&#39;,
+  &#39;order&#39;: 1},
+ {&#39;cast_id&#39;: 25,
+  &#39;character&#39;: &#39;Dr. Grace Augustine&#39;,
+  &#39;credit_id&#39;: &#39;52fe48009251416c750aca39&#39;,
+  &#39;gender&#39;: 1,
+  &#39;id&#39;: 10205,
+  &#39;name&#39;: &#39;Sigourney Weaver&#39;,
+  &#39;order&#39;: 2}]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;id&#39;: 1463, &#39;name&#39;: &#39;culture clash&#39;},
+ {&#39;id&#39;: 2964, &#39;name&#39;: &#39;future&#39;},
+ {&#39;id&#39;: 3386, &#39;name&#39;: &#39;space war&#39;},
+ {&#39;id&#39;: 3388, &#39;name&#39;: &#39;space colony&#39;},
+ {&#39;id&#39;: 3679, &#39;name&#39;: &#39;society&#39;},
+ {&#39;id&#39;: 3801, &#39;name&#39;: &#39;space travel&#39;},
+ {&#39;id&#39;: 9685, &#39;name&#39;: &#39;futuristic&#39;},
+ {&#39;id&#39;: 9840, &#39;name&#39;: &#39;romance&#39;},
+ {&#39;id&#39;: 9882, &#39;name&#39;: &#39;space&#39;},
+ {&#39;id&#39;: 9951, &#39;name&#39;: &#39;alien&#39;},
+ {&#39;id&#39;: 10148, &#39;name&#39;: &#39;tribe&#39;},
+ {&#39;id&#39;: 10158, &#39;name&#39;: &#39;alien planet&#39;},
+ {&#39;id&#39;: 10987, &#39;name&#39;: &#39;cgi&#39;},
+ {&#39;id&#39;: 11399, &#39;name&#39;: &#39;marine&#39;},
+ {&#39;id&#39;: 13065, &#39;name&#39;: &#39;soldier&#39;},
+ {&#39;id&#39;: 14643, &#39;name&#39;: &#39;battle&#39;},
+ {&#39;id&#39;: 14720, &#39;name&#39;: &#39;love affair&#39;},
+ {&#39;id&#39;: 165431, &#39;name&#39;: &#39;anti war&#39;},
+ {&#39;id&#39;: 193554, &#39;name&#39;: &#39;power relations&#39;},
+ {&#39;id&#39;: 206690, &#39;name&#39;: &#39;mind and soul&#39;},
+ {&#39;id&#39;: 209714, &#39;name&#39;: &#39;3d&#39;}]
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">cast</span></code>, <code class="docutils literal notranslate"><span class="pre">keywords</span></code> 변수는 리스트로 돼있는데, 이 리스트의 각 원소에서 <code class="docutils literal notranslate"><span class="pre">name</span></code>에 해당하는 것을 3개까지 추출하기 위해 <code class="docutils literal notranslate"><span class="pre">get_list</span></code>라는 함수를 만든다. <code class="docutils literal notranslate"><span class="pre">isinstance</span></code>는 주어진 인스턴스가 특정 클래스 또는 데이터 타입인지 검사해주는 함수이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_list</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">names</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">names</span>
+    <span class="k">return</span> <span class="p">[]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">get_director</span></code> 및 <code class="docutils literal notranslate"><span class="pre">get_list</span></code> 함수를 적용하여 <code class="docutils literal notranslate"><span class="pre">director</span></code>, <code class="docutils literal notranslate"><span class="pre">cast</span></code>, <code class="docutils literal notranslate"><span class="pre">keywords</span></code>, <code class="docutils literal notranslate"><span class="pre">genres</span></code> 변수를 (다시) 만든다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># &#39;crew&#39; 변수에 get_director 함수를 적용하여 &#39;director&#39; 변수를 만듦</span>
+<span class="c1"># Define director, cast, keywords and genres features that are in a suitable form.</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;director&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;crew&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">get_director</span><span class="p">)</span>
+
+<span class="c1"># &#39;cast&#39;, &#39;keywords&#39;, &#39;genres&#39; 변수에 get_list 함수를 적용하여 이름을 3개씩 뽑아냄</span>
+<span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cast&#39;</span><span class="p">,</span> <span class="s1">&#39;keywords&#39;</span><span class="p">,</span> <span class="s1">&#39;genres&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">get_list</span><span class="p">)</span>
+
+<span class="n">df</span><span class="p">[[</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;cast&#39;</span><span class="p">,</span> <span class="s1">&#39;director&#39;</span><span class="p">,</span> <span class="s1">&#39;keywords&#39;</span><span class="p">,</span> <span class="s1">&#39;genres&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>title</th>
+      <th>cast</th>
+      <th>director</th>
+      <th>keywords</th>
+      <th>genres</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Avatar</td>
+      <td>[Sam Worthington, Zoe Saldana, Sigourney Weaver]</td>
+      <td>James Cameron</td>
+      <td>[culture clash, future, space war]</td>
+      <td>[Action, Adventure, Fantasy]</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Pirates of the Caribbean: At World's End</td>
+      <td>[Johnny Depp, Orlando Bloom, Keira Knightley]</td>
+      <td>Gore Verbinski</td>
+      <td>[ocean, drug abuse, exotic island]</td>
+      <td>[Adventure, Fantasy, Action]</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Spectre</td>
+      <td>[Daniel Craig, Christoph Waltz, Léa Seydoux]</td>
+      <td>Sam Mendes</td>
+      <td>[spy, based on novel, secret agent]</td>
+      <td>[Action, Adventure, Crime]</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>The Dark Knight Rises</td>
+      <td>[Christian Bale, Michael Caine, Gary Oldman]</td>
+      <td>Christopher Nolan</td>
+      <td>[dc comics, crime fighter, terrorist]</td>
+      <td>[Action, Crime, Drama]</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>John Carter</td>
+      <td>[Taylor Kitsch, Lynn Collins, Samantha Morton]</td>
+      <td>Andrew Stanton</td>
+      <td>[based on novel, mars, medallion]</td>
+      <td>[Action, Adventure, Science Fiction]</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>모든 문자를 소문자(lower case)로 바꾸고 빈칸을 없애는 <code class="docutils literal notranslate"><span class="pre">clean_data</span></code> 함수를 만든다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">clean_data</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">cast</span></code>, <code class="docutils literal notranslate"><span class="pre">keywords</span></code>, <code class="docutils literal notranslate"><span class="pre">director</span></code>, <code class="docutils literal notranslate"><span class="pre">genres</span></code> 변수에 <code class="docutils literal notranslate"><span class="pre">clean_data</span></code> 함수를 실행시킨다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cast&#39;</span><span class="p">,</span> <span class="s1">&#39;keywords&#39;</span><span class="p">,</span> <span class="s1">&#39;director&#39;</span><span class="p">,</span> <span class="s1">&#39;genres&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">clean_data</span><span class="p">)</span>
+
+<span class="n">df</span><span class="p">[[</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;cast&#39;</span><span class="p">,</span> <span class="s1">&#39;director&#39;</span><span class="p">,</span> <span class="s1">&#39;keywords&#39;</span><span class="p">,</span> <span class="s1">&#39;genres&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>title</th>
+      <th>cast</th>
+      <th>director</th>
+      <th>keywords</th>
+      <th>genres</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Avatar</td>
+      <td>[samworthington, zoesaldana, sigourneyweaver]</td>
+      <td>jamescameron</td>
+      <td>[cultureclash, future, spacewar]</td>
+      <td>[action, adventure, fantasy]</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Pirates of the Caribbean: At World's End</td>
+      <td>[johnnydepp, orlandobloom, keiraknightley]</td>
+      <td>goreverbinski</td>
+      <td>[ocean, drugabuse, exoticisland]</td>
+      <td>[adventure, fantasy, action]</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Spectre</td>
+      <td>[danielcraig, christophwaltz, léaseydoux]</td>
+      <td>sammendes</td>
+      <td>[spy, basedonnovel, secretagent]</td>
+      <td>[action, adventure, crime]</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>The Dark Knight Rises</td>
+      <td>[christianbale, michaelcaine, garyoldman]</td>
+      <td>christophernolan</td>
+      <td>[dccomics, crimefighter, terrorist]</td>
+      <td>[action, crime, drama]</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>John Carter</td>
+      <td>[taylorkitsch, lynncollins, samanthamorton]</td>
+      <td>andrewstanton</td>
+      <td>[basedonnovel, mars, medallion]</td>
+      <td>[action, adventure, sciencefiction]</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>앞에서 만든 모든 문자열을 하나로 합치는 <code class="docutils literal notranslate"><span class="pre">create_soup</span></code> 함수를 만들어 <code class="docutils literal notranslate"><span class="pre">df</span></code> 데이터프레임에 적용시켜 <code class="docutils literal notranslate"><span class="pre">soup</span></code>이라는 변수를 추가한다. <code class="docutils literal notranslate"><span class="pre">'</span> <span class="pre">'.join</span></code>은 리스트를 따옴표 안의 구분자를 포함시켜 문자열로 변환해주는 함수이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_soup</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;cast&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span>\
+<span class="n">x</span><span class="p">[</span><span class="s1">&#39;director&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;genres&#39;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;soup&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">create_soup</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;soup&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;cultureclash future spacewar samworthington zoesaldana sigourneyweaver jamescameron action adventure fantasy&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">sklearn</span></code>에서 <code class="docutils literal notranslate"><span class="pre">CountVectorizer</span></code>를 불러들여 <code class="docutils literal notranslate"><span class="pre">count</span></code>로 지정한다. 이때 불용어(stop words) 제거 옵션을 선택한다. 그런 다음, 바로 위에서 만든 <code class="docutils literal notranslate"><span class="pre">soup</span></code> 변수에 대해 <code class="docutils literal notranslate"><span class="pre">count</span></code>를 적용하여 각 단어의 빈도 행렬을 만들고 이를 <code class="docutils literal notranslate"><span class="pre">count_matrix</span></code>로 지정한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">CountVectorizer</span>
+
+<span class="n">count</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">stop_words</span><span class="o">=</span><span class="s1">&#39;english&#39;</span><span class="p">)</span>
+<span class="n">count_matrix</span> <span class="o">=</span> <span class="n">count</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;soup&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">sklearn</span></code>의 <code class="docutils literal notranslate"><span class="pre">cosine_similarity</span></code> 함수를 <code class="docutils literal notranslate"><span class="pre">count_matrix</span></code>에 적용하여 영화간 유사성 행렬(cosine_sim)을 만든다. 행 인덱스 및 열 이름을 영화 제목(<code class="docutils literal notranslate"><span class="pre">title</span></code>)으로 한다.</p>
+<p>최종적으로 영화 “The Dark Knight Rises”에 대해 메타데이터 기반 추천 10개 영화(코사인 유사성 상위 10개 영화)를 반환시킨 결과가 아래 나와 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">count_matrix</span><span class="p">),</span> <span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">],</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">])</span>
+<span class="n">top_10_similar_items</span> <span class="o">=</span> <span class="n">sim_matrix</span><span class="p">[</span>
+    <span class="s1">&#39;The Dark Knight Rises&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">11</span><span class="p">]</span>
+<span class="n">top_10_similar_items</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>title
+Batman Begins               0.700000
+The Dark Knight             0.700000
+Amidst the Devil&#39;s Wings    0.547723
+The Prestige                0.400000
+Romeo Is Bleeding           0.400000
+Black November              0.358569
+Takers                      0.335410
+Faster                      0.335410
+Kiss of Death               0.316228
+The Sweeney                 0.316228
+Name: The Dark Knight Rises, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="10_%EB%B3%80%EC%88%98%EC%84%A0%ED%83%9D_%EB%B0%8F_%EC%A0%95%EA%B7%9C%ED%99%94.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">10장 변수선택 및 정규화</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="12_%EA%B2%B0%EC%A0%95_%ED%8A%B8%EB%A6%AC_%EB%A7%8C%EB%93%A4%EA%B8%B0.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">12장 결정 트리 만들기</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">11.1 개요</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">11.2 추천 시스템 종류 및 특징</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">사례: 뮤직 추천 시스템</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">협업 필터링</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">콘텐츠 기반 필터링</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">하이브리드 추천 시스템</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">추천 시스템이 갖춰야 할 요소</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">모바일 추천 시스템</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">11.3 이커머스 추천 시스템 예제</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">데이터 로딩 및 전처리</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">협업 필터링</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chatgpt-q-a">ChatGPT Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">사용자-아이템 행렬</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">협업 필터링 실행</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">11.4 영화 추천 시스템 예제</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">데이터</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">인구통계 필터링</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">줄거리 기반 추천</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">ChatGPT Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">ChatGPT Q&amp;A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">메타데이터 기반 추천</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 최필선 민인식
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
