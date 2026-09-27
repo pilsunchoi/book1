@@ -504,7 +504,7 @@
 <li><p>정보기준 <span class="math notranslate nohighlight">\(C_p\)</span>(AIC), BIC, adjusted <span class="math notranslate nohighlight">\(R^2\)</span>를 사용하여 <span class="math notranslate nohighlight">\(\mathcal M_0,\mathcal M_1,\mathcal M_2,\mathcal M_3\)</span> 중에서 최적의 모델을 선택한다.(결국 총 <span class="math notranslate nohighlight">\(2^3=8\)</span>개 모델 중에서 가장 우수한 것을 선택하는 것임.)</p></li>
 </ol>
 </div></blockquote>
-<p><img alt="Best subset selection (p=3)" src="https://raw.githubusercontent.com/pilsunchoi/images/main/10-1.png" /></p>
+<p><img alt="Best subset selection (p=3)" src="../_images/10-1.png" /></p>
 <p>다음은 예측변수가 <span class="math notranslate nohighlight">\(p\)</span>개일 때, 최량 부분집합 선택 알고리즘을 정리한 것이다.</p>
 <blockquote>
 <div><p><strong>Best subset selection 알고리즘</strong></p>
@@ -1085,7 +1085,7 @@
 </div>
 <p>위 결과를 보면, 모델에 하나의 예측변수만 있는 경우가 <span class="math notranslate nohighlight">\(R^2=0.745\)</span>로 가장 낮고, 모든 변수가 포함된 경우에는 <span class="math notranslate nohighlight">\(R^2\)</span>가 0.955로 높아진다. 예측변수 개수가 늘어남에 따라 <span class="math notranslate nohighlight">\(R^2\)</span>가 단조(monotonic) 증가하는 것을 알 수 있다. 이것을 그림으로 그린 것이 아래 그림 10.1에 나와 있다. 이는 결국 <span class="math notranslate nohighlight">\(R^2\)</span> 또는 RSS로는 최적의 모델(즉, 최적의 예측변수 조합)을 찾는 것이 불가능하다는 것을 의미한다. 그래서 <span class="math notranslate nohighlight">\(R^2\)</span>나 RSS 대신 앞에서 언급한 대로 정보기준이나 교차검증을 사용하는 것이다.(아래 <a class="reference internal" href="#10.4-%EC%B5%9C%EC%A0%81-%EB%AA%A8%EB%8D%B8-%EC%84%A0%ED%83%9D"><span class="xref myst">10.4 최적 모델 선택</span></a> 설명 참조)</p>
 <p><strong>그림 10.1.</strong> <code class="docutils literal notranslate"><span class="pre">Credit</span></code> 데이터세트의 10개 예측변수의 각 가능한 부분집합 모델에 대해 RSS 및 <span class="math notranslate nohighlight">\(R^2\)</span>가 표시돼 있다. 빨간색 점으로 연결된 선은 각 예측변수 개수별로 최량의 모델을 표시한 것이다. 데이터세트의 예측변수는 10개이지만 범주형 변수 중 하나인 <code class="docutils literal notranslate"><span class="pre">Ethnicity</span></code>(백인, 아프리카계 미국인, 아시아인)가 3개의 범주를 갖고 있어 두 개의 더미변수가 생성되기 때문에 가로축의 범위가 1에서 11까지(즉 11개 변수)로 돼있다.</p>
-<p><img alt="Credit 데이터 최량모델" src="https://raw.githubusercontent.com/pilsunchoi/images/main/10-2.png" /></p>
+<p><img alt="Credit 데이터 최량모델" src="../_images/10-2.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 6.1</p></li>
 </ul>
@@ -1171,7 +1171,7 @@ dtype: float64
 <li><p>정보기준 <span class="math notranslate nohighlight">\(C_p\)</span>(AIC), BIC, adjusted <span class="math notranslate nohighlight">\(R^2\)</span>를 사용하여 <span class="math notranslate nohighlight">\(\mathcal M_0,\mathcal M_1,\mathcal M_2,\mathcal M_3\)</span> 중에서 단일의 최적 모델을 선택한다.(결국 총 7개 모델 중에서 가장 우수한 것을 선택하는 것임.)</p></li>
 </ol>
 </div></blockquote>
-<p><img alt="전진 단계적 선택(p=3)" src="https://raw.githubusercontent.com/pilsunchoi/images/main/10-3.png" /></p>
+<p><img alt="전진 단계적 선택(p=3)" src="../_images/10-3.png" /></p>
 <p>다음은 예측변수가 <span class="math notranslate nohighlight">\(p\)</span>개일 때, 전진 단계적 선택 알고리즘을 정리한 것이다.</p>
 <blockquote>
 <div><p><strong>Forward stepwise selection 알고리즘</strong></p>
@@ -1289,7 +1289,7 @@ dtype: float64
 </div>
 <p>아래 표 10.1에는 최량 부분집합 선택과 전진 단계적 선택에 있어서 예측변수가 1~4개인 경우에 어떤 변수들이 선택되었는지 보여준다. 처음 세 개 모델은 동일하지만 네 번째 모델은 서로 다른 것을 알 수 있다.</p>
 <p><strong>표 10.1.</strong> Credit 데이터세트에 대한 최량 부분집합 선택 및 전진 단계적 선택에서 변수 개수별로 선택된 최상의 변수 조합.</p>
-<p><img alt="Credit 데이터세트 변수선택 결과" src="https://raw.githubusercontent.com/pilsunchoi/images/main/10-4.png" /></p>
+<p><img alt="Credit 데이터세트 변수선택 결과" src="../_images/10-4.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, TABLE 6.1</p></li>
 </ul>
@@ -1309,7 +1309,7 @@ dtype: float64
 <li><p>정보기준 <span class="math notranslate nohighlight">\(C_p\)</span>(AIC), BIC, adjusted <span class="math notranslate nohighlight">\(R^2\)</span>를 사용하여 <span class="math notranslate nohighlight">\(\mathcal M_0,\mathcal M_1,\mathcal M_2,\mathcal M_3\)</span> 중에서 단일의 최적 모델을 선택한다.(결국 총 7개 모델 중에서 가장 우수한 것을 선택하는 것임)</p></li>
 </ol>
 </div></blockquote>
-<p><img alt="후진 단계적 선택(p=3)" src="https://raw.githubusercontent.com/pilsunchoi/images/main/10-6.png" /></p>
+<p><img alt="후진 단계적 선택(p=3)" src="../_images/10-6.png" /></p>
 <p>다음은 예측변수가 <span class="math notranslate nohighlight">\(p\)</span>개일 때, 후진 단계적 선택 알고리즘을 정리한 것이다.</p>
 <blockquote>
 <div><p><strong>Backward stepwise selection</strong></p>
@@ -1870,7 +1870,7 @@ dtype: float64
 <p>검증에는 <strong>검증 세트</strong>(validation set) 접근방식, <strong>단일제외 교차검증</strong>(Leave-one-out CV: LOOCV) 접근방식, <strong>다중 교차검증</strong>(k-fold CV) 접근방식이 있다. 검증 세트 접근은 따로 떼어 놓은 훈련 세트의 일부를 전적으로 테스트 세트로 사용하는 방식을 말하고, “교차”검증은 훈련 세트의 일부를 “번갈아 가면서” 테스트 세트로 사용하는 방식을 말한다.</p>
 <section id="id13">
 <h3>검증 세트 접근방식<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
-<p><img alt="검증 세트 접근방식" src="https://raw.githubusercontent.com/pilsunchoi/images/main/10-7.png" /></p>
+<p><img alt="검증 세트 접근방식" src="../_images/10-7.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 5.1</p></li>
 </ul>
@@ -1878,7 +1878,7 @@ dtype: float64
 </section>
 <section id="id14">
 <h3>단일제외 교차검증 접근방식<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
-<p><img alt="단일제외 교차검증 접근방식" src="https://raw.githubusercontent.com/pilsunchoi/images/main/10-8.png" /></p>
+<p><img alt="단일제외 교차검증 접근방식" src="../_images/10-8.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 5.3</p></li>
 </ul>
@@ -1886,7 +1886,7 @@ dtype: float64
 </section>
 <section id="id15">
 <h3>5중 교차검증 접근방식<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
-<p><img alt="5중 교차검증 접근방식" src="https://raw.githubusercontent.com/pilsunchoi/images/main/10-9.png" /></p>
+<p><img alt="5중 교차검증 접근방식" src="../_images/10-9.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 5.5</p></li>
 </ul>

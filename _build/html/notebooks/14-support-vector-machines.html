@@ -516,7 +516,7 @@
 <h3>기본 아이디어<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
 <p>기본 아이디어는 아주 간단하고 직관적이다. 쉬운 예로 아래 그림과 같이 반응변수의 범주(<strong>클래스</strong>)가 두 개(검은색과 하얀색)만 있는 경우를 생각해보자. 여기에는 총 16개의 훈련 관측(training observations)이 있다. 절반은 검은색이고, 나머지 절반은 하얀색이다. 이런 상황에서 어떤 (테스트) 관측이 주어졌을 때, 그것을 검은색으로 분류할지, 아니면 하얀색으로 분류할지, 그 규칙 즉 분류기(classifier)을 만들려고 한다. 그림에는 <span class="math notranslate nohighlight">\({\rm H_1}\)</span>, <span class="math notranslate nohighlight">\({\rm H_2}\)</span>, <span class="math notranslate nohighlight">\({\rm H_3}\)</span>라는 3개의 분류기가 나와 있다. 우선 <span class="math notranslate nohighlight">\({\rm H_1}\)</span>은 두 클래스를 제대로 분류조차 하지 못하기 때문에 (최소한 이 그림과 같은 상황에서는) 분류기로서 별로 고려할 만한 대상이 아니다. 문제는 <span class="math notranslate nohighlight">\({\rm H_2}\)</span>와 <span class="math notranslate nohighlight">\({\rm H_3}\)</span> 중에서 어느 쪽이 더 낫냐는 것인데, SVM이 제안하는 분류기는 <span class="math notranslate nohighlight">\({\rm H_3}\)</span>이다. 왜냐하면 두 클래스를 올바로 분류했다는 점에서는 두 분류기가 동일하나, <span class="math notranslate nohighlight">\({\rm H_3}\)</span>가 <span class="math notranslate nohighlight">\({\rm H_2}\)</span>에 비해 두 클래스 사이의 간격(그림에서 가는 점선으로 표시)이 훨씬 크다는 점에서 분류기로서 더 바람직하다는 것이다.</p>
 <p>요컨대 SVM은 훈련 관측을 공간의 포인트에 매핑하여 <strong>두 클래스 사이의 간격을 최대화</strong>하는 방식으로 분류기를 만드는 것이 핵심 내용이다. 그런 다음 새로운 관측이 주어지면, 이를 동일한 공간에 매핑하여 해당 분류기의 어느 쪽에 속하는지에 따라 클래스를 예측한다.</p>
-<p><img alt="기본 아이디어" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-1.png" /></p>
+<p><img alt="기본 아이디어" src="../_images/14-1.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: Wikipedia, “<a class="reference external" href="https://en.wikipedia.org/wiki/Support_vector_machine">Support vector machine</a>”.</p></li>
 </ul>
@@ -554,7 +554,7 @@
 <p>따라서 초평면은 <span class="math notranslate nohighlight">\(p\)</span>차원 공간을 두 개로 나누는 것이다. 아래 그림 14.1에 나와 있는 직선이 2차원 공간에서 초평면을 그린 것이다.</p>
 <p><strong>그림 14.1.</strong> 초평면 <span class="math notranslate nohighlight">\(1 + 2X_1 + 3X_2 = 0\)</span>이 표시돼 있다. 파란색 영역은
 <span class="math notranslate nohighlight">\(1 + 2X_1 + 3X_2 &gt; 0\)</span>인 점의 집합이고, 보라색 영역은 <span class="math notranslate nohighlight">\(1 + 2X_1 + 3X_2 &lt; 0\)</span>인 점의 집합이다.</p>
-<p><img alt="초평면" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-2.png" /></p>
+<p><img alt="초평면" src="../_images/14-2.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 9.1</p></li>
 </ul>
@@ -585,7 +585,7 @@ y_i(\beta_0 + \beta_1x_{i1} + \beta_2x_{i2})&gt;0 \tag{14.8}
 \]</div>
 <p>분리 초평면이 존재하는 경우, 이를 사용한 분류가 가능한데, 테스트 관측이 초평면의 어느 쪽에 위치하느냐에 따라 클래스를 할당하면 된다. 그림 14.2의 오른쪽 패널은 이러한 분류기의 예를 보여준다. 즉, <span class="math notranslate nohighlight">\(f(x^*) = \beta_0+\beta_1x^*_1 +\beta_2x^*_2\)</span>의 부호를 기반으로 테스트 관측 <span class="math notranslate nohighlight">\(x^*\)</span>를 분류하는 것으로서, <span class="math notranslate nohighlight">\(f(x^*)\)</span>가 양수이면 테스트 관측을 파란색 클래스에 할당하고, <span class="math notranslate nohighlight">\(f(x^*)\)</span>가 음수이면 보라색 클래스에 할당한다. 이때 <span class="math notranslate nohighlight">\(f(x^*)\)</span>의 부호뿐만 아니라 “크기”도 정보로 활용할 수 있다. 즉 <span class="math notranslate nohighlight">\(f(x^*)\)</span>가 0에서 <strong>멀리</strong> 떨어져 있으면 <span class="math notranslate nohighlight">\(x^*\)</span>가 초평면에서 멀리 떨어져 있음을 의미하므로 <span class="math notranslate nohighlight">\(x^*\)</span>에 대한 클래스 할당에 대해 <strong>더 확신</strong>할 수 있다. 반면에 <span class="math notranslate nohighlight">\(f(x^*)\)</span>가 0에 가까우면 <span class="math notranslate nohighlight">\(x^*\)</span>는 초평면 근처에 있으므로 <span class="math notranslate nohighlight">\(x^*\)</span>에 대한 클래스 할당에 대해 덜 확신한다. 그림 14.2에서 볼 수 있듯이 분리 초평면을 기반으로 하는 분류기는 당연히 <strong>선형</strong>(linear)의 결정 경계(decision boundary)를 제공한다.</p>
 <p><strong>그림 14.2.</strong> 왼쪽: <span class="math notranslate nohighlight">\(X_1\)</span>과 <span class="math notranslate nohighlight">\(X_2\)</span> 두 개의 변수가 있고, 파란색과 보라색으로 표시된 두 가지 관측 클래스가 있다. 여러 가능한 초평면 중 세 개의 분리 초평면(separating hyperplane)이 직선으로 표시돼 있다. 오른쪽: 세 개의 분리 초평면 중 하나만 그려 놓았다. 파란색과 보라색 격자(grid)는 이 분리 초평면 분류기에 의해 만들어진 결정 규칙을 나타낸다. 파란색 격자에 속하는 테스트 관측은 파란색 클래스로 분류되고, 보라색 격자에 속하는 테스트 관측은 보라색 클래스로 분류된다.</p>
-<p><img alt="분리 초평면" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-3.png" /></p>
+<p><img alt="분리 초평면" src="../_images/14-3.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 9.2</p></li>
 </ul>
@@ -598,7 +598,7 @@ y_i(\beta_0 + \beta_1x_{i1} + \beta_2x_{i2})&gt;0 \tag{14.8}
 <p>아래 그림 14.3은 위 그림 14.2의 데이터세트에 대한 최대 마진 초평면을 보여준다. 그림 14.2의 오른쪽 패널에 있는 초평면과 그림 14.3의 최대 마진 초평면을 비교하면, 후자가 마진(즉, 관측과 초평면 사이의 최소 거리)을 더 크게 만든다는 것을 알 수 있다. 달리 표현하면, 최대 마진 초평면은 두 클래스 사이에 삽입할 수 있는 가장 넓은 “슬래브(slab: 판)”의 중간선을 나타낸다.</p>
 <p>아래 그림 14.3을 살펴보면 3개의 훈련 관측 포인트가 최대 마진 초평면과 동일 거리에 있어 마진(의 폭)을 나타내는 점선 위에 놓여 있음을 알 수 있다. 이들 3개의 <strong>관측</strong>은 수학적 용어를 사용하면 3개의 <strong>벡터</strong>로서, 최대 마진 초평면을 직접적으로 결정한다. 즉 <strong>서포트</strong>(support)한다. 그래서 마진 위에 놓인 이들 3개 관측을 <strong>서포트 벡터</strong>라고 부른다. 흥미롭게도 최대 마진 초평면은 서포트 벡터에만 직접적으로 의존하며, 다른 관측에는 의존하지 않는다. 왜냐하면 3개의 서포트 벡터 중 어느 하나라도 위치가 약간 바뀌면 최대 마진 초평면 역시 모양이 달라지지만, 서포트 벡터를 제외한 다른 관측의 이동은 그것이 점선으로 된 마진 경계를 넘지 않는 한, 분리 초평면에 영향을 미치지 않기 때문이다.</p>
 <p><strong>그림 14.3.</strong> 파란색과 보라색으로 표시된 두 가지 관측 클래스가 있다. 검은색 실선이 최대 마진 초평면이다. 마진은 실선에서 점선까지의 수직 거리이다. 점선에 있는 2개의 파란색 점과 1개의 보라색 점이 서포트 벡터이며 이 점에서 초평면까지의 거리, 즉 마진이 화살표로 표시돼 있다. 보라색과 파란색 격자(grid)는 이 최대 마진 분류기에 의해 만들어진 결정 규칙을 나타낸다.</p>
-<p><img alt="최대 마진 초평면" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-4.png" /></p>
+<p><img alt="최대 마진 초평면" src="../_images/14-4.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 9.3</p></li>
 </ul>
@@ -628,7 +628,7 @@ y_i(\beta_0 + \beta_1x_{i1} + \beta_2x_{i2}+· ··+\beta_px_{ip})\ge M,~~~~\for
 <p>분리 초평면이 존재하는 경우 최대 마진 분류기는 분류를 수행하는 매우 자연스러운 방법이다. 그러나 문제는 대부분의 데이터에 있어서 “분리” 초평면이 존재하지 않는다는 점이다. 이렇게 되면 당연히 최대 마진 분류기가 존재하지 않는다. 이 경우 최적화 문제 식 14.9-11에는 <span class="math notranslate nohighlight">\(M &gt; 0\)</span>인 해가 없다.</p>
 <p>아래 그림 14.4에 예가 나와 있는데, 여기에서 2개 클래스를 완전히 분리하는 직선(즉 초평면)을 찾는 것은 불가능하다. 그러나 다음 절에서 바로 나오겠지만, 소위 소프트 마진(soft margin)을 사용하여 클래스를 (완전히는 아니더라도) “대부분” 분리하는 초평면을 생각해볼 수 있다. 이처럼 분리 초평면이 존재하지 않는 경우도 커버할 수 있도록 최대 마진 분류기를 일반화한 것이 서포트 벡터 분류기이다.</p>
 <p><strong>그림 14.4.</strong> 파란색과 보라색으로 표시된 두 가지 관측 클래스가 있다. 이 경우 두 클래스를 초평면으로 분리할 수 없으므로 최대 마진 분류기를 사용할 수 없다.</p>
-<p><img alt="분리 불가능한 케이스" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-5.png" /></p>
+<p><img alt="분리 불가능한 케이스" src="../_images/14-5.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 9.4</p></li>
 </ul>
@@ -641,7 +641,7 @@ y_i(\beta_0 + \beta_1x_{i1} + \beta_2x_{i2}+· ··+\beta_px_{ip})\ge M,~~~~\for
 <p>앞의 그림 14.4처럼 실제 데이터세트에서 두 클래스에 속하는 관측값이 초평면에 의해 완전 분리되는 경우는 많지 않을 것이다. 더구나 문제는 설사 분리 초평면이 존재하더라도 분리 초평면에 기반한 최대 마진 분류기가 반드시 바람직한 것은 아닐 수도 있다는 점이다. 분리 초평면에 기반한 분류기는 모든 훈련 관측을 완벽하게 분류하지만, 이것이 오히려 개별 관측에 너무 민감한 결과로 이어질 수 있다.</p>
 <p>그런 예가 아래 그림 14.5에 나와 있다. 여기에서 오른쪽 패널을 보면, 관측 포인트를 단 하나 추가했을 뿐인데 최대 마진 초평면이 기존의 점선에서 직선으로 모양이 크게 바뀌는 것을 알 수 있다. 더구나 새롭게 얻은 최대 마진 초평면은 그다지 만족스럽지 않아 보인다. 무엇보다 마진이 매우 작기 때문이다. 이것은 문제가 된다. 왜냐하면 앞에서 언급한 바와 같이 분리 초평면으로부터 관측까지의 거리는 관측이 올바르게 분류되었다는 확신의 척도로 볼 수 있는데 마진이 너무 작기 때문이다. 최대 마진 초평면이 단일 관측값의 변화에 극도로 민감하다는 사실은 그것이 훈련 데이터에 과적합되었을 수 있음을 시사한다.</p>
 <p><strong>그림 14.5.</strong> 왼쪽: 두 가지 클래스(파란색과 보라색)의 관측과 최대 마진 초평면이 나와 있다. 오른쪽: 기존의 최대 마진 초평면 아래쪽에 파란색 관측 포인트가 하나 추가됨으로써 최대 마진 초평면이 기존의 점선에서 직선으로 크게 바뀐다.</p>
-<p><img alt="서포트 벡터 분류기의 개요" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-6.png" /></p>
+<p><img alt="서포트 벡터 분류기의 개요" src="../_images/14-6.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 9.5</p></li>
 </ul>
@@ -649,7 +649,7 @@ y_i(\beta_0 + \beta_1x_{i1} + \beta_2x_{i2}+· ··+\beta_px_{ip})\ge M,~~~~\for
 <p>소프트 마진 분류기(soft margin classifier)라고도 하는 <strong>서포트 벡터 분류기</strong>(support vector classifier)가 이런 아이디어에 입각한 분류기다. 앞의 최대 마진 분류기는 모든 관측이 초평면은 물론이고 마진에 대해서도 올바른 쪽에 있도록 가장 큰 마진을 찾는 것인데 반해, 서포트 벡터 분류기는 일부 관측이 마진의 잘못된 쪽에 있거나 심지어 초평면의 잘못된 쪽에 있는 것을 허용한다. 마진이 일부 훈련 관측에 위반될 수 있다는 점에서 “소프트 마진”이라고 표현한다. 아래 그림 14.6의 왼쪽 패널에 예가 나와 있다. 대부분의 관측은 마진의 올바른 쪽에 있다. 그러나 일부 관측들이 마진의 잘못된 쪽에 있는 것을 알 수 있다.</p>
 <p>관측은 마진의 잘못된 쪽뿐만 아니라 초평면의 잘못된 쪽에도 있을 수 있다. 사실 (완전)분리 초평면이 없는 경우에는 이러한 상황이 불가피하다. 그림 14.6의 오른쪽 패널이 그런 경우를 보여준다.</p>
 <p><strong>그림 14.6.</strong> 왼쪽: 서포트 벡터 분류기를 두 가지 데이터세트에 피팅한 결과이다. 초평면은 실선으로 표시되고, 마진은 점선으로 표시돼 있다. 보라색 관측을 보면, 관측 3, 4, 5, 6은 마진의 올바른 쪽에 있고, 관측 2는 마진 상에 있고, 관측 1은 마진의 잘못된 쪽에 있다. 파란색 관측의 경우, 관측 7과 10은 마진의 올바른 쪽에 있고, 관측 9는 마진 상에 있고, 관측 8은 마진의 잘못된 쪽에 있다. 초평면의 잘못된 쪽에 있는 관측은 없다. 오른쪽: 두 개의 추가 점(11 및 12)을 제외하고는 왼쪽 패널과 동일하다. 이들 두 관측은 마진의 잘못된 쪽에 있는 것은 물론이고 초평면에 대해서도 잘못된 쪽에 있다.</p>
-<p><img alt="두 가지 데이터세트에 피팅한 결과" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-7.png" /></p>
+<p><img alt="두 가지 데이터세트에 피팅한 결과" src="../_images/14-7.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 9.6</p></li>
 </ul>
@@ -679,7 +679,7 @@ y_i(\beta_0 + \beta_1x_{i1} + \beta_2x_{i2}+· ··+\beta_px_{ip})\ge M(1-\epsil
 <p>실제 데이터분석에서 <span class="math notranslate nohighlight">\(C\)</span>는 교차검증(cross-validation)을 통해 선택될 수 있다. 다른 조정 파라미터와 마찬가지로 <span class="math notranslate nohighlight">\(C\)</span> 역시 통계적 학습 기법의 <strong>편향-분산</strong>(bias-variance) <strong>상충</strong>(trade-off) 관계를 규정한다. <span class="math notranslate nohighlight">\(C\)</span>를 아주 작게 하면 위반이 거의 발생하지 않는 좁은 마진을 찾게 된다. 이것은 데이터 피팅이 매우 좋은 분류기에 해당하기 때문에, 편향은 낮지만 분산은 높을 수 있다. 반면에 <span class="math notranslate nohighlight">\(C\)</span>가 커지면 마진이 더 넓어지고 더 많은 위반이 허용된다. 이것은 데이터 피팅 성과를 떨어뜨림으로써 편향이 커질 수 있지만, 그 대신 분산은 낮아질 수 있다.</p>
 <p>최적화 문제 식 14.12–15에는 매우 흥미로운 속성이 있다. 전체 관측 중에서 마진 상에 있거나 마진을 위반하는 관측만 초평면에 영향을 미친다는 점이다. 다시 말해, 마진의 올바른 쪽에 있는 관측은 서포트 벡터 분류기에 영향을 미치지 않는다! 이들은 (그 위치가 마진의 올바른 쪽으로만 유지된다면) 관측의 위치가 변경돼도 분류기는 전혀 영향을 받지 않는 것이다. 서포트 벡터 분류기에서는 (앞의 최대 마진 분류기와 약간 달리) 해당 클래스의 마진 상에 있거나 마진의 잘못된 쪽에 있는 관측을 서포트 벡터라고 하며, 이러한 관측들만 분류기에 영향을 미친다.</p>
 <p><strong>그림 14.7.</strong> 주어진 데이터세트에 대해 서포트 벡터 분류기를 이용하여 조정 파라미터 <span class="math notranslate nohighlight">\(C\)</span>에 대해 네 가지 다른 값을 사용하여 피팅했다. 왼쪽 상단 패널의 <span class="math notranslate nohighlight">\(C\)</span>값이 가장 크며, 그 다음이 오른쪽 상단, 왼쪽 하단, 오른쪽 하단 순이다. <span class="math notranslate nohighlight">\(C\)</span>가 클(작을)수록 관측이 마진의 잘못된 쪽에 있는 것에 대한 허용도(tolerance)가 커(작아)지므로 마진이 커(작아)진다.</p>
-<p><img alt="네 가지 C로 피팅" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-8.png" /></p>
+<p><img alt="네 가지 C로 피팅" src="../_images/14-8.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 9.7</p></li>
 </ul>
@@ -692,7 +692,7 @@ y_i(\beta_0 + \beta_1x_{i1} + \beta_2x_{i2}+· ··+\beta_px_{ip})\ge M(1-\epsil
 <h3>비선형 결정 경계를 사용한 분류<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
 <p>두 클래스 간의 경계가 선형(linear)이라면, 앞 절의 서포트 벡터 분류기가 자연스러운 접근 방식이다. 그러나 실제로 우리는 <strong>비선형 경계</strong>에 때때로 직면한다. 예를 들어, 그림 14.8의 왼쪽 패널에 있는 데이터를 생각해보자. 서포트 벡터 분류기 또는 선형 분류기는 여기에서 제대로 작동하지 않을 것이 분명하다. 실제로 그림 14.8의 오른쪽 패널에 표시된 것이 서포트 벡터 분류기에 의한 피팅 결과인데 (훈련 관측에 대해서조차) 분류 성과가 매우 안 좋다는 것을 알 수 있다.</p>
 <p><strong>그림 14.8.</strong> 왼쪽: 관측값은 두 클래스로 나뉘며 둘 사이에는 비선형 경계가 있음을 알 수 있다. 오른쪽: 서포트 벡터 분류기를 사용할 경우, 선형 경계를 구하게 되고 결과적으로 분류 성과가 매우 안 좋다.</p>
-<p><img alt="비선형 결정 경계를 사용한 분류" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-9.png" /></p>
+<p><img alt="비선형 결정 경계를 사용한 분류" src="../_images/14-9.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 9.8</p></li>
 </ul>
@@ -754,7 +754,7 @@ f(x) = \beta_0 + \sum_{i=1}^{n} \alpha_i⟨x, x_{i}⟩ \tag{14.18}
 \[ K(x_i, x_{i'})=\exp\left( -\gamma\sum_{j=1}^{p} (x_{ij}-x_{i'j})^2 \right) \tag{14.24} \]</div>
 <p>여기에서 <span class="math notranslate nohighlight">\(\gamma\)</span>는 양의 상수이다. 그림 14.9의 오른쪽 패널은 동일한 비선형 데이터에 방사형 커널의 SVM을 적용한 예를 보여준다. 역시 두 클래스를 잘 분류하는 것을 알 수 있다.</p>
 <p><strong>그림 14.9.</strong> 왼쪽: 앞의 그림 14.8의 비선형 데이터에 3차 다항식 커널을 사용한 SVM을 적용한 결과 훨씬 더 적절한 결정 규칙이 생성된 것을 알 수 있다. 오른쪽: 방사형 커널을 사용한 SVM을 적용한 결과 역시 결정 경계를 잘 포착한다.</p>
-<p><img alt="3차 다항식 커널" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-10.png" /></p>
+<p><img alt="3차 다항식 커널" src="../_images/14-10.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 9.9</p></li>
 </ul>
@@ -801,7 +801,7 @@ L(\mathbf X,\mathbf y,\beta) = \sum_{i=1}^{n} {\rm max} \left[ 0,1 - y_i(\beta_0
 <p>이것은 힌지 손실(hinge loss) 함수로 알려져 있으며, 아래 그림 14.10에 그림이 나와 있다. 이 그림에서 중요한 것은 서포트 벡터 분류의 손실 함수가 로지스틱 회귀의 손실 함수와 상당히 유사하다는 점이다.</p>
 <p>물론 서포트 벡터 분류기에서는 서포트 벡터들만 분류기에서 역할을 하고, 마진의 올바른 쪽에 있는 관측은 영향을 미치지 않는다. 이 때문에 아래 그림에서 보듯이 관측이 <span class="math notranslate nohighlight">\(y_i(\beta_0+\beta_1x_{i1} +· · ·+\beta_px_{ip}) \ge 1\)</span>이면(즉 관측이 마진의 올바른 쪽에 있으면), 손실 함수 값은 항상 0이 된다. 이에 반해 아래 그림에서 로지스틱 회귀의 손실 함수는 어디에서도 정확히 0인 곳은 없다. 하지만, 로지스틱 회귀에서도 결정 경계에서 멀리 떨어진 관측은 손실 함수 값이 매우 작다는 점에서 서포트 벡터 분류기와 유사하다. 이와 같은 손실 함수 간의 유사성으로 인해 로지스틱 회귀와 서포트 벡터 분류기는 종종 매우 유사한 결과를 제공한다. 클래스가 잘 분리돼 있으면, SVM이 로지스틱 회귀보다 더 잘 작동하는 경향이 있다. 반면, 클래스가 더 겹치는 상황에서는 로지스틱 회귀가 더 나은 경우가 많다.</p>
 <p><strong>그림 14.10.</strong> SVM과 로지스틱 회귀의 손실을 <span class="math notranslate nohighlight">\(y_i(\beta_0+\beta_1x_{i1} +· · ·+\beta_px_{ip})\)</span>에 대해 그린 것으로서 전체적으로 두 손실 함수가 비슷한 형태이다. 가로축 <span class="math notranslate nohighlight">\(y_i(\beta_0+\beta_1x_{i1} +· · ·+\beta_px_{ip})\)</span>의 값이 1보다 크면, SVM의 경우 관측이 마진의 올바른 쪽에 있는 것을 의미하기 때문에 손실은 0이 된다.</p>
-<p><img alt="SVM과 로지스틱 회귀" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-11.png" /></p>
+<p><img alt="SVM과 로지스틱 회귀" src="../_images/14-11.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 9.12</p></li>
 </ul>
@@ -1963,7 +1963,7 @@ True
 <p>위양성률과 진양성률 모두 0에서 1까지의 값을 가질 수 있는데, 위양성률의 경우 (잘못 예측된 비율이기 때문에) 이 값이 0에 가까울수록 분류 성능이 좋은 반면, 진양성률은 (제대로 예측된 비율이기 때문에) 이 값이 1에 가까울수록 좋은 모델이다. 따라서 아래 그림의 ROC 평면에서 왼쪽 상단의 파란색 점(“Perfect classifier”)이 분류 성과가 가장 좋은 분류기를 의미한다. 이 파란색 점에서 위양성률은 0이고 진양성률은 1이기 때문이다.</p>
 <p>아래 그림에는 네 가지 ROC 곡선이 그려져 있다. 이 중에서 파란색의 ROC 곡선이 가장 좋은 분류기(또는 분류 모델)이고, 그 다음이 연두색, 오렌지색, 빨간색(점선) 순이다. 즉 왼쪽 상단의 파란색 점(완벽한 분류기)에 가까울수록 분류 성능이 좋은 모델인 것이다.</p>
 <p>아래 그림에서는 네 가지 ROC 곡선에 서로 겹치는 부분이 없어서 분류 모델의 성능을 눈으로도 쉽게 평가할 수 있지만, 실제로는 곡선들이 서로 겹치는 경우가 있을 것이기 때문에 그런 경우에 있어서 분류 성능을 평가하는 기준을 마련할 필요가 있다. 그것이 바로 <strong>AUC</strong>(area under curve)로서 <strong>ROC 곡선 아래 영역의 면적</strong>을 의미한다. 아래 그림에서 “Perfect classifier”의 AUC는 1로서 최대값이며, 파란색 ROC 곡선은 AUC가 (눈으로 보기에) 대략 0.95 정도이다.</p>
-<p><img alt="ROC 곡선" src="https://raw.githubusercontent.com/pilsunchoi/images/main/14-12.png" /></p>
+<p><img alt="ROC 곡선" src="../_images/14-12.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: Wikipedia, “<a class="reference external" href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic">Receiver operating characteristic</a>”.</p></li>
 </ul>
