@@ -1162,7 +1162,7 @@ UnitPrice가 0이면서 Quantity가 0이거나 음수인 거래 건수: 1336
 </div>
 </div>
 <p>데이터세트가 아래와 같기 때문에 <code class="docutils literal notranslate"><span class="pre">UnitPrice</span></code>가 양수이면서 <code class="docutils literal notranslate"><span class="pre">Quantity</span></code>도 양수인 거래(아래 그림에서 green에 해당하는 부분)를 제외한 모든 거래를 데이터세트에서 제거한다.</p>
-<p><img alt="데이터세트 구조" src="https://raw.githubusercontent.com/pilsunchoi/images/main/4-1.png" /></p>
+<p><img alt="데이터세트 구조" src="../_images/4-1.png" /></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">'UnitPrice'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'Quantity'</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)]</span>

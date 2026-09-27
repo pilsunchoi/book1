@@ -513,7 +513,7 @@
 <p>MNIST 데이터베이스에는 60,000개의 훈련 이미지와 10,000개의 테스트 이미지가 들어있다. 데이터베이스에 총 70,000개의 손으로 쓴 숫자들이 들어있는 것이다.</p>
 <p>그림 15.1은 MNIST 데이터베이스에 들어있는 숫자의 예를 보여준다. 여기에서 우리의 목표는 손글씨 숫자 이미지를 올바르게 분류하는 모델을 구축하는 것이다. 가장 간단하게는 우리가 앞에서 배운 선형 회귀 모델부터 시작해서 아주 다양한 솔루션을 생각해볼 수 있는데, 여기에서는 신경망 모델에 초점을 맞춘다.</p>
 <p><strong>그림 15.1.</strong> MNIST 손글씨 숫자 예. 각 숫자 이미지에는 <span class="math notranslate nohighlight">\(28 \times 28\)</span>, 즉 784개 픽셀이 있으며, 각 픽셀은 해당 픽셀이 얼마나 어두운지를 8비트 숫자(0~255)로 측정해 놓았다. 아래 그림의 맨 윗줄에 있는 3, 5, 8 세 개 숫자에 대해서는 개별 픽셀이 보이도록 맨 아래에 확대해 놓았다.</p>
-<p><img alt="MNIST 손글씨 숫자 예" src="https://raw.githubusercontent.com/pilsunchoi/images/main/15-1.png" /></p>
+<p><img alt="MNIST 손글씨 숫자 예" src="../_images/15-1.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 10.3</p></li>
 </ul>
@@ -529,7 +529,7 @@
 <p>이처럼 <span class="math notranslate nohighlight">\(X = (X_1, X_2, ... , X_p)\)</span>의 입력변수 벡터를 사용하여 출력변수 <span class="math notranslate nohighlight">\(Y\)</span>를 예측하는 문제에 있어서 신경망은 비선형 함수 <span class="math notranslate nohighlight">\(f(X)\)</span>를 만들어 이를 수행한다. 사실 비선형 예측 모델은 트리나 부스팅 등 아주 다양한 기법들이 있는데, 이러한 방법과 신경망이 구별되는 것은 모델의 특별한 구조이다.</p>
 <p>아래 그림 15.2는 4개(<span class="math notranslate nohighlight">\(p = 4\)</span>)의 예측변수를 사용하여 정량적 반응변수를 모델링하는 간단한 신경망을 보여준다. 신경망에서는 <span class="math notranslate nohighlight">\(X_1, ... , X_4\)</span>를 <strong>입력층</strong>(input layer)의 <strong>유닛</strong>(unit)이라고 부른다. 아래 그림을 보면, 각 입력층 유닛에서 화살표가 나오는데, 이는 입력층의 각 입력 정보가 <span class="math notranslate nohighlight">\(K\)</span>개의 <strong>은닉층</strong>(hidden layer) 유닛 각각에 공급됨을 나타낸다(<span class="math notranslate nohighlight">\(K=5\)</span>로 했을 때).</p>
 <p><strong>그림 15.2.</strong> 은닉층이 한 개 있는 신경망. 은닉층은 입력변수 <span class="math notranslate nohighlight">\(X_1, X_2,  . . . , X_p\)</span>의 선형조합을 비선형 변환시켜 활성화 유닛 <span class="math notranslate nohighlight">\(A_k = h_k(X)\)</span>로 전환시킨다. 이러한 활성화 유닛 <span class="math notranslate nohighlight">\(A_k\)</span>는 직접 관찰된 것이 아니라 입력변수가 전환된 것이다. 활성화 함수인 <span class="math notranslate nohighlight">\(h_k(·)\)</span>는 고정돼있지 않고 신경망 훈련 중에 학습된다. 출력층은 활성화 유닛 <span class="math notranslate nohighlight">\(A_k\)</span>를 입력으로 사용하여 함수 <span class="math notranslate nohighlight">\(f(X)\)</span>를 생성하는 선형 모델로 설정된다.</p>
-<p><img alt="은닉층이 한 개 있는 신경망" src="https://raw.githubusercontent.com/pilsunchoi/images/main/15-2.png" /></p>
+<p><img alt="은닉층이 한 개 있는 신경망" src="../_images/15-2.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 10.1</p></li>
 </ul>
@@ -561,7 +561,7 @@ f(X) &amp; = \beta_0 + \textstyle\sum_{k=1}^{K} \beta_k \cdot h_k(X) \\
 z &amp; \text{otherwise}
 \end{cases} \end{split}\]</div>
 <p><strong>그림 15.3.</strong> 활성화 함수.  ReLU 함수는 시그모이드 함수에 비해 계산이 간단하여 효율적이다. 아래 그림은 비교의 편의를 위해 ReLU 함수의 값을 1/5로 축소한 것이다.</p>
-<p><img alt="ReLU 함수" src="https://raw.githubusercontent.com/pilsunchoi/images/main/15-3.png" /></p>
+<p><img alt="ReLU 함수" src="../_images/15-3.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 10.2</p></li>
 </ul>
@@ -596,7 +596,7 @@ f(X) &amp; = 0 + \tfrac{1}{4} \cdot (0+X_1+X_2)^2 - \tfrac{1}{4} \cdot (0+X_1-X_
 <p>최근의 신경망은 일반적으로 하나보다 많은 은닉층를 갖고 있으며, 또한 각 은닉층에 아주 많은 유닛를 가지고 있다. 이론적으로는 은닉층이 하나이더라도 유닛의 숫자를 늘려나가면 대부분의 함수를 근사화할 수 있다. 그러나 적절한 크기의 은닉층을 여러 개 사용하면 좋은 솔루션을 찾는 학습 작업이 훨씬 쉬워진다.</p>
 <p>그림 15.4는 우리가 MNIST 숫자 분류 작업에 사용하는 다층 신경망 구조를 보여준다. 앞의 그림 15.2와는 여러 면에서 다른데, 우선 은닉층이 하나가 아니라 두 개로서, 레이어 <span class="math notranslate nohighlight">\(L_1\)</span>에는 256개 유닛을 두고, 레이어 <span class="math notranslate nohighlight">\(L_2\)</span>에는 128개 유닛을 두고자 한다. 여기에서 각 레이어(층)의 유닛 숫자는 임의로 선택한 것이다. 앞에서 설명했듯이 출력변수는 하나가 아닌 10개의 더미변수로 이루어진 벡터로 돼있다. 이들 10개의 변수는 최종적으로는 하나의 정성적 변수를 나타낸다(즉 0부터 9까지의 정수 중 하나).</p>
 <p><strong>그림 15.4.</strong> MNIST 데이터베이스 분류에 사용되는 두 개의 은닉층과 다중 출력이 있는 신경망 다이어그램. 입력층에는 픽셀 개수에 해당하는 <span class="math notranslate nohighlight">\(p = 784\)</span>의 유닛이 있고, 은닉층에는 <span class="math notranslate nohighlight">\(K_1 = 256\)</span> 및 <span class="math notranslate nohighlight">\(K_2 = 128\)</span>의 유닛이 있고, 출력층은 10개 유닛을 갖는다.</p>
-<p><img alt="신경망 다이어그램" src="https://raw.githubusercontent.com/pilsunchoi/images/main/15-4.png" /></p>
+<p><img alt="신경망 다이어그램" src="../_images/15-4.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 10.3</p></li>
 </ul>
@@ -657,7 +657,7 @@ Z_m &amp; = \beta_{m0}+\textstyle\sum_{\ell=1}^{K_2}\beta_{m\ell}h_{\ell}^{(2)}(
 <li><p><strong>정규화</strong>(regularization): lasso 또는 ridge와 같이 파라미터에 페널티를 부과한다.</p></li>
 </ul>
 <p><strong>그림 15.5.</strong> 1차원 <span class="math notranslate nohighlight">\(\theta\)</span>에 대한 경사하강법 그림. 목적함수 <span class="math notranslate nohighlight">\(R(\theta)\)</span>는 볼록하지 않고 두 개의 최소값을 가진다. 하나는 <span class="math notranslate nohighlight">\(\theta = −0.46\)</span>(로컬 최소값)이고 다른 하나는 <span class="math notranslate nohighlight">\(\theta = 1.02\)</span>(글로벌 최소값)이다. 일반적으로 출발점은 무작위로 선택하는데, 가령 <span class="math notranslate nohighlight">\(\theta_0\)</span> 값에서 출발하여 더 이상 아래로 내려갈 수 없을 때까지 기울기(gradient)에 대해 내리막으로 이동한다. 이 그림에서 경사하강법으로 7스텝을 거쳐 (운좋게도 로컬 최소값이 아니라) 글로벌 최소값에 도달했다.</p>
-<p><img alt="1차원 theta에 대한 경사하강법" src="https://raw.githubusercontent.com/pilsunchoi/images/main/15-5.png" /></p>
+<p><img alt="1차원 theta에 대한 경사하강법" src="../_images/15-5.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 10.17</p></li>
 </ul>
@@ -717,7 +717,7 @@ Z_m &amp; = \beta_{m0}+\textstyle\sum_{\ell=1}^{K_2}\beta_{m\ell}h_{\ell}^{(2)}(
 <p>조정 파라미터 <span class="math notranslate nohighlight">\(\lambda\)</span>는 종종 어떤 임의의 작은 값으로 사전 설정되거나, 또는 검증 세트(validation-set)를 이용해 최적치를 구한다. 또한 층별로 각 가중치 그룹에 대해 서로 다른 <span class="math notranslate nohighlight">\(\lambda\)</span> 값을 사용할 수도 있다. 가령 <span class="math notranslate nohighlight">\(\mathbf W_1\)</span>과 <span class="math notranslate nohighlight">\(\mathbf W_2\)</span>에 대해서는 페널티를 부과하지만 출력층의 가중치는 상대적으로 많지 않기 때문에 <span class="math notranslate nohighlight">\(\mathbf B\)</span>에 대해서는 전혀 페널티를 부과하지 않는 방식을 생각해볼 수 있다.</p>
 <p>아래 그림 15.6은 MNIST 데이터에 대한 신경망 훈련 과정을 측정한 몇 가지 지표들을 보여준다. 여기에서 미니배치 크기는 기울기 업데이트당 128개의 관측이다. 그림에서 수평축 레이블인 <strong>에포크</strong>(epoch)는 피팅 알고리즘이 훈련 세트를 통과하는 횟수를 말한다. 이 신경망의 경우, 훈련을 마치는 시점을 결정하기 위해 검증 세트로 전체 훈련 관측의 20%가 사용되었다. 따라서 훈련에 실제로 사용된 관측은 전체 60,000개의 80%인 48,000개이다. 이렇게 본다면 에포크 당, 즉 훈련 세트에 피팅 알고리즘이 한 번 통과할 때 48,000/128 ≈ 375번의 기울기 업데이트가 이루어지는 것이다.</p>
 <p><strong>그림 15.6.</strong> 앞의 그림 15.4에 묘사된 MNIST 신경망에 대한 목적함수 값(왼쪽 그림)과 오분류율(오른쪽 그림)을 훈련 에포크 별로 그린 것이다. 목적함수(또는 손실함수)는 식 15.7의 로그가능도를 나타낸다.</p>
-<p><img alt="목적함수 값과 오분류율" src="https://raw.githubusercontent.com/pilsunchoi/images/main/15-6.png" /></p>
+<p><img alt="목적함수 값과 오분류율" src="../_images/15-6.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 10.18</p></li>
 </ul>
@@ -726,7 +726,7 @@ Z_m &amp; = \beta_{m0}+\textstyle\sum_{\ell=1}^{K_2}\beta_{m\ell}h_{\ell}^{(2)}(
 <h3>드롭아웃 학습<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
 <p><strong>드롭아웃</strong>(dropout)은 비교적 새롭고 효율적인 정규화 방식이다. 랜덤 포레스트(random forest)에서 영감을 얻은 것으로 모델을 피팅할 때 층(layer)에서 유닛을 일정 비율(<span class="math notranslate nohighlight">\(\varphi\)</span>)만큼 무작위로 제거하는 것을 말한다. 그림 15.7은 드롭아웃 학습을 그림으로 보여준다. 이것은 훈련 관측이 처리될 때마다 수행된다. 살아남은 유닛에 대해서는 제거된 것들만큼 그 가중치를 보상하기 위해 <span class="math notranslate nohighlight">\(1/(1-\varphi)\)</span>배만큼 확대시킨다.</p>
 <p><strong>그림 15.7.</strong> 드롭아웃 학습. 왼쪽: 완전히 연결된 신경망. 오른쪽: 입력층 및 은닉층에 드롭아웃이 있는 신경망. 제거되는 회색 노드는 무작위로 선택되며 훈련에서 무시된다.</p>
-<p><img alt="드롭아웃 학습" src="https://raw.githubusercontent.com/pilsunchoi/images/main/15-7.png" /></p>
+<p><img alt="드롭아웃 학습" src="../_images/15-7.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 10.19</p></li>
 </ul>
@@ -766,7 +766,7 @@ Z_m &amp; = \beta_{m0}+\textstyle\sum_{\ell=1}^{K_2}\beta_{m\ell}h_{\ell}^{(2)}(
 <section id="id11">
 <h3>라이브러리/모듈 업데이트<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
 <p>텐서플로 설치가 끝나면 딥러닝에 필수적인 모듈들을 불러들여야 하는데, 아래는 원래 잘 작동하던 코딩에서 경고(Warning) 및 오류(Error)가 발생한 상황을 보여준다. 다양한 원인이 있을 수 있지만, 여기서는 모듈 및 함수의 업데이트가 필요한 경우다.</p>
-<p><img alt="모듈 및 함수의 업데이트가 필요한 경우" src="https://raw.githubusercontent.com/pilsunchoi/images/main/15-8.png" /></p>
+<p><img alt="모듈 및 함수의 업데이트가 필요한 경우" src="../_images/15-8.png" /></p>
 <p>파이썬 코딩에서 이런 일은 자주 발생하는데, 이럴 경우 아래와 같이 ChatGPT를 이용하면 문제의 원인을 쉽게 발견하고 해결할 수 있다. 아래는 ChatGPT의 도움으로 경고 및 오류가 발생한 원인을 발견하고, 그것을 해결하는 과정을 보여준다.</p>
 </section>
 <section id="id12">

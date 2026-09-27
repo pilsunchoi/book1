@@ -515,7 +515,7 @@
 <ul class="simple">
 <li><p><strong>임금 데이터</strong>: 미국 남성을 대상으로 조사한 임금(wage) 데이터를 생각해보자. 나이, 연도, 교육수준 등의 변수들이 있을 때, 이런 변수들을 입력변수로 사용해 임금이라는 출력변수를 추정 또는 예측하는 통계 모형하는 구축하는 것이 지도학습의 예이다.(그림 출처: ISLP, FIGURE 1.1)</p></li>
 </ul>
-<p><img alt="데이터 사례" src="https://raw.githubusercontent.com/pilsunchoi/images/main/5-1.png" /></p>
+<p><img alt="데이터 사례" src="../_images/5-1.png" /></p>
 <ul class="simple">
 <li><p><strong>마케팅 데이터</strong>: 현재 고객 또는 잠재 고객에 대한 인구통계적(demographic) 정보가 있다고 해보자. 이 상황에서 고객들을 특성에 따라 그룹화하여 어떤 유형의 고객이 서로 유사한지 파악하고자 한다. 이것을 군집화(clustering) 문제라고 하는데, 여기에서는 입력변수(즉 고객들의 인구통계 정보)는 있으나, 출력변수가 따로 없으며, 이것이 비지도학습의 예이다.</p></li>
 </ul>
@@ -609,7 +609,7 @@
 <p>이제 그림 5.1의 오른쪽 패널을 보자. 여기에서는 다양한 유연성 또는 자유도(degrees of freedom)를 지닌 평활 스플라인을 데이터에 피팅시켜 얻은 MSE를 표시한 것이다. 자유도 값이 크다는 것은 모델의 유연성이 높다는 것을 의미한다. 왼쪽 패널에서는 단지 세 가지 종류의 유연성(즉, 자유도)을 가진 모델만 피팅시켰는데, 오른쪽 패널에 나온 곡선은 자유도를 2부터 시작해 30 이상까지 연속적으로 높여가면서 아주 많은 모델을 피팅시킨 결과를 그린 것이다. 실제의 <span class="math notranslate nohighlight">\(f\)</span>에서 훈련 데이터세트를 여러 번 발생시켜 각 모델에 대해 반복적으로 MSE를 구한 다음, 그것들을 평균한 값이다. 회색 선은 훈련 MSE, 그리고 빨간색 선은 테스트 MSE이다.</p>
 <p>이 오른쪽 패널에서 오렌지색, 하늘색, 녹색의 사각형 점은 왼쪽 패널에 나와 있는 해당 곡선의 자유도를 지닌 모델의 MSE를 나타낸다. 굴곡이 심한 곡선일수록 자유도가 높고, 직선에 가까울수록 자유도가 낮은데, 직선인 선형 회귀는 자유도가 2로서 가장 낮다. 그림의 결과를 보면, 모델의 유연성이 높을수록 훈련 MSE는 지속적으로 낮아지는 것을 알 수 있다. 이 예에서는 실제 <span class="math notranslate nohighlight">\(f\)</span>가 비선형이기 때문에 선형 피팅(오렌지색)은 <span class="math notranslate nohighlight">\(f\)</span>를 제대로 추정할 만큼 충분히 유연하지 않다. 왼쪽 패널의 세 가지 곡선 중 녹색 선이 가장 유연하여 세 가지 방법 중에서 훈련 MSE가 가장 낮다.</p>
 <p><strong>그림 5.1.</strong> 왼쪽: 검은색 굵은 곡선이 실제 <span class="math notranslate nohighlight">\(f\)</span>이고, 여기에서 시뮬레이트된 데이터 포인트가 작은 동그라미로 표시돼 있다. 데이터를 이용해 <span class="math notranslate nohighlight">\(f\)</span>를 추정한 세 가지 결과가 나와 있는데, 선형 회귀 피팅(오렌지색)과 두 개의 평활 스플라인 피팅(하늘색 및 녹색)이다. 오른쪽: 훈련 MSE(회색), 테스트 MSE(빨간색), 테스트 MSE 최소값(점선)이 나와 있다. 세 가지 색깔로 된 사각형 점은 왼쪽 패널에 표시된 세 가지 피팅에 대한 훈련 및 테스트 MSE를 나타낸다.</p>
-<p><img alt="시뮬레이션 1" src="https://raw.githubusercontent.com/pilsunchoi/images/main/5-2.png" /></p>
+<p><img alt="시뮬레이션 1" src="../_images/5-2.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 2.9</p></li>
 </ul>
@@ -622,14 +622,14 @@
 <p><strong>실제 함수가 거의 선형인 경우</strong></p>
 <p>그림 5.2는 또 다른 예로서 실제 함수 <span class="math notranslate nohighlight">\(f\)</span>가 <strong>거의 선형</strong>이라는 것이 앞의 그림 5.1과 다른 점이다. 우리는 여기에서도 모델 유연성이 높아짐에 따라 훈련 MSE는 단조 감소하고 테스트 MSE는 U자 형태라는 것을 볼 수 있다. 그런데 실제 함수의 곡선 정도가 매우 낮기 때문에 테스트 MSE가 처음에만 약간 감소하다가 그 다음부터는 계속 커진다. 유연성이 가장 낮은 최소제곱 피팅(오렌지색)이 유연성이 매우 높은 녹색 모델보다 훨씬 성과가 좋다.</p>
 <p><strong>그림 5.2.</strong> 세부 내용은 그림 5.1과 같으며 선형에 훨씬 가까운 <span class="math notranslate nohighlight">\(f\)</span>를 사용했다. 이 설정에서는 선형 회귀가 데이터에 매우 적합하다.</p>
-<p><img alt="시뮬레이션 2" src="https://raw.githubusercontent.com/pilsunchoi/images/main/5-3.png" /></p>
+<p><img alt="시뮬레이션 2" src="../_images/5-3.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 2.10</p></li>
 </ul>
 <p><strong>실제 함수가 매우 비선형인 경우</strong></p>
 <p>마지막으로 그림 5.3은 실제 함수 <span class="math notranslate nohighlight">\(f\)</span>가 <strong>매우 비선형</strong>인 예를 보여준다. 훈련 및 테스트 MSE 곡선은 전체적으로 봤을 때, 여전히 동일한 패턴을 보인다. 즉, 모델 유연성이 높아짐에 따라 훈련 MSE는 단조 감소하고 테스트 MSE는 전체적으로 U자 형태이다. 하지만 실제 <span class="math notranslate nohighlight">\(f\)</span>가 매우 비선형적이어서 테스트 MSE가 처음에 급격히 감소한 다음 아주 약간씩만 증가한다. 여기에서는 유연성이 가장 낮은 최소제곱 피팅(오렌지색)의 성과가 가장 좋지 않다.</p>
 <p><strong>그림 5.3.</strong> 세부 내용은 그림 5.1과 같으며 선형과는 아주 거리가 먼 <span class="math notranslate nohighlight">\(f\)</span>를 사용했다. 이 설정에서 선형 회귀는 데이터에 매우 적합하지 않다.</p>
-<p><img alt="시뮬레이션 3" src="https://raw.githubusercontent.com/pilsunchoi/images/main/5-4.png" /></p>
+<p><img alt="시뮬레이션 3" src="../_images/5-4.png" /></p>
 <ul class="simple">
 <li><p>그림 출처: ISLP, FIGURE 2.11</p></li>
 </ul>
